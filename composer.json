@@ -1,0 +1,75 @@
+{
+    "name": "talav/talav",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Andriy",
+            "email": "andriy.savchenko@gmail.com"
+        }
+    ],
+    "require": {
+        "doctrine/common": "^2.6",
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "gedmo/doctrine-extensions": "^2.4",
+        "pagerfanta/pagerfanta": "^1.0|^2.0",
+        "php": "^7.2",
+        "symfony/framework-bundle": "^4.3",
+        "symfony/orm-pack": "^1.0",
+        "symfony/security": "^4.3",
+        "symplify/easy-coding-standard": "^6.1",
+        "webmozart/assert": "^1.0",
+        "zendframework/zend-stdlib": "^3.1"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
+        "phpunit/phpunit": "^7.5|^8.0",
+        "symfony/phpunit-bridge": "^4.3",
+        "symfony/thanks": "^1.1",
+        "symfony/var-dumper": "^4.3",
+        "phpstan/phpstan": "^0.11.15",
+        "tracy/tracy": "^2.5",
+        "thecodingmachine/phpstan-strict-rules": "^0.11.0",
+        "symplify/monorepo-builder": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Talav\\Component\\Registry\\": "packages/component/Registry/src/",
+            "Talav\\Component\\Resource\\": "packages/component/Resource/src/",
+            "Talav\\Component\\User\\": "packages/component/User/src/",
+            "Talav\\ResourceBundle\\": "packages/bundle/ResourceBundle/src/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "packages/bundle/ResourceBundle/tests/Functional/app/AppKernel.php"
+        ],
+        "psr-4": {
+            "AppBundle\\": "packages/bundle/ResourceBundle/tests/Functional/src/AppBundle/",
+            "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
+            "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/Tests/",
+            "Talav\\Component\\User\\Tests\\": "packages/component/User/tests/",
+            "Talav\\ResourceBundle\\Tests\\": "packages/bundle/ResourceBundle/tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "*/*"
+        }
+    ],
+    "replace": {
+        "talav/coding-standard": "self.version",
+        "talav/registry": "self.version",
+        "talav/resource": "self.version",
+        "talav/resource-bundle": "self.version",
+        "talav/user": "self.version"
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpunit -c ./packages/component/Registry/phpunit.xml.dist",
+            "./vendor/bin/phpunit -c ./packages/component/User/phpunit.xml.dist"
+        ],
+        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
+    }
+}

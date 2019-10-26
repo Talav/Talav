@@ -1,0 +1,65 @@
+{
+    "name": "talav/resource-bundle",
+    "description": "Symfony bundle to provide base resource management.",
+    "keywords": [
+        "symfony",
+        "bundle",
+        "resource"
+    ],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Talav",
+            "email": "support@talav.com"
+        }
+    ],
+    "require": {
+        "php"                          : "^7.2",
+        "symfony/framework-bundle"     : "^4.3",
+        "symfony/orm-pack": "^1.0",
+        "talav/resource": "^1.0@dev",
+        "talav/registry": "^1.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "symfony/phpunit-bridge": "^4.3",
+        "symfony/thanks": "^1.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
+        "talav/coding-standard": "@dev",
+        "symfony/var-dumper": "^4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Talav\\ResourceBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Talav\\ResourceBundle\\Tests\\": "tests/",
+            "AppBundle\\": "tests/Functional/src/AppBundle/"
+        },
+        "files": [
+            "tests/Functional/app/AppKernel.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ],
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit",
+        "check-cs": "vendor/bin/ecs check src --ansi",
+        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
+    }
+}

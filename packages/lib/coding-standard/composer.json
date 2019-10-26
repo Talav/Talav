@@ -1,0 +1,21 @@
+{
+  "name": "talav/coding-standard",
+  "description": "Coding standard configuration used in Talav.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name" : "Talav",
+      "email": "support@talav.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "friendsofphp/php-cs-fixer": "^2.15",
+    "symplify/easy-coding-standard": "^6.1"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}

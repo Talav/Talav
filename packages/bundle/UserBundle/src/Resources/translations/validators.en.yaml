@@ -1,0 +1,20 @@
+talav:
+  password:
+    blank: 'Please enter a password.'
+    short: 'The password is too short.'
+    long: 'The password is too long.'
+    mismatch: 'The entered passwords don''t match.'
+  new_password:
+    blank: 'Please enter a new password.'
+  current_password:
+    invalid: 'The entered password is invalid.'
+  email:
+    already_used: 'The email is already used.'
+    blank: 'Please enter an email.'
+    invalid: 'The email is not valid.'
+  username:
+    already_used: 'The username is already used.'
+    blank: 'Please enter a username.'
+    short: 'The username is too short.'
+    long: 'The username is too long.'
+    not_found: 'The username is not found.'

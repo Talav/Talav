@@ -1,0 +1,29 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+  Talav\UserBundle\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,Entity,Event,Migrations,Tests,vendor,Controller,EventSubscriber}'
+  Talav\UserBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+  Talav\UserBundle\Controller\Frontend\ResettingController:
+    arguments:
+      $retryTtl: '%talav_user.resetting.retry_ttl%'
+      $tokenTtl: '%talav_user.resetting.token_ttl%'
+  Talav\UserBundle\EventSubscriber\:
+    resource: '../../EventSubscriber'
+    tags: ['kernel.event_subscriber']
+  Talav\UserBundle\Security\LoginFormAuthenticator:
+    public: true
+  Talav\UserBundle\Command\CreateUserCommand:
+    tags:
+      - { name: 'console.command', command: 'talav:user:create' }
+  talav.user.provider.oath:
+    class: Talav\UserBundle\Provider\TalavUserProvider
+    public: true
+  talav.user.provider.login:
+    class: Talav\Component\User\Provider\UsernameOrEmailProvider
+    public: true

@@ -1,0 +1,14 @@
+{% extends '@TalavUser/layout.html.twig' %}
+
+{% trans_default_domain 'TalavUserBundle' %}
+
+{% block talav_user_content %}
+
+    {{ form_start(form, {'method': 'post', 'action': path('talav_user_reset_request')}) }}
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" formnovalidate value="{{ 'talav.reset.request.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+
+{% endblock talav_user_content %}

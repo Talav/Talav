@@ -1,0 +1,14 @@
+{% extends '@TalavUser/layout.html.twig' %}
+
+{% trans_default_domain 'TalavUserBundle' %}
+
+{% block talav_user_content %}
+
+    {{ form_start(form, { 'action': path('talav_user_reset_password', {'token': token})}) }}
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'talav.reset.reset.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+
+{% endblock talav_user_content %}

@@ -1,0 +1,84 @@
+{
+    "name": "talav/user-bundle",
+    "description": "Symfony bundle to provide basic user functionality",
+    "keywords": [
+        "symfony",
+        "bundle",
+        "user",
+        "php"
+    ],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Talav",
+            "email": "support@talav.com"
+        }
+    ],
+    "require": {
+        "php"                          : "^7.1.3",
+        "symfony/framework-bundle"     : "^4.0",
+        "symfony/config"               : "^4.0",
+        "symfony/security-bundle": "^4.3",
+        "symfony/twig-bundle": "^4.3",
+        "symfony/translation": "^4.3",
+        "webmozart/assert": "^1.5",
+        "symfony/orm-pack": "^1.0",
+        "symfony/monolog-bundle": "^3.4",
+        "symfony/validator": "^4.3",
+        "egulias/email-validator": "^2.1",
+        "symfony/form": "^4.3",
+        "symfony/event-dispatcher": "^4.3",
+        "symfony/mailer": "^4.3",
+        "hwi/oauth-bundle": "*@dev",
+        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/httplug-bundle": "^1.16",
+        "talav/user": "^1.0@dev",
+        "talav/resource-bundle": "^1.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "symfony/phpunit-bridge": "^4.3",
+        "symfony/var-dumper": "^4.3",
+        "symfony/thanks": "^1.1",
+        "symfony/console": "^4.3",
+        "symfony/browser-kit": "^4.3",
+        "symfony/css-selector": "^4.3",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
+        "fzaninotto/faker": "^1.8",
+        "talav/coding-standard": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Talav\\UserBundle\\": "src/",
+            "AppBundle\\": "tests/Functional/src/AppBundle/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Talav\\UserBundle\\Tests\\": "tests/"
+        },
+        "files": [
+            "Tests/Functional/app/AppKernel.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ],
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit",
+        "check-cs": "vendor/bin/ecs check src --ansi",
+        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
+    }
+}

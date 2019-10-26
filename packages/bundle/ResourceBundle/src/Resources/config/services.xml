@@ -1,0 +1,26 @@
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+  <parameters>
+    <parameter key="talav.resource.default.factory.class">Talav\Component\Resource\Factory\Factory</parameter>
+    <parameter key="talav.resource.default.repository.class">Talav\Component\Resource\Repository\ResourceRepository</parameter>
+    <parameter key="talav.resource.default.manager.class">Talav\Component\Resource\Manager\ResourceManager</parameter>
+  </parameters>
+  <services>
+    <defaults public="false" />
+    <service id="Talav\Component\Resource\Metadata\RegistryInterface" class="Talav\Component\Resource\Metadata\Registry" />
+    <service id="talav.resource.registry" alias="Talav\Component\Resource\Metadata\RegistryInterface"/>
+    <service id="Talav\Component\Registry\Registry\ServiceRegistryInterface" class="Talav\Component\Registry\Registry\ServiceRegistry" >
+      <argument>Talav\Component\Resource\Repository\RepositoryInterface</argument>
+      <argument>resource repository</argument>
+    </service>
+    <service id="talav.registry.repository" alias="Talav\Component\Registry\Registry\ServiceRegistryInterface"/>
+
+    <service id="Talav\ResourceBundle\EventListener\MappedSuperClassSubscribe" class="Talav\ResourceBundle\EventListener\MappedSuperClassSubscriber">
+      <argument type="service" id="talav.resource.registry" />
+      <tag name="doctrine.event_subscriber" priority="8192" />
+    </service>
+    <service id="Talav\ResourceBundle\EventListener\RepositoryClassSubscriber" class="Talav\ResourceBundle\EventListener\RepositoryClassSubscriber">
+      <argument type="service" id="talav.resource.registry" />
+      <tag name="doctrine.event_subscriber" priority="8192" />
+    </service>
+  </services>
+</container>

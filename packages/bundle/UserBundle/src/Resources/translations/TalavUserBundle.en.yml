@@ -1,0 +1,47 @@
+talav:
+  layout:
+    logout: 'Log out'
+    login: 'Log in'
+    register: Register
+    logged_in_as: 'Logged in as %username%'
+
+  security:
+    login:
+      username: Username
+      password: Password
+      remember_me: 'Remember me'
+      submit: 'Log in'
+
+  registration:
+    confirmed: 'Congrats %username%, your account is now activated.'
+    submit: Register
+    flash:
+      user_created: 'The user has been created successfully.'
+
+  form:
+    username: Username
+    email: Email
+    username_email: Username or email
+    current_password: 'Current password'
+    password: Password
+    password_confirmation: 'Repeat password'
+    new_password: 'New password'
+    new_password_confirmation: 'Repeat new password'
+
+  reset:
+    request:
+      username: 'Username or email address'
+      submit: 'Reset password'
+    reset:
+      submit: 'Change password'
+    flash:
+      success_request: 'Password reset confirmation email was sent to your email.'
+      success: 'The password has been reset successfully.'
+      token_not_found: 'Incorrect password reset token.'
+      token_expired: 'Password reset token expired. Please try again later.'
+      token_too_often: 'Password request has been sent too many times. Please wait and try again later'
+
+  change_password:
+    submit: 'Change password'
+    flash:
+      success: 'The password has been changed.'

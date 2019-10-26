@@ -1,0 +1,105 @@
+framework:
+  secret: Test
+
+  # Enables session support. Note that the session will ONLY be started if you read or write from it.
+  # Remove or comment this section to explicitly disable session support.
+  session:
+    handler_id: ~
+    storage_id: session.storage.mock_file
+
+  #esi: true
+  #fragments: true
+  php_errors:
+    log: true
+  test: true
+
+security:
+  providers:
+    login_form:
+      id: talav.user.provider.login
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: true
+      guard:
+        provider: login_form
+        authenticators:
+          - Talav\UserBundle\Security\LoginFormAuthenticator
+      logout:
+        path: talav_user_logout
+        target: talav_user_login
+      remember_me:
+        secret:   '%kernel.secret%'
+        lifetime: 2592000
+      oauth:
+        resource_owners:
+          facebook: "/social-login/check-facebook"
+        ## Provide the original login path of your application
+        ## and the failure route when the authentication fails.
+        login_path:     /login
+        failure_path:   /login
+        oauth_user_provider:
+          service: talav.user.provider.oath
+  encoders:
+    Talav\UserBundle\Entity\User:
+      algorithm: 'auto'
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/user/, roles: IS_AUTHENTICATED_FULLY }
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
+
+doctrine:
+  dbal:
+    driver: 'pdo_sqlite'
+    server_version: '3.15'
+    charset: utf8mb4
+    default_table_options:
+      charset: utf8mb4
+      collate: utf8mb4_unicode_ci
+    url: 'sqlite:///:memory:'
+    dbname: 'test'
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
+    default_repository_class: Talav\Component\User\Repository\UserRepository
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+talav_user:
+  resources:
+    user:
+      classes:
+        model: AppBundle\Entity\User
+    user_oauth:
+      classes:
+        model: AppBundle\Entity\UserOauth
+  email:
+    from:
+      email: test@test.com
+      name: Tester
+
+hwi_oauth:
+  # list of names of the firewalls in which this bundle is active, this setting MUST be set
+  firewall_names: [main]
+  connect:
+    account_connector: talav.user.provider.oath
+
+  # https://github.com/hwi/HWIOAuthBundle/blob/master/Resources/doc/2-configuring_resource_owners.md
+  resource_owners:
+    facebook:
+      type:                facebook
+      client_id:           '%env(FB_ID)%'
+      client_secret:       '%env(FB_SECRET)%'
+      scope:               "email"
+      options:
+        csrf: true

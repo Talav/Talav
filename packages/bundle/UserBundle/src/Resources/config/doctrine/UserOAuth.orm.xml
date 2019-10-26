@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Talav\UserBundle\Entity\UserOAuth">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="accessToken" column="access_token"/>
+        <field name="identifier" column="identifier" nullable="true"/>
+        <field name="provider" column="provider"/>
+        <field name="refreshToken" column="refresh_token" nullable="true"/>
+        <many-to-one field="user" target-entity="Talav\Component\User\Model\UserInterface" inversed-by="oauthAccounts">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+        <unique-constraints>
+            <unique-constraint columns="user_id,provider"/>
+            <unique-constraint columns="access_token,provider"/>
+            <unique-constraint columns="identifier,provider"/>
+        </unique-constraints>
+    </mapped-superclass>
+
+</doctrine-mapping>

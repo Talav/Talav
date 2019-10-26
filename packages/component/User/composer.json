@@ -1,0 +1,55 @@
+{
+    "name": "talav/user",
+    "description": "Basic user interfaces for PHP applications.",
+    "keywords": [
+        "symfony",
+        "bundle",
+        "user",
+        "php"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Talav",
+            "email": "support@talav.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "symfony/security": "^4.3",
+        "talav/resource": "^1.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "symfony/thanks": "^1.1",
+        "talav/coding-standard": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Talav\\Component\\User\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Talav\\Component\\User\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ],
+    "scripts": {
+        "check-cs": "vendor/bin/ecs check src --ansi",
+        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
+    }
+}
