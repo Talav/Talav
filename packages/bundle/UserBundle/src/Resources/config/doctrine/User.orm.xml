@@ -6,10 +6,6 @@
 
 
     <mapped-superclass name="Talav\UserBundle\Entity\User">
-        <id name="id" column="id" type="integer">
-            <generator />
-        </id>
-
         <field name="username" column="username" length="180" />
         <field name="usernameCanonical" column="username_canonical" length="180" unique="true" />
         <field name="email" column="email" type="string" length="180" />

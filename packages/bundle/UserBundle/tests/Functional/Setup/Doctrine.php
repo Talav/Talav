@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\Tests\Functional\Setup;
 
+use AppBundle\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
-use Talav\UserBundle\DataFixtures\UserFixtures;
 
 trait Doctrine
 {

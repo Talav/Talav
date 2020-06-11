@@ -33,7 +33,6 @@ trait Doctrine
             $schemaTool = new SchemaTool($this->manager);
             $schemaTool->dropSchema($metadata);
             $schemaTool->createSchema($metadata);
-            $this->loadFixtures();
         }
     }
 
@@ -69,17 +68,5 @@ trait Doctrine
     protected function createDoctrineRegistry(): ManagerRegistry
     {
         return self::$container->get('doctrine');
-    }
-
-    /**
-     * Loads fixtures from bundle.
-     */
-    private function loadFixtures(): void
-    {
-        $loader = new Loader();
-
-        $purger = new ORMPurger($this->manager);
-        $executor = new ORMExecutor($this->manager, $purger);
-        $executor->execute($loader->getFixtures());
     }
 }

@@ -8,8 +8,5 @@ use Talav\Component\Resource\Model\ResourceInterface;
 
 interface FactoryInterface
 {
-    /**
-     * @return ResourceInterface
-     */
     public function create(): ResourceInterface;
 }

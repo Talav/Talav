@@ -6,15 +6,13 @@ namespace Talav\Component\Resource\Model;
 
 trait ResourceTrait
 {
-    /**
-     * @var int
-     */
+    /** @var mixed */
     protected $id;
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }

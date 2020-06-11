@@ -11,19 +11,13 @@ use Talav\Component\Resource\Repository\RepositoryInterface;
 
 class ResourceManager implements ManagerInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className;
 
-    /**
-     * @var EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     protected $em;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     protected $factory;
 
     public function __construct($className, EntityManagerInterface $em, FactoryInterface $factory)
@@ -42,6 +36,7 @@ class ResourceManager implements ManagerInterface
             $metadata = $this->em->getClassMetadata($this->className);
             $this->className = $metadata->getName();
         }
+
         return $this->className;
     }
 
@@ -50,9 +45,7 @@ class ResourceManager implements ManagerInterface
      */
     public function create(): ResourceInterface
     {
-        $entity = $this->factory->create();
-        $this->add($entity);
-        return $entity;
+        return $this->factory->create();
     }
 
     /**
@@ -85,9 +78,9 @@ class ResourceManager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getFactory()
+    public function getFactory(): FactoryInterface
     {
-        $this->factory;
+        return $this->factory;
     }
 
     /**
@@ -107,5 +100,10 @@ class ResourceManager implements ManagerInterface
     public function reload(ResourceInterface $resource): ResourceInterface
     {
         return $this->em->find(get_class($resource), $resource->getId());
+    }
+
+    public function flush(): void
+    {
+        $this->em->flush();
     }
 }

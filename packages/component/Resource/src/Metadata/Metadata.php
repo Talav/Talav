@@ -10,21 +10,27 @@ final class Metadata implements MetadataInterface
 {
     /** @var string */
     private $name;
+
     /** @var string */
     private $applicationName;
+
     /** @var array */
     private $parameters;
+
     private function __construct(string $name, string $applicationName, array $parameters)
     {
         $this->name = $name;
         $this->applicationName = $applicationName;
         $this->parameters = $parameters;
     }
+
     public static function fromAliasAndConfiguration(string $alias, array $parameters): self
     {
         [$applicationName, $name] = self::parseAlias($alias);
+
         return new self($name, $applicationName, $parameters);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +38,7 @@ final class Metadata implements MetadataInterface
     {
         return $this->applicationName . '.' . $this->name;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -39,6 +46,7 @@ final class Metadata implements MetadataInterface
     {
         return $this->applicationName;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -46,6 +54,7 @@ final class Metadata implements MetadataInterface
     {
         return $this->name;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -53,6 +62,7 @@ final class Metadata implements MetadataInterface
     {
         return strtolower(trim((string) preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $this->name)));
     }
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +70,7 @@ final class Metadata implements MetadataInterface
     {
         return Inflector::pluralize($this->name);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -68,8 +79,10 @@ final class Metadata implements MetadataInterface
         if (!$this->hasParameter($name)) {
             throw new \InvalidArgumentException(sprintf('Parameter "%s" is not configured for resource "%s".', $name, $this->getAlias()));
         }
+
         return $this->parameters[$name];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -77,6 +90,7 @@ final class Metadata implements MetadataInterface
     {
         return array_key_exists($name, $this->parameters);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -84,6 +98,7 @@ final class Metadata implements MetadataInterface
     {
         return $this->parameters;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -92,6 +107,7 @@ final class Metadata implements MetadataInterface
         if (!$this->hasClass($name)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" is not configured for resource "%s".', $name, $this->getAlias()));
         }
+
         return $this->parameters['classes'][$name];
     }
 
@@ -119,15 +135,12 @@ final class Metadata implements MetadataInterface
         return sprintf('%s.%s.%s.class', $this->applicationName, $serviceName, $this->name);
     }
 
-    /**
-     * @param string $alias
-     * @return array
-     */
     private static function parseAlias(string $alias): array
     {
         if (false === strpos($alias, '.')) {
             throw new \InvalidArgumentException(sprintf('Invalid alias "%s" supplied, it should conform to the following format "<applicationName>.<name>".', $alias));
         }
+
         return explode('.', $alias);
     }
 }

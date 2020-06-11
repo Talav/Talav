@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\EventListener\Tests;
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\Media;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -21,7 +21,7 @@ final class UserLastLoginSubscriberTest extends TestCase
     public function it_updates_last_login_on_user_event()
     {
         $subscriber = new UserLastLoginSubscriber($this->getManagerMock());
-        $user = new User();
+        $user = new Media();
         $event = new UserEvent($user);
         $subscriber->onImplicitLogin($event);
         $this->assertNotNull($user->getLastLogin());
@@ -33,7 +33,7 @@ final class UserLastLoginSubscriberTest extends TestCase
     public function it_updates_last_login_on_interactive_login()
     {
         $subscriber = new UserLastLoginSubscriber($this->getManagerMock());
-        $user = new User();
+        $user = new Media();
         $event = new InteractiveLoginEvent(new Request(), new UsernamePasswordToken($user, '', 'test'));
         $subscriber->onSecurityInteractiveLogin($event);
         $this->assertNotNull($user->getLastLogin());
@@ -42,7 +42,7 @@ final class UserLastLoginSubscriberTest extends TestCase
     private function getManagerMock()
     {
         $mock = $this->createMock(UserManagerInterface::class);
-        $mock->expects($this->once())->method('getClassName')->willReturn(User::class);
+        $mock->expects($this->once())->method('getClassName')->willReturn(Media::class);
         $mock->expects($this->once())->method('update')->withAnyParameters();
         return $mock;
     }

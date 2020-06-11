@@ -6,9 +6,7 @@ namespace Talav\Component\Resource\Metadata;
 
 final class Registry implements RegistryInterface
 {
-    /**
-     * @var array|MetadataInterface[]
-     */
+    /** @var array|MetadataInterface[] */
     private $metadata = [];
 
     /**
@@ -27,6 +25,7 @@ final class Registry implements RegistryInterface
         if (!array_key_exists($alias, $this->metadata)) {
             throw new \InvalidArgumentException(sprintf('Resource "%s" does not exist.', $alias));
         }
+
         return $this->metadata[$alias];
     }
 
@@ -40,6 +39,7 @@ final class Registry implements RegistryInterface
                 return $metadata;
             }
         }
+
         throw new \InvalidArgumentException(sprintf('Resource with model class "%s" does not exist.', $className));
     }
 
