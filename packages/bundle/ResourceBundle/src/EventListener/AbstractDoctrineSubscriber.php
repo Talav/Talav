@@ -13,14 +13,10 @@ use Talav\Component\Resource\Model\ResourceInterface;
 
 abstract class AbstractDoctrineSubscriber implements EventSubscriber
 {
-    /**
-     * @var RegistryInterface
-     */
+    /** @var RegistryInterface */
     protected $resourceRegistry;
 
-    /**
-     * @var RuntimeReflectionService|null
-     */
+    /** @var RuntimeReflectionService|null */
     private $reflectionService;
 
     public function __construct(RegistryInterface $resourceRegistry)
@@ -38,6 +34,7 @@ abstract class AbstractDoctrineSubscriber implements EventSubscriber
         if ($this->reflectionService === null) {
             $this->reflectionService = new RuntimeReflectionService();
         }
+
         return $this->reflectionService;
     }
 }

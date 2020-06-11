@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Talav\ResourceBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -14,7 +16,7 @@ class TalavResourceExtension extends Extension
         // Load our services.
         $loader = new XmlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.xml');
     }

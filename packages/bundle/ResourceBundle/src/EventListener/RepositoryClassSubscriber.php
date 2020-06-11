@@ -16,10 +16,12 @@ final class RepositoryClassSubscriber extends AbstractDoctrineSubscriber
             Events::loadClassMetadata,
         ];
     }
+
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
     {
         $this->setCustomRepositoryClass($eventArgs->getClassMetadata());
     }
+
     private function setCustomRepositoryClass(ClassMetadata $metadata): void
     {
         try {

@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Talav\ResourceBundle\DependencyInjection\Extension;
 
-use AppBundle\Entity\Author;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 use Talav\Component\Resource\Factory\Factory;
-use Talav\Component\Resource\Manager\ResourceManager;
 use Talav\Component\Resource\Metadata\Metadata;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
 use Talav\Component\Resource\Metadata\MetadataInterface;
-use Talav\Component\Resource\Repository\ResourceRepository;
 
 abstract class AbstractResourceExtension extends Extension
 {
@@ -56,9 +53,6 @@ abstract class AbstractResourceExtension extends Extension
 
     /**
      * Adds a factory for entity
-     *
-     * @param ContainerBuilder $container
-     * @param MetadataInterface $metadata
      */
     protected function addFactory(ContainerBuilder $container, MetadataInterface $metadata): void
     {
@@ -79,16 +73,12 @@ abstract class AbstractResourceExtension extends Extension
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param MetadataInterface $metadata
-     */
     protected function addRepository(ContainerBuilder $container, MetadataInterface $metadata): void
     {
         $repositoryClass = $metadata->getClass('repository');
         $definition = new Definition($repositoryClass);
         $definition->setArgument(0, new Reference('doctrine.orm.entity_manager'));
-        $definition->setArgument(1,  $this->getClassMetadataDefinition($metadata));
+        $definition->setArgument(1, $this->getClassMetadataDefinition($metadata));
         $definition->setPublic(true);
         $definition->setAutowired(true);
         $container->setDefinition($metadata->getServiceId('repository'), $definition);
@@ -129,6 +119,7 @@ abstract class AbstractResourceExtension extends Extension
             ->setArguments([$metadata->getClass('model')])
             ->setPublic(false)
         ;
+
         return $definition;
     }
 

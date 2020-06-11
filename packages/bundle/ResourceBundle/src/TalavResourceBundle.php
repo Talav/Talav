@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Talav\ResourceBundle;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;

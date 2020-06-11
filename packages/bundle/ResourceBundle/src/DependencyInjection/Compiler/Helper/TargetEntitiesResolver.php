@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Talav\ResourceBundle\DependencyInjection\Compiler\Helper;
 
-use Talav\Component\Resource\Model\ResourceInterface;
-
 final class TargetEntitiesResolver implements TargetEntitiesResolverInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function resolve(array $resources): array
     {
@@ -26,13 +24,16 @@ final class TargetEntitiesResolver implements TargetEntitiesResolverInterface
         $interfaces = array_map(function (array $classes): string {
             return (string) current($classes);
         }, $interfaces);
+
         return $interfaces;
     }
+
     private function getModel(string $alias, array $configuration): string
     {
         if (!isset($configuration['classes']['model'])) {
             throw new \InvalidArgumentException(sprintf('Could not get model class from resource "%s".', $alias));
         }
+
         return $configuration['classes']['model'];
     }
 }
