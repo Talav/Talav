@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Talav\MediaBundle\Entity;
 
 use Imagine\Image\Box;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -16,106 +15,81 @@ abstract class Media implements MediaInterface
 {
     use ResourceTrait;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $description;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     protected $enabled = false;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $providerName;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $providerStatus;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $providerReference;
-    /**
-     * @var array
-     */
+
+    /** @var array */
     protected $providerMetadata = [];
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $width;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $height;
-    /**
-     * @var float
-     */
+
+    /** @var float */
     protected $length;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $copyright;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $authorName;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $context;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     protected $cdnIsFlushable;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $cdnFlushIdentifier;
-    /**
-     * @var \DateTime
-     */
+
+    /** @var \DateTime */
     protected $cdnFlushAt;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $cdnStatus;
-    /**
-     * @var \DateTime
-     */
+
+    /** @var \DateTime */
     protected $updatedAt;
-    /**
-     * @var \DateTime
-     */
+
+    /** @var \DateTime */
     protected $createdAt;
-    /**
-     * @var mixed
-     */
+
+    /** @var mixed */
     protected $binaryContent;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $previousProviderReference;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $contentType;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $size;
-    /**
-     * @var GalleryHasMediaInterface[]
-     */
+
+    /** @var GalleryHasMediaInterface[] */
     protected $galleryHasMedias;
-    /**
-     * @var CategoryInterface
-     */
+
+    /** @var CategoryInterface */
     protected $category;
+
     /**
      * {@inheritdoc}
      */
@@ -123,6 +97,7 @@ abstract class Media implements MediaInterface
     {
         return $this->getName() ?: 'n/a';
     }
+
     // NEXT_MAJOR: Remove this method
     public function __set($property, $value)
     {
@@ -135,6 +110,7 @@ abstract class Media implements MediaInterface
             $this->category = $value;
         }
     }
+
     // NEXT_MAJOR: Remove this method
     public function __call($method, $arguments)
     {
@@ -142,15 +118,18 @@ abstract class Media implements MediaInterface
             $this->__set('category', current($arguments));
         }
     }
+
     public function prePersist()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }
+
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
     }
+
     /**
      * @static
      *
@@ -166,6 +145,7 @@ abstract class Media implements MediaInterface
             self::STATUS_ENCODING => 'encoding',
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -175,6 +155,7 @@ abstract class Media implements MediaInterface
         $this->providerReference = null;
         $this->binaryContent = $binaryContent;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -182,6 +163,7 @@ abstract class Media implements MediaInterface
     {
         $this->binaryContent = null;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -189,14 +171,17 @@ abstract class Media implements MediaInterface
     {
         return $this->binaryContent;
     }
+
     /**
      * {@inheritdoc}
      */
     public function getMetadataValue($name, $default = null)
     {
         $metadata = $this->getProviderMetadata();
+
         return $metadata[$name] ?? $default;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -206,6 +191,7 @@ abstract class Media implements MediaInterface
         $metadata[$name] = $value;
         $this->setProviderMetadata($metadata);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -215,6 +201,7 @@ abstract class Media implements MediaInterface
         unset($metadata[$name]);
         $this->setProviderMetadata($metadata);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -222,6 +209,7 @@ abstract class Media implements MediaInterface
     {
         $this->name = $name;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -229,6 +217,7 @@ abstract class Media implements MediaInterface
     {
         return $this->name;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -236,6 +225,7 @@ abstract class Media implements MediaInterface
     {
         $this->description = $description;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -243,6 +233,7 @@ abstract class Media implements MediaInterface
     {
         return $this->description;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -250,6 +241,7 @@ abstract class Media implements MediaInterface
     {
         $this->enabled = $enabled;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -257,6 +249,7 @@ abstract class Media implements MediaInterface
     {
         return $this->enabled;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -264,6 +257,7 @@ abstract class Media implements MediaInterface
     {
         $this->providerName = $providerName;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -271,6 +265,7 @@ abstract class Media implements MediaInterface
     {
         return $this->providerName;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -278,6 +273,7 @@ abstract class Media implements MediaInterface
     {
         $this->providerStatus = $providerStatus;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -285,6 +281,7 @@ abstract class Media implements MediaInterface
     {
         return $this->providerStatus;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -292,6 +289,7 @@ abstract class Media implements MediaInterface
     {
         $this->providerReference = $providerReference;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -299,6 +297,7 @@ abstract class Media implements MediaInterface
     {
         return $this->providerReference;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -306,6 +305,7 @@ abstract class Media implements MediaInterface
     {
         $this->providerMetadata = $providerMetadata;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -313,6 +313,7 @@ abstract class Media implements MediaInterface
     {
         return $this->providerMetadata;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -320,6 +321,7 @@ abstract class Media implements MediaInterface
     {
         $this->width = $width;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -327,6 +329,7 @@ abstract class Media implements MediaInterface
     {
         return $this->width;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -334,6 +337,7 @@ abstract class Media implements MediaInterface
     {
         $this->height = $height;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -341,6 +345,7 @@ abstract class Media implements MediaInterface
     {
         return $this->height;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -348,6 +353,7 @@ abstract class Media implements MediaInterface
     {
         $this->length = $length;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -355,6 +361,7 @@ abstract class Media implements MediaInterface
     {
         return $this->length;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -362,6 +369,7 @@ abstract class Media implements MediaInterface
     {
         $this->copyright = $copyright;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -369,6 +377,7 @@ abstract class Media implements MediaInterface
     {
         return $this->copyright;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -376,6 +385,7 @@ abstract class Media implements MediaInterface
     {
         $this->authorName = $authorName;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -383,6 +393,7 @@ abstract class Media implements MediaInterface
     {
         return $this->authorName;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -390,6 +401,7 @@ abstract class Media implements MediaInterface
     {
         $this->context = $context;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -397,6 +409,7 @@ abstract class Media implements MediaInterface
     {
         return $this->context;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -404,6 +417,7 @@ abstract class Media implements MediaInterface
     {
         $this->cdnIsFlushable = $cdnIsFlushable;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -411,6 +425,7 @@ abstract class Media implements MediaInterface
     {
         return $this->cdnIsFlushable;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -418,6 +433,7 @@ abstract class Media implements MediaInterface
     {
         $this->cdnFlushIdentifier = $cdnFlushIdentifier;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -425,6 +441,7 @@ abstract class Media implements MediaInterface
     {
         return $this->cdnFlushIdentifier;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -432,6 +449,7 @@ abstract class Media implements MediaInterface
     {
         $this->cdnFlushAt = $cdnFlushAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -439,6 +457,7 @@ abstract class Media implements MediaInterface
     {
         return $this->cdnFlushAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -446,6 +465,7 @@ abstract class Media implements MediaInterface
     {
         $this->updatedAt = $updatedAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -453,6 +473,7 @@ abstract class Media implements MediaInterface
     {
         return $this->updatedAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -460,6 +481,7 @@ abstract class Media implements MediaInterface
     {
         $this->createdAt = $createdAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -467,6 +489,7 @@ abstract class Media implements MediaInterface
     {
         return $this->createdAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -474,6 +497,7 @@ abstract class Media implements MediaInterface
     {
         $this->contentType = $contentType;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -481,6 +505,7 @@ abstract class Media implements MediaInterface
     {
         return $this->contentType;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -491,8 +516,9 @@ abstract class Media implements MediaInterface
             return null;
         }
         // strips off query strings or hashes, which are common in URIs remote references
-        return preg_replace('{(\?|#).*}', '', pathinfo($providerReference, PATHINFO_EXTENSION));
+        return preg_replace('{(\?|#).*}', '', pathinfo($providerReference, \PATHINFO_EXTENSION));
     }
+
     /**
      * {@inheritdoc}
      */
@@ -500,6 +526,7 @@ abstract class Media implements MediaInterface
     {
         $this->size = $size;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -507,6 +534,7 @@ abstract class Media implements MediaInterface
     {
         return $this->size;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -514,6 +542,7 @@ abstract class Media implements MediaInterface
     {
         $this->cdnStatus = $cdnStatus;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -521,6 +550,7 @@ abstract class Media implements MediaInterface
     {
         return $this->cdnStatus;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -528,6 +558,7 @@ abstract class Media implements MediaInterface
     {
         return new Box($this->width, $this->height);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -535,6 +566,7 @@ abstract class Media implements MediaInterface
     {
         $this->galleryHasMedias = $galleryHasMedias;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -542,6 +574,7 @@ abstract class Media implements MediaInterface
     {
         return $this->galleryHasMedias;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -549,6 +582,7 @@ abstract class Media implements MediaInterface
     {
         return $this->previousProviderReference;
     }
+
     /**
      * NEXT_MAJOR: Remove this method when bumping Symfony requirement to 2.8+.
      */
@@ -556,6 +590,7 @@ abstract class Media implements MediaInterface
     {
         $metadata->addConstraint(new Assert\Callback('isStatusErroneous'));
     }
+
     /**
      * @param ExecutionContextInterface|LegacyExecutionContextInterface $context
      */

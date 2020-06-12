@@ -52,7 +52,6 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request)
     {
-        /** @var UserManagerInterface $userManager */
         $form = $this->createForm(RegistrationFormType::class, new RegistrationFormModel());
         $form->handleRequest($request);
         if ($form->isSubmitted()) {

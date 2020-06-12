@@ -6,7 +6,6 @@ namespace Talav\UserBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Talav\Component\Resource\Factory\Factory;
 use Talav\Component\User\Canonicalizer\Canonicalizer;
 use Talav\Component\User\Manager\UserManager;
 use Talav\Component\User\Manager\UserOAuthManager;

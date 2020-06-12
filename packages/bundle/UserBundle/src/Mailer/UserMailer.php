@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Talav\UserBundle\Mailer;
 
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Talav\Component\User\Model\UserInterface;
 use Twig\Environment;
