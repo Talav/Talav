@@ -72,6 +72,7 @@ class ResettingControllerTest extends KernelTestCase
         $user = self::$kernel->getContainer()->get('app.manager.user')->findUserByEmail('tester@test.com');
         $this->assertNotNull($user);
         $user->setPasswordRequestedAt(new DateTime('2018-12-12'));
+        self::$kernel->getContainer()->get('app.manager.user')->update($user, true);
         $crawler = $client->request('GET', '/reset/'.$user->getPasswordResetToken());
         $this->assertStringContainsStringIgnoringCase('Password reset token expired. Please try again', $crawler->html());
     }

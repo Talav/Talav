@@ -6,7 +6,7 @@ namespace Talav\UserBundle\Mailer;
 
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\NamedAddress;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Talav\Component\User\Model\UserInterface;
 use Twig\Environment;
@@ -72,7 +72,7 @@ class UserMailer implements UserMailerInterface
         }
         $message = (new Email())
             ->subject($subject)
-            ->from(new NamedAddress($this->parameters['email'], $this->parameters['name']))
+            ->from(new Address($this->parameters['email'], $this->parameters['name']))
             ->to($toEmail);
         if (!empty($htmlBody)) {
             $message->html($htmlBody);

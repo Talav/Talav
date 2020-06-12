@@ -14,14 +14,24 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
+     * @var AuthenticationUtils
+     */
+    private $auth;
+
+    public function __construct(AuthenticationUtils $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
      * @Route("/login", name="talav_user_login")
      */
     public function login(Request $request): Response
     {
         // get the login error if there is one
-        $error = $this->get('authentication.utils')->getLastAuthenticationError();
+        $error = $this->auth->getLastAuthenticationError();
         // last username entered by the user
-        $lastUsername = $this->get('authentication.utils')->getLastUsername();
+        $lastUsername = $this->auth->getLastUsername();
 
         return $this->render('@TalavUser/frontend/security/login.html.twig', [
             'last_username' => $lastUsername,
@@ -37,12 +47,5 @@ class SecurityController extends AbstractController
     public function logout(): Response
     {
         throw new RuntimeException('You must configure the logout path to be handled by the firewall.');
-    }
-
-    public static function getSubscribedServices(): array
-    {
-        return parent::getSubscribedServices() + [
-                'authentication.utils' => AuthenticationUtils::class,
-            ];
     }
 }

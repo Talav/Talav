@@ -12,6 +12,9 @@ framework:
   php_errors:
     log: true
   test: true
+  # disable sending emails
+  mailer:
+    dsn: 'null://null'
 
 security:
   providers:

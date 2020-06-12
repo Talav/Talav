@@ -11,10 +11,10 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "symfony/framework-bundle": "^5.1",
         "symfony/config": "^5.1",
-        "symfony/security-bundle": "^4.4",
+        "symfony/security-bundle": "^5.1",
         "symfony/twig-bundle": "^5.1",
         "symfony/translation": "^5.1",
         "webmozart/assert": "^1.8",
@@ -25,11 +25,11 @@
         "symfony/form": "^5.1",
         "symfony/event-dispatcher": "^5.1",
         "symfony/mailer": "^5.1",
-        "hwi/oauth-bundle": "*@dev",
+        "hwi/oauth-bundle": "^1.1",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.18",
-        "talav/user": "^1.0@dev",
-        "talav/resource-bundle": "^1.0@dev"
+        "talav/user": "@dev",
+        "talav/resource-bundle": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",

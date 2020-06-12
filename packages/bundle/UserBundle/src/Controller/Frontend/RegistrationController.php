@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
                 $user->setEmail($form->getData()->getEmail());
                 $user->setPlainPassword($form->getData()->getPlainPassword());
                 $this->userManager->update($user, true);
-                $this->eventDispatcher->dispatch(TalavUserEvents::REGISTRATION_COMPLETED, new UserEvent($user));
+                $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::REGISTRATION_COMPLETED);
 
                 return $this->guard->authenticateUserAndHandleSuccess(
                     $user,

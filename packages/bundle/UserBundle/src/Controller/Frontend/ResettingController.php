@@ -78,7 +78,7 @@ class ResettingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserInterface $user */
             $user = $form->getData()->getUser();
-            if (null !== $user->getPasswordRequestedAt() && !$user->isPasswordRequestNonExpired(DateInterval::createFromDateString($this->retryTtl))) {
+            if (null !== $user->getPasswordRequestedAt() && $user->isPasswordRequestNonExpired(DateInterval::createFromDateString($this->retryTtl))) {
                 $this->addFlash('error', $this->translator->trans('talav.reset.flash.token_too_often', [], 'TalavUserBundle'));
 
                 return new RedirectResponse($this->generateUrl('talav_user_login'));
@@ -88,7 +88,7 @@ class ResettingController extends AbstractController
             }
             $user->setPasswordRequestedAt(new \DateTime());
             $this->userManager->update($user, true);
-            $this->eventDispatcher->dispatch(TalavUserEvents::RESET_REQUEST_SUCCESS, new UserEvent($user));
+            $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::RESET_REQUEST_SUCCESS);
             $this->mailer->sendResettingEmailMessage($user);
             $this->addFlash('success', $this->translator->trans('talav.reset.flash.success_request', [], 'TalavUserBundle'));
 
