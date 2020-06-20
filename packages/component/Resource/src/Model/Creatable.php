@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Talav\Component\User\Model;
+namespace Talav\Component\Resource\Model;
 
 use DateTime;
 
 trait Creatable
 {
     /**
-     * @var DateTime
+     * @var ?DateTime
      */
     protected $createdAt;
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param DateTime|null $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(?DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }

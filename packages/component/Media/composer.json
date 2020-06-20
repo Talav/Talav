@@ -1,7 +1,7 @@
 {
     "name": "talav/user",
-    "description": "Basic media component",
-    "keywords": ["symfony", "bundle", "media", "php"],
+    "description": "Plan and plan feature functionality for SaaS applications",
+    "keywords": ["symfony", "bundle", "subscription", "php"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,25 +12,27 @@
     ],
     "require": {
         "php": "^7.4",
-        "symfony/security-guard": "^5.1",
-        "symfony/security-http": "^5.1",
-        "symfony/security-csrf": "^5.1",
-        "symfony/security-core": "^5.1",
-        "talav/resource": "@dev"
+        "league/flysystem": "^1.0",
+        "league/glide": "^1.5",
+        "symfony/http-foundation": "^5.1",
+        "symfony/mime": "^5.1",
+        "talav/resource": "@dev",
+        "league/flysystem-memory": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",
         "symfony/thanks": "^1.2",
+        "webfactory/doctrine-orm-test-infrastructure": "^1.7",
         "talav/coding-standard": "@dev"
     },
     "autoload": {
         "psr-4": {
-            "Talav\\Component\\Plan\\": "src/"
+            "Talav\\Component\\Media\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Talav\\Component\\Plan\\Tests\\": "tests/"
+            "Talav\\Component\\Media\\Tests\\": "tests/"
         }
     },
     "extra": {

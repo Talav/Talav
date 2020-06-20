@@ -16,4 +16,14 @@ trait ResourceTrait
     {
         return $this->id;
     }
+
+    /**
+     * Return string representation of entity
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 }

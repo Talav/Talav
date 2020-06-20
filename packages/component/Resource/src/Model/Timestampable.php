@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Talav\Component\User\Model;
+namespace Talav\Component\Resource\Model;
 
 trait Timestampable
 {
