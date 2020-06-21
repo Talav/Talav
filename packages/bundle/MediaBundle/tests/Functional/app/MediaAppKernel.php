@@ -26,7 +26,7 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Talav\MediaBundle\TalavMediaBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new AppBundle\AppBundle(),
+            new MediaAppBundle\MediaAppBundle(),
         ];
     }
 
