@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class AppKernel extends Kernel
+class UserAppKernel extends Kernel
 {
     use MicroKernelTrait;
 
@@ -26,7 +26,7 @@ class AppKernel extends Kernel
             new Talav\UserBundle\TalavUserBundle(),
             new Http\HttplugBundle\HttplugBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new AppBundle\AppBundle(),
+            new UserAppBundle\UserAppBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         ];
     }

@@ -14,7 +14,10 @@
         "php": "^7.4",
         "symfony/framework-bundle": "^5.1",
         "symfony/config": "^5.1",
-        "symfony/security-bundle": "^5.1",
+        "symfony/security-core": "^5.1",
+        "symfony/security-csrf": "^5.1",
+        "symfony/security-guard": "^5.1",
+        "symfony/security-http": "^5.1",
         "symfony/twig-bundle": "^5.1",
         "symfony/translation": "^5.1",
         "webmozart/assert": "^1.8",
@@ -47,7 +50,7 @@
     "autoload": {
         "psr-4": {
             "Talav\\UserBundle\\": "src/",
-            "AppBundle\\": "tests/Functional/src/AppBundle/"
+            "UserAppBundle\\": "tests/Functional/src/UserAppBundle/"
         },
         "exclude-from-classmap": [
             "/tests/"
@@ -58,7 +61,7 @@
             "Talav\\UserBundle\\Tests\\": "tests/"
         },
         "files": [
-            "Tests/Functional/app/AppKernel.php"
+            "Tests/Functional/app/UserAppKernel.php"
         ]
     },
     "extra": {

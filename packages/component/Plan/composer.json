@@ -1,5 +1,5 @@
 {
-    "name": "talav/user",
+    "name": "talav/plan",
     "description": "Basic media component",
     "keywords": ["symfony", "bundle", "media", "php"],
     "type": "library",

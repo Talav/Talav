@@ -82,10 +82,10 @@ talav_user:
   resources:
     user:
       classes:
-        model: AppBundle\Entity\User
+        model: UserAppBundle\Entity\User
     user_oauth:
       classes:
-        model: AppBundle\Entity\UserOauth
+        model: UserAppBundle\Entity\UserOauth
   email:
     from:
       email: test@test.com

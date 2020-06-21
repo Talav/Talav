@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\Tests\Functional\Setup;
 
-use AppBundle\DataFixtures\UserFixtures;
+use UserAppBundle\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;

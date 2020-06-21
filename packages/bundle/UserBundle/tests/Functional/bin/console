@@ -7,5 +7,5 @@ use Symfony\Component\Console\Input\ArgvInput;
 set_time_limit(0);
 
 $loader = require __DIR__.'/../../../vendor/autoload.php';
-$application = new Application(new AppKernel('test', false));
+$application = new Application(new UserAppKernel('test', false));
 $application->run(new ArgvInput());

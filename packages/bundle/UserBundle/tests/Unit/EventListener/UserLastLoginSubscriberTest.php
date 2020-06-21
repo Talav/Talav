@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\EventListener\Tests;
 
-use AppBundle\Entity\User;
+use UserAppBundle\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;

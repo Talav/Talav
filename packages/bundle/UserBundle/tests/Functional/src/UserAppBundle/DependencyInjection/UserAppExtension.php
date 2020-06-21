@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace AppBundle\DependencyInjection;
+namespace UserAppBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 
-final class AppExtension extends AbstractResourceExtension
+final class UserAppExtension extends AbstractResourceExtension
 {
     /**
      * {@inheritdoc}

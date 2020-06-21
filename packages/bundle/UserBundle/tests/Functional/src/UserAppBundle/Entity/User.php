@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppBundle\Entity;
+namespace UserAppBundle\Entity;
 
 use Talav\UserBundle\Entity\User as BaseUser;
 
