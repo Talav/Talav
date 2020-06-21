@@ -3,7 +3,7 @@
 <phpunit colors="true">
 
     <testsuites>
-        <testsuite name="TalavMediaBundle test suite">
+        <testsuite name="TalavResourceBundle test suite">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
@@ -21,7 +21,7 @@
 
     <php>
         <server name="SHELL_VERBOSITY" value="-1" />
-        <server name="KERNEL_CLASS" value="AppKernel" />
+        <server name="KERNEL_CLASS" value="ResourceAppKernel" />
         <ini name="memory_limit" value="-1" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
     </php>

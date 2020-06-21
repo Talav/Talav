@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Talav\ResourceBundle\Tests\DependencyInjection\Extension;
 
-use AppBundle\Entity\AbstractBook;
-use AppBundle\Factory\AuthorFactoryInterface;
-use AppBundle\Manager\AuthorManagerInterface;
-use AppBundle\Repository\AuthorRepositoryInterface;
-use AppBundle\Service\FirstAutowiredService;
-use AppBundle\Service\RegistryTestService;
-use AppBundle\Service\SecondAutowiredService;
-use AppBundle\Service\ThirdAutowiredService;
+use ResourceAppBundle\Entity\AbstractBook;
+use ResourceAppBundle\Factory\AuthorFactoryInterface;
+use ResourceAppBundle\Manager\AuthorManagerInterface;
+use ResourceAppBundle\Repository\AuthorRepositoryInterface;
+use ResourceAppBundle\Service\FirstAutowiredService;
+use ResourceAppBundle\Service\RegistryTestService;
+use ResourceAppBundle\Service\SecondAutowiredService;
+use ResourceAppBundle\Service\ThirdAutowiredService;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Talav\Component\Registry\Registry\ServiceRegistryInterface;
