@@ -16,7 +16,7 @@
 {% endif %}
 
 <div>
-        {{ form_start(form, { 'action': path('talav_media_test')}) }}
+        {{ form_start(form, { 'action': path(action)}) }}
         {{ form_widget(form) }}
         <div>
             <input type="submit" value="Submit" />

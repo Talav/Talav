@@ -21,7 +21,7 @@ class FormTest extends KernelTestCase
     public function it_allows_to_submit_form_without_file(): void
     {
         $client = $this->getClient();
-        $crawler = $this->submitMediaTypeForm($client, 'Test name');
+        $crawler = $this->submitMediaTypeForm($client, '/test1', 'Test name');
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
         $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findBy(['name' => 'Test name']);
         self::assertNotNull($author);
@@ -33,7 +33,7 @@ class FormTest extends KernelTestCase
     public function it_allows_to_submit_form_with_file(): void
     {
         $client = $this->getClient();
-        $crawler = $this->submitMediaTypeForm($client, 'Test name', '1.txt');
+        $crawler = $this->submitMediaTypeForm($client, '/test1', 'Test name', '1.txt');
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
         $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findOneBy(['name' => 'Test name']);
         self::assertNotNull($author);
@@ -48,7 +48,7 @@ class FormTest extends KernelTestCase
     public function it_correctly_stores_file(): void
     {
         $client = $this->getClient();
-        $crawler = $this->submitMediaTypeForm($client, 'Test name', '1.txt');
+        $crawler = $this->submitMediaTypeForm($client, '/test1','Test name', '1.txt');
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
         $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findOneBy(['name' => 'Test name']);
         $media = $author->getMedia();
@@ -60,11 +60,22 @@ class FormTest extends KernelTestCase
     }
 
     /**
+     * @test
+     */
+    public function it_errors_if_media_required_not_provided(): void
+    {
+        $client = $this->getClient();
+        $crawler = $this->submitMediaTypeForm($client, '/test2', 'Test name');
+        self::assertStringNotContainsString('Test passed', $crawler->html());
+        self::assertStringContainsStringIgnoringCase('This value should not be blank.', $crawler->html());
+    }
+
+    /**
      * Submit form.
      */
-    private function submitMediaTypeForm(KernelBrowser $client, string $name, ?string $file = null): Crawler
+    private function submitMediaTypeForm(KernelBrowser $client, string $uri, string $name, ?string $file = null): Crawler
     {
-        $crawler = $client->request('GET', '/test');
+        $crawler = $client->request('GET', $uri);
         $form = $crawler->selectButton('Submit')->form();
         $form->get('talav_media_app_entity[name]')->setValue($name);
         if (!is_null($file)) {

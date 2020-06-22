@@ -7,6 +7,7 @@ namespace MediaAppBundle\Controller;
 use MediaAppBundle\Entity\Author;
 use MediaAppBundle\Form\Model\EntityModel;
 use MediaAppBundle\Form\Type\AuthorForm;
+use MediaAppBundle\Form\Type\AuthorRequiredForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +29,9 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="talav_media_test")
+     * @Route("/test1", name="talav_media_test1")
      */
-    public function register(Request $request): Response
+    public function test1(Request $request): Response
     {
         $form = $this->createForm(AuthorForm::class, $this->authorManager->create());
         $form->handleRequest($request);
@@ -39,12 +40,35 @@ class IndexController extends AbstractController
                 $this->authorManager->add($form->getData());
                 $this->authorManager->flush();
                 $this->addFlash('success', "Test passed");
-                return new RedirectResponse($this->container->get('router')->generate('talav_media_test'));
+                return new RedirectResponse($this->container->get('router')->generate('talav_media_test1'));
             }
         }
 
         return $this->render('@MediaApp/test.html.twig', [
             'form' => $form->createView(),
+            'action' => 'talav_media_test1'
+        ]);
+    }
+
+    /**
+     * @Route("/test2", name="talav_media_test2")
+     */
+    public function test2(Request $request): Response
+    {
+        $form = $this->createForm(AuthorRequiredForm::class, $this->authorManager->create());
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->authorManager->add($form->getData());
+                $this->authorManager->flush();
+                $this->addFlash('success', "Test passed");
+                return new RedirectResponse($this->container->get('router')->generate('talav_media_test2'));
+            }
+        }
+
+        return $this->render('@MediaApp/test.html.twig', [
+            'form' => $form->createView(),
+            'action' => 'talav_media_test2'
         ]);
     }
 }

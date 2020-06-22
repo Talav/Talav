@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Constraint;
 use Talav\Component\Media\Manager\MediaManager;
 use Talav\Component\Media\Provider\ProviderPool;
 use Talav\MediaBundle\Form\DataTransformer\ProviderDataTransformer;
@@ -49,10 +50,21 @@ class MediaType extends AbstractType
             }
         });
 
+        $required = $options['required'] ?? false;
+
+        $constraints = [];
+        if ($required) {
+            $constraints =
+                [
+                    new Constraint\NotBlank(),
+                ];
+        }
+
         $builder->add('file', FileType::class, [
-            'required' => false,
+            'required' => $options['required'] ?? false,
             'label' => 'talav.media.form.file',
             'translation_domain' => 'TalavMediaBundle',
+            'constraints' => $constraints,
         ]);
 
         $builder->add('unlink', CheckboxType::class, [

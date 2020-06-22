@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Talav\MediaBundle\Form\Type\MediaType;
 
-class AuthorForm extends AbstractType
+class AuthorRequiredForm extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ class AuthorForm extends AbstractType
                 'label' => 'Media',
                 'provider' => 'file',
                 'context' => 'doc',
-                'required' => false
+                'required' => true
             ])
         ;
     }
