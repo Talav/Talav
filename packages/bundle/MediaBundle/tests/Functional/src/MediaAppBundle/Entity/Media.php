@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppBundle\Entity;
+namespace MediaAppBundle\Entity;
 
 use Talav\MediaBundle\Entity\Media as BaseMedia;
 

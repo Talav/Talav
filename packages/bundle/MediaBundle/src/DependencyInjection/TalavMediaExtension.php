@@ -6,7 +6,11 @@ namespace Talav\MediaBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
+use Talav\Component\Media\Context\ContextConfig;
+use Talav\Component\Media\Provider\Constrains;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 
 class TalavMediaExtension extends AbstractResourceExtension
@@ -17,9 +21,52 @@ class TalavMediaExtension extends AbstractResourceExtension
         $config = $this->processConfiguration($configuration, $configs);
 
         // Load services.
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
 
         $this->registerResources('app', $config['resources'], $container);
+        $this->configureCdn($container, $config['cdn']);
+        $this->configureProviders($container, $config['providers']);
+        $this->configureContexts($container, $config['contexts']);
+    }
+
+    public function configureCdn(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition('talav.media.cdn.server')
+            ->setArgument(0, $config['server']['path']);
+    }
+
+    public function configureProviders(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition('talav.media.provider.file')
+            ->setArgument(1, new Reference($config['file']['filesystem']))
+            ->setArgument(2, new Reference($config['file']['cdn']))
+            ->setArgument(3, new Reference($config['file']['generator']))
+            ->setArgument(4, new Definition(Constrains::class, [
+                $config['file']['constraints']['extensions'],
+                $config['file']['constraints']['mime_types'],
+            ]))
+        ;
+        $container->getDefinition('talav.media.provider.image')
+            ->setArgument(1, new Reference($config['image']['filesystem']))
+            ->setArgument(2, new Reference($config['image']['cdn']))
+            ->setArgument(3, new Reference($config['image']['generator']))
+            ->setArgument(4, new Definition(Constrains::class, [
+                $config['image']['constraints']['extensions'],
+                $config['image']['constraints']['mime_types'],
+            ]))
+        ;
+    }
+
+    public function configureContexts(ContainerBuilder $container, array $config): void
+    {
+        $pool = $container->getDefinition('talav.media.provider.pool');
+        foreach ($config as $name => $conf) {
+            $pool->addMethodCall('addContext', [new Definition(ContextConfig::class, [
+                $name,
+                new Reference($conf['provider']),
+                [],
+            ])]);
+        }
     }
 }

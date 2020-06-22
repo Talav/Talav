@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Talav\UserBundle\Tests\Functional\Setup;
+namespace Talav\MediaBundle\Tests\Functional\Setup;
 
-use AppBundle\DataFixtures\UserFixtures;
+use MediaAppBundle\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;

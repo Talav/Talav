@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ResourceAppBundle\Entity;
+namespace MediaAppBundle\Entity;
 
+use Talav\Component\Media\Model\MediaInterface;
+use Talav\Component\Resource\Model\ResourceInterface;
 use Talav\Component\Resource\Model\ResourceTrait;
 use Talav\Component\Resource\Model\Timestampable;
 
-abstract class AbstractAuthor implements AuthorInterface
+class Author implements ResourceInterface
 {
     use ResourceTrait;
     use Timestampable;
@@ -23,9 +25,9 @@ abstract class AbstractAuthor implements AuthorInterface
     protected $name;
 
     /**
-     * @var BookInterface
+     * @var MediaInterface|null
      */
-    protected $book;
+    protected $media;
 
     /**
      * @return string|null
@@ -44,18 +46,18 @@ abstract class AbstractAuthor implements AuthorInterface
     }
 
     /**
-     * @return BookInterface
+     * @return MediaInterface|null
      */
-    public function getBook(): BookInterface
+    public function getMedia(): ?MediaInterface
     {
-        return $this->book;
+        return $this->media;
     }
 
     /**
-     * @param BookInterface $book
+     * @param MediaInterface|null $media
      */
-    public function setBook(BookInterface $book): void
+    public function setMedia(?MediaInterface $media): void
     {
-        $this->book = $book;
+        $this->media = $media;
     }
 }

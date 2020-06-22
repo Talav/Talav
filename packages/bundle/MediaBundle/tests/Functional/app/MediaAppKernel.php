@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class AppKernel extends Kernel
+class MediaAppKernel extends Kernel
 {
     use MicroKernelTrait;
 
@@ -20,12 +20,12 @@ class AppKernel extends Kernel
         return [
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Twig\Extra\TwigExtraBundle\TwigExtraBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Talav\ResourceBundle\TalavResourceBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
-            new Liip\ImagineBundle\LiipImagineBundle(),
             new Talav\MediaBundle\TalavMediaBundle(),
-            new Vich\UploaderBundle\VichUploaderBundle(),
             new MediaAppBundle\MediaAppBundle(),
         ];
     }
@@ -43,7 +43,7 @@ class AppKernel extends Kernel
      */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $routes->import(__DIR__ . '/config/routing.xml');
+        $routes->import(__DIR__ . '/config/routing.yml');
     }
 
     /**

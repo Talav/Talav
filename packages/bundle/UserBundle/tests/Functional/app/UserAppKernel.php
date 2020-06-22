@@ -19,6 +19,7 @@ class UserAppKernel extends Kernel
     {
         return [
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -27,7 +28,6 @@ class UserAppKernel extends Kernel
             new Http\HttplugBundle\HttplugBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new UserAppBundle\UserAppBundle(),
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         ];
     }
 

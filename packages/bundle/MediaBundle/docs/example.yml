@@ -1,0 +1,34 @@
+talav_media:
+  contexts:
+    logo:
+      provider: sonata.media.provider.image
+      presets:
+        - logo
+    icon:
+      provider: sonata.media.provider.image
+      presets:
+        - icon
+    post:
+      provider: sonata.media.provider.image
+      formats:
+        - small
+        - large
+    doc:
+      provider: sonata.media.provider.file
+  providers:
+    image:
+      generator:  Prodly\Sonata\Media\Generator\DefaultGenerator
+      filesystem:
+      cdn:
+      constraints:
+        extensions: ['jpg', 'png', 'jpeg']
+        mime_types: ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png']
+  cdn:
+    server:
+      path: /upload/media
+
+  filesystem:
+    local:
+      # Directory for uploads should be writable
+      directory: "%kernel.project_dir%/public/upload/media"
+      create: false

@@ -28,11 +28,26 @@ doctrine:
     naming_strategy: doctrine.orm.naming_strategy.underscore
     auto_mapping: true
 
-vich_uploader:
-  db_driver: orm
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
 
 talav_media:
   resources:
     media:
       classes:
-        model: AppBundle\Entity\Media
+        model: MediaAppBundle\Entity\Media
+  contexts:
+    doc:
+      provider: talav.media.provider.file
+
+oneup_flysystem:
+  adapters:
+    default:
+      local:
+        directory: "%kernel.cache_dir%/cache/media"
+  filesystems:
+    default:
+      adapter: default

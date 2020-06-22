@@ -47,7 +47,6 @@
     ],
     "scripts": {
         "check-cs": "vendor/bin/ecs check src --ansi",
-        "fix-cs": "vendor/bin/ecs check src --fix --ansi",
-        "rector": "vendor/bin/rector process --config vendor/talav/coding-standard/rector.yml"
+        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
     }
 }

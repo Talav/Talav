@@ -1,0 +1,37 @@
+parameters:
+  talav.resource.default.factory.class: Talav\Component\Resource\Factory\Factory
+  talav.resource.default.repository.class: Talav\Component\Resource\Repository\ResourceRepository
+  talav.resource.default.manager.class: Talav\Component\Resource\Manager\ResourceManager
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+  gedmo.listener.timestampable:
+    class: Gedmo\Timestampable\TimestampableListener
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [ setAnnotationReader, [ "@annotation_reader" ] ]
+  Talav\Component\Resource\Metadata\RegistryInterface:
+    class: Talav\Component\Resource\Metadata\Registry
+  talav.resource.registry:
+    alias: Talav\Component\Resource\Metadata\RegistryInterface
+  Talav\Component\Registry\Registry\ServiceRegistryInterface:
+    class: Talav\Component\Registry\Registry\ServiceRegistry
+    arguments:
+      - 'Talav\Component\Resource\Repository\RepositoryInterface'
+      - 'resource repository'
+  talav.registry.repository:
+    alias: Talav\Component\Registry\Registry\ServiceRegistryInterface
+  Talav\ResourceBundle\EventListener\MappedSuperClassSubscriber:
+    class: Talav\ResourceBundle\EventListener\MappedSuperClassSubscriber
+    arguments:
+      - '@talav.resource.registry'
+    tags:
+      - { name: 'doctrine.event_subscriber', priority: 8192 }
+  Talav\ResourceBundle\EventListener\RepositoryClassSubscriber:
+    arguments:
+      - '@talav.resource.registry'
+    tags:
+      - { name: 'doctrine.event_subscriber', priority: 8192 }

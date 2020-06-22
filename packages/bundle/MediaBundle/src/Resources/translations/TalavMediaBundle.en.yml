@@ -1,0 +1,5 @@
+talav:
+  media:
+    form:
+      file: Select file
+      unlink: Remove media

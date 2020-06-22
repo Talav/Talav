@@ -96,8 +96,6 @@ abstract class User implements UserInterface
     {
         $this->oauthAccounts = new ArrayCollection();
         $this->salt = base_convert(bin2hex(random_bytes(20)), 16, 36);
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
         $this->enabled = false;
         $this->locked = false;
     }

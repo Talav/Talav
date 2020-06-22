@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ResourceAppBundle\Factory;
 
-use ResourceAppBundle\Entity\AbstractAuthor;
+use ResourceAppBundle\Entity\Author;
 use Talav\Component\Resource\Model\ResourceInterface;
 
 final class AuthorFactory implements AuthorFactoryInterface
@@ -13,6 +13,6 @@ final class AuthorFactory implements AuthorFactoryInterface
      */
     public function create(): ResourceInterface
     {
-        return new AbstractAuthor();
+        return new Author();
     }
 }

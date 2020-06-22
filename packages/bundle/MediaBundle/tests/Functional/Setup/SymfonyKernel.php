@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Talav\UserBundle\Tests\Functional\Setup;
+namespace Talav\MediaBundle\Tests\Functional\Setup;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -22,6 +22,18 @@ trait SymfonyKernel
     public static function shutdown(): void
     {
         static::ensureKernelShutdown();
+    }
+
+    /**
+     * Gets client based on the provided kernel.
+     *
+     * @return KernelBrowser
+     */
+    public function getClient(): KernelBrowser
+    {
+        $client = new KernelBrowser(static::$kernel);
+        $client->disableReboot();
+        return $client;
     }
 
     protected function tearDown(): void

@@ -90,4 +90,18 @@ final class TalavResourceExtensionTest extends KernelTestCase
         $repoRegistry = $registryTestService->getServiceRegistry();
         $this->assertEquals(2, count($repoRegistry->all()));
     }
+
+    /**
+     * @test
+     */
+    public function it_registers_gedmo_timestampable_extension(): void
+    {
+        /** @var AuthorManagerInterface $manager */
+        $manager = self::$kernel->getContainer()->get('app.manager.author');
+        $author = $manager->create();
+        $author->setName('Test name');
+        $manager->update($author, true);
+        self::assertNotNull($author->getCreatedAt());
+        self::assertNotNull($author->getUpdatedAt());
+    }
 }
