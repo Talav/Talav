@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Talav\Component\Media\Context\ContextConfig;
-use Talav\Component\Media\Provider\Constrains;
+use Talav\Component\Media\Provider\Constraints;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 
 class TalavMediaExtension extends AbstractResourceExtension
@@ -42,18 +42,20 @@ class TalavMediaExtension extends AbstractResourceExtension
             ->setArgument(1, new Reference($config['file']['filesystem']))
             ->setArgument(2, new Reference($config['file']['cdn']))
             ->setArgument(3, new Reference($config['file']['generator']))
-            ->setArgument(4, new Definition(Constrains::class, [
+            ->setArgument(4, new Definition(Constraints::class, [
                 $config['file']['constraints']['extensions'],
-                $config['file']['constraints']['mime_types'],
+                $config['file']['constraints']['file_constraints'],
+                [],
             ]))
         ;
         $container->getDefinition('talav.media.provider.image')
             ->setArgument(1, new Reference($config['image']['filesystem']))
             ->setArgument(2, new Reference($config['image']['cdn']))
             ->setArgument(3, new Reference($config['image']['generator']))
-            ->setArgument(4, new Definition(Constrains::class, [
+            ->setArgument(4, new Definition(Constraints::class, [
                 $config['image']['constraints']['extensions'],
-                $config['image']['constraints']['mime_types'],
+                $config['image']['constraints']['file_constraints'],
+                $config['image']['constraints']['image_constraints'],
             ]))
         ;
     }

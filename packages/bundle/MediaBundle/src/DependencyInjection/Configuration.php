@@ -26,22 +26,6 @@ final class Configuration implements ConfigurationInterface
         $this->addCdnSection($rootNode);
         $this->addContextsSection($rootNode);
 
-//        $treeBuilder->getRootNode()
-//            ->children()
-//                ->arrayNode('servers')
-//                    ->useAttributeAsKey('name')
-//                    ->requiresAtLeastOneElement()
-//                    ->prototype('array')
-//                        ->children()
-//                            ->scalarNode('source')->isRequired()->end()
-//                            ->scalarNode('cache')->isRequired()->end()
-//                            ->integerNode('max_image_size')->defaultNull()->end()
-//                            ->variableNode('defaults')->defaultValue([])->end()
-//                        ->end()
-//                    ->end()
-//                ->end()
-//            ->end();
-
         return $treeBuilder;
     }
 
@@ -115,16 +99,16 @@ final class Configuration implements ConfigurationInterface
                                                 'xml',
                                             ])
                                         ->end()
-                                        ->arrayNode('mime_types')
-                                            ->prototype('scalar')->end()
-                                            ->defaultValue([
-                                                'application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain',
+                                        ->variableNode('file_constraints')
+                                        ->defaultValue([
+                                            'mimeTypes' => ['application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain',
                                                 'application/excel', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint',
                                                 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.graphics', 'application/vnd.oasis.opendocument.presentation', 'application/vnd.oasis.opendocument.spreadsheet', 'application/vnd.oasis.opendocument.chart', 'application/vnd.oasis.opendocument.formula', 'application/vnd.oasis.opendocument.database', 'application/vnd.oasis.opendocument.image',
                                                 'text/comma-separated-values',
                                                 'text/xml', 'application/xml',
-                                                'application/zip', // seems to be used for xlsx document ...
-                                            ])
+                                                'application/zip', ],
+                                            'maxSize' => '5M',
+                                        ])
                                         ->end()
                                     ->end()
                                 ->end()
@@ -145,14 +129,24 @@ final class Configuration implements ConfigurationInterface
                                             ->prototype('scalar')->end()
                                             ->defaultValue(['jpg', 'png', 'jpeg'])
                                         ->end()
-                                        ->arrayNode('mime_types')
-                                            ->prototype('scalar')->end()
-                                            ->defaultValue([
+                                        ->variableNode('file_constraints')
+                                        ->defaultValue([
+                                            'mimeTypes' => [
                                                 'image/pjpeg',
                                                 'image/jpeg',
                                                 'image/png',
                                                 'image/x-png',
-                                            ])
+                                            ],
+                                            'maxSize' => '5M',
+                                        ])
+                                        ->end()
+                                        ->variableNode('image_constraints')
+                                        ->defaultValue([
+                                            'minWidth' => 100,
+                                            'minHeight' => 100,
+                                            'maxWidth' => 3000,
+                                            'maxHeight' => 3000,
+                                        ])
                                         ->end()
                                     ->end()
                                 ->end()

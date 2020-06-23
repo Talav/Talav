@@ -52,12 +52,9 @@ class MediaType extends AbstractType
 
         $required = $options['required'] ?? false;
 
-        $constraints = [];
+        $constraints = $this->pool->getProvider($options['provider'])->getFileFieldConstraints();
         if ($required) {
-            $constraints =
-                [
-                    new Constraint\NotBlank(),
-                ];
+            $constraints[] = new Constraint\NotBlank();
         }
 
         $builder->add('file', FileType::class, [
