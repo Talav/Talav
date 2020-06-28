@@ -25,6 +25,7 @@ final class Configuration implements ConfigurationInterface
         $this->addProvidersSection($rootNode);
         $this->addCdnSection($rootNode);
         $this->addContextsSection($rootNode);
+        $this->addPresetsSection($rootNode);
 
         return $treeBuilder;
     }
@@ -173,7 +174,7 @@ final class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    private function addPresets(ArrayNode $node)
+    private function addPresetsSection(ArrayNode $node)
     {
         $node
             ->arrayNode('presets')
