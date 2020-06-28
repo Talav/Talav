@@ -18,5 +18,11 @@ parameters:
 
     # for "split" command
     directories_to_repositories:
-        packages/first-package: 'git@github.com:your-monorepo/first-package.git'
-        packages/second-package: 'git@github.com:your-monorepo/second-package.git'
+        packages/component/User: 'git@github.com:Talav/user.git'
+        packages/component/Resource: 'git@github.com:Talav/resource.git'
+        packages/component/Registry: 'git@github.com:Talav/registry.git'
+        packages/component/Plan: 'git@github.com:Talav/plan.git'
+        packages/component/Media: 'git@github.com:Talav/media.git'
+        packages/bundle/MediaBundle: 'git@github.com:Talav/media-bundle.git'
+        packages/bundle/ResourceBundle: 'git@github.com:Talav/resource-bundle.git'
+        packages/bundle/UserBundle: 'git@github.com:Talav/user-bundle.git'
