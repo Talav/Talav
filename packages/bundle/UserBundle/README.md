@@ -59,6 +59,8 @@ talav_user:
         from:
             email:
             name:
+    success:
+        route: talav_user_login
 ```
 
 

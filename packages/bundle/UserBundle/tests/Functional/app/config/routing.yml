@@ -12,3 +12,6 @@ hwi_oauth_connect:
 hwi_oauth_login:
   resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
   prefix:   /login
+
+talav_user_test:
+  resource: '@UserAppBundle/Resources/config/routing.yml'

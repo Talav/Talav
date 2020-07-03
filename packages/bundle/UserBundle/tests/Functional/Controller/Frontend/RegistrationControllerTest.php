@@ -91,6 +91,7 @@ class RegistrationControllerTest extends KernelTestCase
             'talav_user_registration[plainPassword][second]' => 'tester1',
         ]);
         $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
+        $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
     }
 
     /**

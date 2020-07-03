@@ -32,14 +32,23 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /** @var EncoderFactoryInterface */
     private $encoderFactory;
 
+    /** @var array */
+    private $parameters;
+
     /**
      * LoginFormAuthenticator constructor.
      */
-    public function __construct(RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, EncoderFactoryInterface $encoderFactory)
+    public function __construct(
+        RouterInterface $router,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        EncoderFactoryInterface $encoderFactory,
+        array $parameters
+    )
     {
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->encoderFactory = $encoderFactory;
+        $this->parameters = $parameters;
     }
 
     public function supports(Request $request)
@@ -88,8 +97,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        // For example : return new RedirectResponse($this->router->generate('some_route'));
-        return new RedirectResponse($this->getLoginUrl());
+        return new RedirectResponse($this->router->generate($this->parameters['success_route']));
     }
 
     protected function getLoginUrl()

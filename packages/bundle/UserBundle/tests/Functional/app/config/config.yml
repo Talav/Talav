@@ -90,6 +90,8 @@ talav_user:
     from:
       email: test@test.com
       name: Tester
+  success:
+    route: test_talav_user_registration_success
 
 hwi_oauth:
   # list of names of the firewalls in which this bundle is active, this setting MUST be set

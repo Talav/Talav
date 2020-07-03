@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+  UserAppBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+  UserAppBundle\DataFixtures\UserFixtures:
+    class: UserAppBundle\DataFixtures\UserFixtures

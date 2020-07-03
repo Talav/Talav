@@ -13,6 +13,7 @@ use Talav\Component\User\Security\PasswordUpdaterInterface;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Talav\UserBundle\Mailer\UserMailer;
 use Talav\UserBundle\Mailer\UserMailerInterface;
+use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class TalavUserExtension extends AbstractResourceExtension
 {
@@ -40,6 +41,11 @@ class TalavUserExtension extends AbstractResourceExtension
                 'name' => $config['email']['from']['name'],
             ]);
         }
+
+        $definition = $container->getDefinition(LoginFormAuthenticator::class);
+        $definition->setArgument(3, [
+            'success_route' => $config['success']['route'],
+        ]);
 
         $container->setParameter('talav_user.resetting.retry_ttl', $config['resetting']['retry_ttl']);
         $container->setParameter('talav_user.resetting.token_ttl', $config['resetting']['token_ttl']);
