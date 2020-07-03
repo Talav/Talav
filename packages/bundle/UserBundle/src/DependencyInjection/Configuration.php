@@ -148,6 +148,7 @@ final class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                        ->booleanNode('email')->defaultValue(true)->end()
                     ->end()
                 ->end()
             ->end();

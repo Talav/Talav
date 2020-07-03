@@ -29,6 +29,9 @@ services:
       - { name: 'console.command', command: 'talav:user:create' }
   talav.user.provider.oath:
     class: Talav\UserBundle\Provider\TalavUserProvider
+    arguments:
+      - '@app.manager.user'
+      - '@app.manager.user_oauth'
     public: true
   talav.user.provider.login:
     class: Talav\Component\User\Provider\UsernameOrEmailProvider

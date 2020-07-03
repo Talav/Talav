@@ -81,7 +81,7 @@ class RegistrationControllerTest extends KernelTestCase
     /**
      * @test
      */
-    public function it_allows_to_register_and_logs_user()
+    public function it_allows_to_register_and_logs_user_and_send_email()
     {
         $client = $this->getClient();
         $crawler = $this->submitForm($client, [
@@ -92,6 +92,10 @@ class RegistrationControllerTest extends KernelTestCase
         ]);
         $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage(0);
+        $this->assertEmailHeaderSame($email, 'To', 'tester1@test.com');
+        $this->assertEmailHeaderSame($email, 'Subject', 'Welcome email');
     }
 
     /**

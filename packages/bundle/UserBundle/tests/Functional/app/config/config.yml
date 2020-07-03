@@ -14,7 +14,7 @@ framework:
   test: true
   # disable sending emails
   mailer:
-    dsn: 'null://null'
+    dsn: 'null://default'
 
 security:
   providers:

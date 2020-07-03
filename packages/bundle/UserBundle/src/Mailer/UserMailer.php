@@ -52,11 +52,23 @@ class UserMailer implements UserMailerInterface
      */
     public function sendResettingEmailMessage(UserInterface $user): void
     {
-        $template = '@TalavUser/email/reset.txt.twig';
+        $template = '@TalavUser/email/reset.twig';
         $url = $this->router->generate('talav_user_reset_password', ['token' => $user->getPasswordResetToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         $context = [
             'user' => $user,
             'confirmationUrl' => $url,
+        ];
+        $this->sendMessage($template, $context, $user->getEmail());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendRegistrationSuccessfulEmail(UserInterface $user): void
+    {
+        $template = '@TalavUser/email/welcome.twig';
+        $context = [
+            'user' => $user,
         ];
         $this->sendMessage($template, $context, $user->getEmail());
     }

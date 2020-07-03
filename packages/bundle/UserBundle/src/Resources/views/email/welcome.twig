@@ -1,0 +1,23 @@
+{% block subject %}
+    {%- autoescape false -%}
+        Welcome email
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Hello {{user.username}}!
+        Welcome!
+        Regards,
+        the Team.
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% autoescape false %}
+        Hello <b>{{user.username}}</b>!
+        Welcome!
+        Regards,
+        the Team.
+    {% endautoescape %}
+{% endblock %}

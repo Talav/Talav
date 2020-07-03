@@ -1,0 +1,23 @@
+{% block subject %}
+    {%- autoescape false -%}
+        Reset Password
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        Hello {{user.username}}!
+        To reset your password - please visit {{confirmationUrl}}
+        Regards,
+        the Team.
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% autoescape false %}
+        Hello <b>{{user.username}}</b>!
+        To reset your password - please visit {{confirmationUrl}}
+        Regards,
+        the Team.
+    {% endautoescape %}
+{% endblock %}

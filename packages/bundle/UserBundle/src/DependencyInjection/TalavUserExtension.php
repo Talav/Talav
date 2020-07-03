@@ -6,11 +6,11 @@ namespace Talav\UserBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Talav\Component\User\Canonicalizer\CanonicalizerInterface;
 use Talav\Component\User\Security\PasswordUpdaterInterface;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
+use Talav\UserBundle\EventSubscriber\WelcomeEmailSubscriber;
 use Talav\UserBundle\Mailer\UserMailer;
 use Talav\UserBundle\Mailer\UserMailerInterface;
 use Talav\UserBundle\Security\LoginFormAuthenticator;
@@ -26,10 +26,6 @@ class TalavUserExtension extends AbstractResourceExtension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
-        // Load services.
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
-
         $container->autowire(UserMailerInterface::class, $config['mailer']['class']);
         $container->autowire(CanonicalizerInterface::class, $config['canonicalizer']['class']);
         $container->autowire(PasswordUpdaterInterface::class, $config['password_updater']['class']);
@@ -43,9 +39,13 @@ class TalavUserExtension extends AbstractResourceExtension
         }
 
         $definition = $container->getDefinition(LoginFormAuthenticator::class);
-        $definition->setArgument(3, [
+        $definition->setArgument('$parameters', [
             'success_route' => $config['success']['route'],
         ]);
+        // WelcomeEmailSubscriber is registered by default, remove it if config does not require confirmation email
+        if (!$config['registration']['email']) {
+            $container->removeDefinition(WelcomeEmailSubscriber::class);
+        }
 
         $container->setParameter('talav_user.resetting.retry_ttl', $config['resetting']['retry_ttl']);
         $container->setParameter('talav_user.resetting.token_ttl', $config['resetting']['token_ttl']);

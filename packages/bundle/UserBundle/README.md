@@ -59,8 +59,12 @@ talav_user:
         from:
             email:
             name:
+    registration:
+        form: 
+            type: RegistrationFormType::class
+            model: RegistrationFormModel::class
+            validation_groups: ['Registration', 'Default']
+        email: true
     success:
         route: talav_user_login
 ```
-
-

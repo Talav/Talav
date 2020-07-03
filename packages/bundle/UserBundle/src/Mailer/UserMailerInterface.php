@@ -17,4 +17,9 @@ interface UserMailerInterface
      * Send an email to a user to confirm the password reset.
      */
     public function sendResettingEmailMessage(UserInterface $user): void;
+
+    /**
+     * Send an email to a user to confirm registration success, welcome email
+     */
+    public function sendRegistrationSuccessfulEmail(UserInterface $user): void;
 }

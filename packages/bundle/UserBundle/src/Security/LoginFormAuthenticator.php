@@ -43,8 +43,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         CsrfTokenManagerInterface $csrfTokenManager,
         EncoderFactoryInterface $encoderFactory,
         array $parameters
-    )
-    {
+    ) {
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->encoderFactory = $encoderFactory;
@@ -97,6 +96,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
         return new RedirectResponse($this->router->generate($this->parameters['success_route']));
     }
 
