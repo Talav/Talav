@@ -21,8 +21,9 @@ class ResettingControllerTest extends KernelTestCase
     public function it_correctly_shows_reset_page()
     {
         $client = $this->getClient();
-        $client->request('GET', '/reset');
+        $crawler = $client->request('GET', '/reset');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectLink('Log in')->getNode(0));
     }
 
     /**

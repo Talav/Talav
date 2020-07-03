@@ -18,8 +18,9 @@ class RegistrationControllerTest extends KernelTestCase
     public function it_correctly_shows_registration_page()
     {
         $client = $this->getClient();
-        $client->request('GET', '/register');
+        $crawler = $client->request('GET', '/register');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectLink("Log in")->getNode(0));
     }
 
     /**

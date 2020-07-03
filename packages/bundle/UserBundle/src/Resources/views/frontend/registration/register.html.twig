@@ -4,11 +4,12 @@
 
 {% block talav_user_content %}
 
-{{ form_start(form, {'method': 'post', 'action': path('talav_user_register')}) }}
+    {{ form_start(form, {'method': 'post', 'action': path('talav_user_register')}) }}
     {{ form_widget(form) }}
-<div>
-    <input type="submit" formnovalidate value="{{ 'talav.registration.submit'|trans }}" />
-</div>
-{{ form_end(form) }}
+    <div>
+        <input type="submit" formnovalidate value="{{ 'talav.registration.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+    <a href="{{ path('talav_user_login') }}">{{ 'talav.security.layout.login'|trans }}</a>
 
 {% endblock talav_user_content %}

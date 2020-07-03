@@ -12,9 +12,26 @@ Features include:
 - Password reset support
 - Unit tested
 
+Don't forget to register the bundles:
+
+```
+$bundles = [
+    new AutoMapperPlus\AutoMapperPlusBundle\AutoMapperPlusBundle(),
+    new Talav\ResourceBundle\TalavResourceBundle(),
+    new Talav\UserBundle\TalavUserBundle(),
+];
+```
 
 All available configuration options are listed below with their default values.
 
+Configure auto mapper:
+```
+auto_mapper_plus:
+    options:
+        create_unregistered_mappings: true
+```
+
+Configure user bundle:
 ```code-block:: yaml
 talav_user:
     user:

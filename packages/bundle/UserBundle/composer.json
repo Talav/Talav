@@ -28,7 +28,8 @@
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.18",
         "talav/user": "@dev",
-        "talav/resource-bundle": "@dev"
+        "talav/resource-bundle": "@dev",
+        "mark-gerarts/automapper-plus-bundle": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",

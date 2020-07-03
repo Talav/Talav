@@ -18,8 +18,10 @@ class SecurityControllerTest extends KernelTestCase
     public function it_correctly_shows_login_page()
     {
         $client = $this->getClient();
-        $client->request('GET', '/login');
+        $crawler = $client->request('GET', '/login');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectLink("Register")->getNode(0));
+        $this->assertNotNull($crawler->selectLink("Forgot password?")->getNode(0));
     }
 
     /**

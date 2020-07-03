@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\Controller\Frontend;
 
+use AutoMapperPlus\AutoMapperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,33 +34,43 @@ class RegistrationController extends AbstractController
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
+    /** @var AutoMapperInterface */
+    private $mapper;
+
+    /** @var array */
+    private $parameters = [];
+
     public function __construct(
         UserManagerInterface $userManager,
         LoginFormAuthenticator $authenticator,
         GuardAuthenticatorHandler $guard,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        AutoMapperInterface $mapper,
+        array $parameters
     ) {
         $this->userManager = $userManager;
         $this->authenticator = $authenticator;
         $this->guard = $guard;
         $this->eventDispatcher = $eventDispatcher;
+        $this->mapper = $mapper;
+        $this->parameters = $parameters;
     }
 
     /**
      * @Route("/register", name="talav_user_register")
-     *
-     * @return array
      */
     public function register(Request $request)
     {
-        $form = $this->createForm(RegistrationFormType::class, new RegistrationFormModel());
+        $form = $this->createForm(
+            $this->parameters['form_type'],
+            new $this->parameters['form_model'],
+            ['validation_groups' => $this->parameters['form_validation_groups']]
+        );
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $user = $this->userManager->create();
-                $user->setUsername($form->getData()->getUsername());
-                $user->setEmail($form->getData()->getEmail());
-                $user->setPlainPassword($form->getData()->getPlainPassword());
+                $this->mapper->mapToObject($form->getData(), $user);
                 $this->userManager->update($user, true);
                 $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::REGISTRATION_COMPLETED);
 

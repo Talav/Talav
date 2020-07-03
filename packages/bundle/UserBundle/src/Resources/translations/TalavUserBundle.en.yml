@@ -11,8 +11,12 @@ talav:
       password: Password
       remember_me: 'Remember me'
       submit: 'Log in'
+    layout:
+      login: Log in
 
   registration:
+    layout:
+      register: Register
     confirmed: 'Congrats %username%, your account is now activated.'
     submit: Register
     flash:
@@ -29,6 +33,8 @@ talav:
     new_password_confirmation: 'Repeat new password'
 
   reset:
+    layout:
+      forget_password: 'Forgot password?'
     request:
       username: 'Username or email address'
       submit: 'Reset password'

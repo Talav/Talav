@@ -40,8 +40,12 @@ class TalavUserExtension extends AbstractResourceExtension
                 'name' => $config['email']['from']['name'],
             ]);
         }
+
         $container->setParameter('talav_user.resetting.retry_ttl', $config['resetting']['retry_ttl']);
         $container->setParameter('talav_user.resetting.token_ttl', $config['resetting']['token_ttl']);
+        $container->setParameter('talav_user.registration.form_type', $config['registration']['form']['type']);
+        $container->setParameter('talav_user.registration.form_model', $config['registration']['form']['model']);
+        $container->setParameter('talav_user.registration.form_validation_groups', $config['registration']['form']['validation_groups']);
 
         $this->registerResources('app', $config['resources'], $container);
     }

@@ -28,6 +28,7 @@ class UserAppKernel extends Kernel
             new Http\HttplugBundle\HttplugBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new UserAppBundle\UserAppBundle(),
+            new AutoMapperPlus\AutoMapperPlusBundle\AutoMapperPlusBundle()
         ];
     }
 

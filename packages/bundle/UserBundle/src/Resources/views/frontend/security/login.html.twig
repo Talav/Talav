@@ -23,4 +23,6 @@
             {{ 'talav.security.login.submit'|trans }}
         </button>
     </form>
+    <a href="{{ path('talav_user_register') }}">{{ 'talav.registration.layout.register'|trans }}</a>
+    <a href="{{ path('talav_user_reset_request') }}">{{ 'talav.reset.layout.forget_password'|trans }}</a>
 {% endblock talav_user_content %}

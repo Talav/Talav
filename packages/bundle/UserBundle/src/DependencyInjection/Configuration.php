@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Talav\Component\User\Canonicalizer\Canonicalizer;
@@ -13,6 +14,8 @@ use Talav\Component\User\Repository\UserRepository;
 use Talav\Component\User\Security\PasswordUpdater;
 use Talav\UserBundle\Entity\User;
 use Talav\UserBundle\Entity\UserOAuth;
+use Talav\UserBundle\Form\Model\RegistrationFormModel;
+use Talav\UserBundle\Form\Type\RegistrationFormType;
 use Talav\UserBundle\Mailer\UserMailer;
 
 final class Configuration implements ConfigurationInterface
@@ -93,6 +96,45 @@ final class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+        $this->addRegistrationSection($treeBuilder->getRootNode());
         return $treeBuilder;
+    }
+
+    private function addRegistrationSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('registration')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+//                        ->arrayNode('confirmation')
+//                            ->addDefaultsIfNotSet()
+//                            ->children()
+//                                ->booleanNode('enabled')->defaultFalse()->end()
+//                                ->scalarNode('template')->defaultValue('@FOSUser/Registration/email.txt.twig')->end()
+//                                ->arrayNode('from_email')
+//                                    ->canBeUnset()
+//                                    ->children()
+//                                        ->scalarNode('address')->isRequired()->cannotBeEmpty()->end()
+//                                        ->scalarNode('sender_name')->isRequired()->cannotBeEmpty()->end()
+//                                    ->end()
+//                                ->end()
+//                            ->end()
+//                        ->end()
+                        ->arrayNode('form')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('type')->defaultValue(RegistrationFormType::class)->end()
+                                ->scalarNode('model')->defaultValue(RegistrationFormModel::class)->end()
+                                ->arrayNode('validation_groups')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue(['Registration', 'Default'])
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }

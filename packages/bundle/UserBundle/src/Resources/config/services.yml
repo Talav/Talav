@@ -13,6 +13,12 @@ services:
     arguments:
       $retryTtl: '%talav_user.resetting.retry_ttl%'
       $tokenTtl: '%talav_user.resetting.token_ttl%'
+  Talav\UserBundle\Controller\Frontend\RegistrationController:
+    arguments:
+      $parameters:
+        form_type: '%talav_user.registration.form_type%'
+        form_model: '%talav_user.registration.form_model%'
+        form_validation_groups: '%talav_user.registration.form_validation_groups%'
   Talav\UserBundle\EventSubscriber\:
     resource: '../../EventSubscriber'
     tags: ['kernel.event_subscriber']
