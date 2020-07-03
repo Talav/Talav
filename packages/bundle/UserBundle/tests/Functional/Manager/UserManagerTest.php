@@ -40,6 +40,19 @@ final class UserManagerTest extends KernelTestCase
     /**
      * @test
      */
+    public function it_updates_username_if_its_not_provided()
+    {
+        $user = $this->userManager->create();
+        $user->setEmail('Test@test.com');
+        $user->setPlainPassword('test');
+        $this->userManager->update($user, true);
+        $this->userManager->reload($user);
+        $this->assertEquals('test@test.com', $user->getUsernameCanonical());
+    }
+
+    /**
+     * @test
+     */
     public function it_saves_user_and_allows_to_find_it_by_username()
     {
         $user = $this->userManager->create();

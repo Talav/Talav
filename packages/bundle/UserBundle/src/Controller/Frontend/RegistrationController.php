@@ -14,8 +14,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Talav\Component\User\Manager\UserManagerInterface;
 use Talav\UserBundle\Event\TalavUserEvents;
 use Talav\UserBundle\Event\UserEvent;
-use Talav\UserBundle\Form\Model\RegistrationFormModel;
-use Talav\UserBundle\Form\Type\RegistrationFormType;
 use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class RegistrationController extends AbstractController
@@ -63,7 +61,7 @@ class RegistrationController extends AbstractController
     {
         $form = $this->createForm(
             $this->parameters['form_type'],
-            new $this->parameters['form_model'],
+            new $this->parameters['form_model'](),
             ['validation_groups' => $this->parameters['form_validation_groups']]
         );
         $form->handleRequest($request);

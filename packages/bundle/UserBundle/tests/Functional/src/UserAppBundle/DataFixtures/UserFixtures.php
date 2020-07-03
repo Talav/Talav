@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UserAppBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 use Faker\Generator;
 use Talav\Component\User\Manager\UserManagerInterface;

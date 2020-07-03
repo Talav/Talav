@@ -97,6 +97,7 @@ final class Configuration implements ConfigurationInterface
             ->end();
 
         $this->addRegistrationSection($treeBuilder->getRootNode());
+
         return $treeBuilder;
     }
 

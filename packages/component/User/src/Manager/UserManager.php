@@ -75,6 +75,10 @@ class UserManager extends ResourceManager implements UserManagerInterface
      */
     public function updateCanonicalFields(UserInterface $user): void
     {
+        // enforce non empty username
+        if (empty($user->getUsername()) && !empty($user->getEmail())) {
+            $user->setUsername($user->getEmail());
+        }
         $user->setEmailCanonical($this->canonicalizer->canonicalize($user->getEmail()));
         $user->setUsernameCanonical($this->canonicalizer->canonicalize($user->getUsername()));
     }
@@ -96,6 +100,7 @@ class UserManager extends ResourceManager implements UserManagerInterface
         $this->updateCanonicalFields($user);
         $this->updatePassword($user);
         $this->add($user);
+
         if ($flush) {
             $this->em->flush();
         }

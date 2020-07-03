@@ -9,17 +9,11 @@ trait UpdatedBy
     /** @var UserInterface|null */
     protected $updatedBy;
 
-    /**
-     * @return UserInterface|null
-     */
     public function getUpdatedBy(): ?UserInterface
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param UserInterface|null $updatedBy
-     */
     public function setUpdatedBy(?UserInterface $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
