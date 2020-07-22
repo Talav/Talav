@@ -6,7 +6,7 @@ namespace Talav\Component\User\Model;
 
 trait CreatedBy
 {
-    protected ?UserInterface $createdBy;
+    protected ?UserInterface $createdBy = null;
 
     public function getCreatedBy(): ?UserInterface
     {
