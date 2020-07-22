@@ -8,7 +8,7 @@ use DateTime;
 
 trait Creatable
 {
-    protected ?DateTime $createdAt;
+    protected ?DateTime $createdAt = null;
 
     public function getCreatedAt(): ?DateTime
     {

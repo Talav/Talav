@@ -8,7 +8,7 @@ use DateTime;
 
 trait Updateable
 {
-    protected ?DateTime $updatedAt;
+    protected ?DateTime $updatedAt = null;
 
     public function getUpdatedAt(): ?DateTime
     {
