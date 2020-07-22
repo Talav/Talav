@@ -8,14 +8,14 @@ use DateTime;
 
 trait Creatable
 {
-    protected DateTime $createdAt;
+    protected ?DateTime $createdAt;
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(?DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
