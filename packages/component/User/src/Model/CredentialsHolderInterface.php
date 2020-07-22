@@ -21,8 +21,6 @@ interface CredentialsHolderInterface
      *
      * This should be the encoded password. On authentication, a plain-text
      * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string|null
      */
     public function getPassword();
 

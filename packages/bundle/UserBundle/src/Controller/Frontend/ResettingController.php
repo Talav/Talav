@@ -29,22 +29,19 @@ use Talav\UserBundle\Mailer\UserMailerInterface;
  */
 class ResettingController extends AbstractController
 {
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    private $tokenGenerator;
+    private TokenGeneratorInterface $tokenGenerator;
 
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /** @var UserMailerInterface */
-    private $mailer;
+    private UserMailerInterface $mailer;
 
-    /** @var int */
-    private $retryTtl;
+    private string $retryTtl;
 
-    /** @var int */
-    private $tokenTtl;
+    private string $tokenTtl;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -52,8 +49,8 @@ class ResettingController extends AbstractController
         TokenGeneratorInterface $tokenGenerator,
         TranslatorInterface $translator,
         UserMailerInterface $mailer,
-        $retryTtl,
-        $tokenTtl
+        string $retryTtl,
+        string $tokenTtl
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->userManager = $userManager;
@@ -104,10 +101,8 @@ class ResettingController extends AbstractController
      * Reset user password.
      *
      * @Route("/reset/{token}", name="talav_user_reset_password")
-     *
-     * @param string  $token
      */
-    public function resetAction(Request $request, $token): Response
+    public function resetAction(Request $request, string $token): Response
     {
         $user = $this->userManager->getRepository()->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {

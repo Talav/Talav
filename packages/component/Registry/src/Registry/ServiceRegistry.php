@@ -9,22 +9,17 @@ use Talav\Component\Registry\Exception\NonExistingServiceException;
 
 final class ServiceRegistry implements ServiceRegistryInterface
 {
-    /** @var array */
-    private $services = [];
+    private iterable $services = [];
 
     /**
      * Interface or parent class which is required by all services.
-     *
-     * @var string
      */
-    private $className;
+    private string $className;
 
     /**
      * Human readable context for these services, e.g. "grid field"
-     *
-     * @var string
      */
-    private $context;
+    private string $context;
 
     public function __construct(string $className, string $context = 'service')
     {
@@ -35,7 +30,7 @@ final class ServiceRegistry implements ServiceRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function all(): array
+    public function all(): iterable
     {
         return $this->services;
     }

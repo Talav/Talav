@@ -7,7 +7,7 @@ namespace Talav\Component\Resource\Metadata;
 final class Registry implements RegistryInterface
 {
     /** @var array|MetadataInterface[] */
-    private $metadata = [];
+    private iterable $metadata = [];
 
     /**
      * {@inheritdoc}

@@ -22,11 +22,9 @@ use Webmozart\Assert\Assert;
  */
 class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderInterface, AccountConnectorInterface, OAuthAwareUserProviderInterface
 {
-    /** @var UserManagerInterface */
-    protected $userManager;
+    protected UserManagerInterface $userManager;
 
-    /** @var UserOAuthManagerInterface */
-    protected $userOAuthManager;
+    protected UserOAuthManagerInterface $userOAuthManager;
 
     public function __construct(
         UserManagerInterface $userManager,
@@ -119,10 +117,8 @@ class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderI
      * e.g github_user12345, facebook_user12345.
      *
      * @param string $serviceName
-     *
-     * @return string
      */
-    private function generateRandomUsername($serviceName)
+    private function generateRandomUsername($serviceName): string
     {
         return $serviceName . '_' . substr(uniqid((rand()), true), 10);
     }

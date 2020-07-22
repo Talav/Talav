@@ -15,8 +15,7 @@ use Talav\ResourceBundle\DependencyInjection\Compiler\Helper\TargetEntitiesResol
  */
 final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
 {
-    /** @var TargetEntitiesResolverInterface */
-    private $targetEntitiesResolver;
+    private TargetEntitiesResolverInterface $targetEntitiesResolver;
 
     public function __construct(TargetEntitiesResolverInterface $targetEntitiesResolver)
     {

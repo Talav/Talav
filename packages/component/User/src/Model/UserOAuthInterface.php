@@ -10,11 +10,11 @@ interface UserOAuthInterface extends UserAwareInterface, ResourceInterface
 {
     public function getProvider(): ?string;
 
-    public function setProvider(?string $provider): void;
+    public function setProvider(string $provider): void;
 
     public function getIdentifier(): ?string;
 
-    public function setIdentifier(?string $identifier): void;
+    public function setIdentifier(string $identifier): void;
 
     public function getAccessToken(): ?string;
 

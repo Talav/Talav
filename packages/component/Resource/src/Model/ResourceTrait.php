@@ -19,10 +19,8 @@ trait ResourceTrait
 
     /**
      * Return string representation of entity
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getId();
     }

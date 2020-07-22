@@ -14,8 +14,7 @@ use Talav\UserBundle\Event\UserEvent;
 
 final class UserLastLoginSubscriber implements EventSubscriberInterface
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
     public function __construct(UserManagerInterface $userManager)
     {
@@ -33,12 +32,12 @@ final class UserLastLoginSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $this->updateUserLastLogin($event->getAuthenticationToken()->getUser());
     }
 
-    public function onImplicitLogin(UserEvent $event)
+    public function onImplicitLogin(UserEvent $event): void
     {
         $this->updateUserLastLogin($event->getUser());
     }

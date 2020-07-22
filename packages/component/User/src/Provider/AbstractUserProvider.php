@@ -12,12 +12,8 @@ use Talav\Component\User\Manager\UserManagerInterface;
 
 abstract class AbstractUserProvider implements UserProviderInterface
 {
-    /** @var UserManagerInterface */
-    protected $userManager;
+    protected UserManagerInterface $userManager;
 
-    /**
-     * AbstractUserProvider constructor.
-     */
     public function __construct(UserManagerInterface $userManager)
     {
         $this->userManager = $userManager;
@@ -26,7 +22,7 @@ abstract class AbstractUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername(string $username): UserInterface
     {
         $user = $this->findUser($username);
         if (null === $user) {
@@ -63,7 +59,7 @@ abstract class AbstractUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $this->userManager->getClassName() === $class || is_subclass_of($class, $this->userManager->getClassName());
     }

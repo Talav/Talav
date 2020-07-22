@@ -6,6 +6,7 @@ namespace Talav\UserBundle\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -23,21 +24,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    /** @var RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
-    /** @var CsrfTokenManagerInterface */
-    private $csrfTokenManager;
+    private CsrfTokenManagerInterface $csrfTokenManager;
 
-    /** @var EncoderFactoryInterface */
-    private $encoderFactory;
+    private EncoderFactoryInterface $encoderFactory;
 
-    /** @var array */
-    private $parameters;
+    private iterable $parameters;
 
-    /**
-     * LoginFormAuthenticator constructor.
-     */
     public function __construct(
         RouterInterface $router,
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -50,13 +44,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->parameters = $parameters;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return 'talav_user_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): iterable
     {
         $credentials = [
             'username' => $request->request->get('_username'),
@@ -71,7 +65,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $credentials;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
@@ -86,12 +80,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         return $this->encoderFactory->getEncoder($user)->isPasswordValid($user->getPassword(), $credentials['password'], $user->getSalt());
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -100,7 +94,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($this->router->generate($this->parameters['success_route']));
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(): string
     {
         return $this->router->generate('talav_user_login');
     }

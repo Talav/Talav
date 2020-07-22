@@ -6,8 +6,7 @@ namespace Talav\Component\User\Model;
 
 trait UserAwareTrait
 {
-    /** @var UserInterface|null */
-    protected $user;
+    protected ?UserInterface $user = null;
 
     public function getUser(): ?UserInterface
     {

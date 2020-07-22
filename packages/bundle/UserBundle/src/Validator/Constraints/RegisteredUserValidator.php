@@ -11,8 +11,7 @@ use Talav\Component\User\Manager\UserManagerInterface;
 
 final class RegisteredUserValidator extends ConstraintValidator
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
     public function __construct(UserManagerInterface $userManager)
     {
@@ -26,6 +25,9 @@ final class RegisteredUserValidator extends ConstraintValidator
     {
         if (!$constraint instanceof RegisteredUser) {
             throw new UnexpectedTypeException($constraint, RegisteredUser::class);
+        }
+        if (null === $field) {
+            return;
         }
         if ('email' == $constraint->field) {
             $existingUser = $this->userManager->findUserByEmail($field);

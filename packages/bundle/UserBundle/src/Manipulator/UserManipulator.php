@@ -10,16 +10,8 @@ use Talav\Component\User\Model\UserInterface;
 
 class UserManipulator
 {
-    /**
-     * User manager.
-     *
-     * @var UserManagerInterface
-     */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /**
-     * UserManipulator constructor.
-     */
     public function __construct(UserManagerInterface $userManager)
     {
         $this->userManager = $userManager;
@@ -27,13 +19,8 @@ class UserManipulator
 
     /**
      * Creates a user and returns it.
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $email
-     * @param bool   $active
      */
-    public function create($username, $password, $email, $active): UserInterface
+    public function create(string $username, string $password, string $email, bool $active): UserInterface
     {
         $user = $this->userManager->create();
         $user->setUsername($username);
@@ -47,10 +34,8 @@ class UserManipulator
 
     /**
      * Activates the given user.
-     *
-     * @param string $username
      */
-    public function activate($username): void
+    public function activate(string $username): void
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setEnabled(true);
@@ -59,10 +44,8 @@ class UserManipulator
 
     /**
      * Deactivates the given user.
-     *
-     * @param string $username
      */
-    public function deactivate($username): void
+    public function deactivate(string $username): void
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setEnabled(false);
@@ -71,11 +54,8 @@ class UserManipulator
 
     /**
      * Changes the password for the given user.
-     *
-     * @param string $username
-     * @param string $password
      */
-    public function changePassword($username, $password): void
+    public function changePassword(string $username, string $password): void
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setPlainPassword($password);
@@ -84,10 +64,8 @@ class UserManipulator
 
     /**
      * Promotes the given user.
-     *
-     * @param string $username
      */
-    public function promote($username): void
+    public function promote(string $username): void
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setSuperAdmin(true);
@@ -96,10 +74,8 @@ class UserManipulator
 
     /**
      * Demotes the given user.
-     *
-     * @param string $username
      */
-    public function demote($username): void
+    public function demote(string $username): void
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setSuperAdmin(false);
@@ -109,12 +85,9 @@ class UserManipulator
     /**
      * Adds role to the given user.
      *
-     * @param string $username
-     * @param string $role
-     *
      * @return bool true if role was added, false if user already had the role
      */
-    public function addRole($username, $role): bool
+    public function addRole(string $username, string $role): bool
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         if ($user->hasRole($role)) {
@@ -129,12 +102,9 @@ class UserManipulator
     /**
      * Removes role from the given user.
      *
-     * @param string $username
-     * @param string $role
-     *
      * @return bool true if role was removed, false if user didn't have the role
      */
-    public function removeRole($username, $role): bool
+    public function removeRole(string $username, string $role): bool
     {
         $user = $this->findUserByUsernameOrThrowException($username);
         if (!$user->hasRole($role)) {
@@ -149,11 +119,9 @@ class UserManipulator
     /**
      * Finds a user by his username and throws an exception if we can't find it.
      *
-     * @param string $username
-     *
      * @throws InvalidArgumentException When user does not exist
      */
-    private function findUserByUsernameOrThrowException($username): UserInterface
+    private function findUserByUsernameOrThrowException(string $username): UserInterface
     {
         $user = $this->userManager->findUserByUsername($username);
         if (!$user) {

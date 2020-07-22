@@ -13,11 +13,9 @@ use Talav\UserBundle\Mailer\UserMailerInterface;
 
 final class WelcomeEmailSubscriber implements EventSubscriberInterface
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /** @var UserMailerInterface */
-    private $mailer;
+    private UserMailerInterface $mailer;
 
     public function __construct(UserManagerInterface $userManager, UserMailerInterface $mailer)
     {
@@ -35,7 +33,7 @@ final class WelcomeEmailSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onRegistrationComplete(UserEvent $event)
+    public function onRegistrationComplete(UserEvent $event): void
     {
         $user = $event->getUser();
         $supportedClass = $this->userManager->getClassName();

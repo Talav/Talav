@@ -11,8 +11,7 @@ use Talav\Component\Resource\Model\ResourceInterface;
  */
 final class Factory implements FactoryInterface
 {
-    /** @var string */
-    private $className;
+    private string $className;
 
     public function __construct(string $className)
     {

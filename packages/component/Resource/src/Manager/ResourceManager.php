@@ -11,14 +11,11 @@ use Talav\Component\Resource\Repository\RepositoryInterface;
 
 class ResourceManager implements ManagerInterface
 {
-    /** @var string */
-    protected $className;
+    protected string $className;
 
-    /** @var EntityManagerInterface */
-    protected $em;
+    protected EntityManagerInterface $em;
 
-    /** @var FactoryInterface */
-    protected $factory;
+    protected FactoryInterface $factory;
 
     public function __construct($className, EntityManagerInterface $em, FactoryInterface $factory)
     {
@@ -86,7 +83,7 @@ class ResourceManager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function update(ResourceInterface $resource, $flush = false): void
+    public function update(ResourceInterface $resource, bool $flush = false): void
     {
         $this->add($resource);
         if ($flush) {
@@ -102,6 +99,9 @@ class ResourceManager implements ManagerInterface
         return $this->em->find(get_class($resource), $resource->getId());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function flush(): void
     {
         $this->em->flush();

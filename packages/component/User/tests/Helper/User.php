@@ -8,20 +8,11 @@ use Talav\Component\User\Model\CredentialsHolderInterface;
 
 final class User implements CredentialsHolderInterface
 {
-    /**
-     * @var string
-     */
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
-    /**
-     * @var string
-     */
-    private $password;
+    private ?string $password = null;
 
-    /**
-     * @var string
-     */
-    private $salt;
+    private ?string $salt = null;
 
     /**
      * {@inheritdoc}
@@ -42,7 +33,7 @@ final class User implements CredentialsHolderInterface
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -58,7 +49,7 @@ final class User implements CredentialsHolderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
@@ -66,7 +57,7 @@ final class User implements CredentialsHolderInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }

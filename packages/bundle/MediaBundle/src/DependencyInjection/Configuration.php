@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Talav\MediaBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -174,38 +173,40 @@ final class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    private function addPresetsSection(ArrayNode $node)
+    private function addPresetsSection(ArrayNodeDefinition $node)
     {
         $node
-            ->arrayNode('presets')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
-                ->children()
-                    ->scalarNode('or')->defaultNull()->end()
-                    ->scalarNode('crop')->defaultNull()->end()
-                    ->integerNode('w')->defaultNull()->end()
-                    ->integerNode('h')->defaultNull()->end()
-                    ->scalarNode('fit')->defaultNull()->end()
-                    ->integerNode('dpr')->defaultNull()->end()
-                    ->integerNode('bri')->defaultNull()->end()
-                    ->integerNode('con')->defaultNull()->end()
-                    ->floatNode('gam')->defaultNull()->end()
-                    ->integerNode('sharp')->defaultNull()->end()
-                    ->integerNode('blur')->defaultNull()->end()
-                    ->integerNode('pixel')->defaultNull()->end()
-                    ->scalarNode('filt')->defaultNull()->end()
-                    ->scalarNode('mark')->defaultNull()->end()
-                    ->scalarNode('markw')->defaultNull()->end()
-                    ->scalarNode('markh')->defaultNull()->end()
-                    ->scalarNode('markx')->defaultNull()->end()
-                    ->scalarNode('marky')->defaultNull()->end()
-                    ->scalarNode('markpad')->defaultNull()->end()
-                    ->scalarNode('markpos')->defaultNull()->end()
-                    ->scalarNode('markalpha')->defaultNull()->end()
-                    ->scalarNode('bg')->defaultNull()->end()
-                    ->scalarNode('border')->defaultNull()->end()
-                    ->integerNode('q')->defaultNull()->end()
-                    ->scalarNode('fm')->defaultNull()->end()
+            ->children()
+                ->arrayNode('presets')
+                ->useAttributeAsKey('name')
+                ->prototype('array')
+                    ->children()
+                        ->scalarNode('or')->defaultNull()->end()
+                        ->scalarNode('crop')->defaultNull()->end()
+                        ->integerNode('w')->defaultNull()->end()
+                        ->integerNode('h')->defaultNull()->end()
+                        ->scalarNode('fit')->defaultNull()->end()
+                        ->integerNode('dpr')->defaultNull()->end()
+                        ->integerNode('bri')->defaultNull()->end()
+                        ->integerNode('con')->defaultNull()->end()
+                        ->floatNode('gam')->defaultNull()->end()
+                        ->integerNode('sharp')->defaultNull()->end()
+                        ->integerNode('blur')->defaultNull()->end()
+                        ->integerNode('pixel')->defaultNull()->end()
+                        ->scalarNode('filt')->defaultNull()->end()
+                        ->scalarNode('mark')->defaultNull()->end()
+                        ->scalarNode('markw')->defaultNull()->end()
+                        ->scalarNode('markh')->defaultNull()->end()
+                        ->scalarNode('markx')->defaultNull()->end()
+                        ->scalarNode('marky')->defaultNull()->end()
+                        ->scalarNode('markpad')->defaultNull()->end()
+                        ->scalarNode('markpos')->defaultNull()->end()
+                        ->scalarNode('markalpha')->defaultNull()->end()
+                        ->scalarNode('bg')->defaultNull()->end()
+                        ->scalarNode('border')->defaultNull()->end()
+                        ->integerNode('q')->defaultNull()->end()
+                        ->scalarNode('fm')->defaultNull()->end()
+                    ->end()
                 ->end()
             ->end()
         ->end();

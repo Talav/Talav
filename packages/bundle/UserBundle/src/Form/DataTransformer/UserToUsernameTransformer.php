@@ -14,12 +14,8 @@ use Talav\Component\User\Model\UserInterface;
  */
 class UserToUsernameTransformer implements DataTransformerInterface
 {
-    /** @var UserManagerInterface */
-    protected $userManager;
+    protected UserManagerInterface $userManager;
 
-    /**
-     * UserToUsernameTransformer constructor.
-     */
     public function __construct(UserManagerInterface $userManager)
     {
         $this->userManager = $userManager;

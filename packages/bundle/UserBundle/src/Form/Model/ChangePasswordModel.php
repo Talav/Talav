@@ -9,20 +9,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ChangePasswordModel
 {
-    /**
-     * @UserPassword(message="talav.current_password.invalid")
-     *
-     * @var string|null
-     */
-    private $currentPassword;
+    /** @UserPassword(message="talav.current_password.invalid") */
+    private ?string $currentPassword = null;
 
     /**
      * @Assert\NotBlank(message="talav.password.blank")
      * @Assert\Length(min=4, minMessage="talav.password.short", max=254, maxMessage="talav.password.long")
-     *
-     * @var string|null
      */
-    private $newPassword;
+    private ?string $newPassword = null;
 
     public function getCurrentPassword(): ?string
     {

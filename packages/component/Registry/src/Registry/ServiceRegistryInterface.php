@@ -13,7 +13,7 @@ interface ServiceRegistryInterface
     /**
      * Returns list of all services
      */
-    public function all(): array;
+    public function all(): iterable;
 
     /**
      * @param object $service

@@ -8,23 +8,14 @@ use DateTime;
 
 trait Updateable
 {
-    /**
-     * @var DateTime
-     */
-    protected $updatedAt;
+    protected ?DateTime $updatedAt;
 
-    /**
-     * @return DateTime
-     */
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param DateTime $updatedAt
-     */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(?DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

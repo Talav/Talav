@@ -13,37 +13,29 @@ final class RegistrationFormModel
      * @Assert\NotBlank(message="talav.email.blank")
      * @Assert\Email(message="talav.email.invalid", mode="strict")
      * @RegisteredUser(message="talav.email.already_used")
-     *
-     * @var string|null
      */
-    private $email;
+    private ?string $email = null;
 
     /**
      * @Assert\NotBlank(message="talav.username.blank")
      * @RegisteredUser(message="talav.username.already_used", field="username")
-     *
-     * @var string|null
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * @Assert\NotBlank(message="talav.password.blank")
      * @Assert\Length(min=4, minMessage="talav.password.short", max=254, maxMessage="talav.password.long")
-     *
-     * @var string|null
      */
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     public function getUsername(): ?string
@@ -51,11 +43,9 @@ final class RegistrationFormModel
         return $this->username;
     }
 
-    public function setUsername(?string $username): self
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
-
-        return $this;
     }
 
     public function getPlainPassword(): ?string
@@ -63,10 +53,8 @@ final class RegistrationFormModel
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(?string $plainPassword): self
+    public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
-
-        return $this;
     }
 }

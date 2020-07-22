@@ -14,12 +14,8 @@ use Talav\UserBundle\Form\DataTransformer\UserToUsernameTransformer;
  */
 class UsernameFormType extends AbstractType
 {
-    /** @var UserToUsernameTransformer */
-    protected $usernameTransformer;
+    protected UserToUsernameTransformer $usernameTransformer;
 
-    /**
-     * Constructor.
-     */
     public function __construct(UserToUsernameTransformer $usernameTransformer)
     {
         $this->usernameTransformer = $usernameTransformer;
@@ -28,7 +24,7 @@ class UsernameFormType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer($this->usernameTransformer);
     }
@@ -36,7 +32,7 @@ class UsernameFormType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }
@@ -44,7 +40,7 @@ class UsernameFormType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'talav_user_username';
     }

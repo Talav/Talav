@@ -25,14 +25,11 @@ class ChangePasswordController extends AbstractController
 {
     use TargetPathTrait;
 
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,

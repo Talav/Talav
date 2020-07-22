@@ -8,14 +8,11 @@ use Doctrine\Common\Inflector\Inflector;
 
 final class Metadata implements MetadataInterface
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var string */
-    private $applicationName;
+    private string $applicationName;
 
-    /** @var array */
-    private $parameters;
+    private iterable $parameters;
 
     private function __construct(string $name, string $applicationName, array $parameters)
     {

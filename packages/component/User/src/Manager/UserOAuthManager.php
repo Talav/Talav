@@ -9,7 +9,7 @@ use Talav\Component\User\Model\UserOAuthInterface;
 
 class UserOAuthManager extends ResourceManager implements UserOAuthManagerInterface
 {
-    public function findOneByProviderIdentifier($provider, $identifier): ?UserOAuthInterface
+    public function findOneByProviderIdentifier(string $provider, string $identifier): ?UserOAuthInterface
     {
         return$this->getRepository()->findOneBy([
             'provider' => $provider,

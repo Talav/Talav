@@ -17,24 +17,18 @@ interface UserManagerInterface extends ManagerInterface
 {
     /**
      * Find a user by its username.
-     *
-     * @param string $username
      */
-    public function findUserByUsername($username): ?UserInterface;
+    public function findUserByUsername(string $username): ?UserInterface;
 
     /**
      * Finds a user by its email.
-     *
-     * @param string $email
      */
-    public function findUserByEmail($email): ?UserInterface;
+    public function findUserByEmail(string $email): ?UserInterface;
 
     /**
      * Finds a user by its username or email.
-     *
-     * @param string $usernameOrEmail
      */
-    public function findUserByUsernameOrEmail($usernameOrEmail): ?UserInterface;
+    public function findUserByUsernameOrEmail(string $usernameOrEmail): ?UserInterface;
 
     /**
      * Updates the canonical username and email fields for a user.

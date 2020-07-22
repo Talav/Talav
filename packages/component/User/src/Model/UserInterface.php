@@ -133,10 +133,8 @@ interface UserInterface extends SymfonyUserInterface, CredentialsHolderInterface
 
     /**
      * Sets the super admin status.
-     *
-     * @param bool $boolean
      */
-    public function setSuperAdmin($boolean): void;
+    public function setSuperAdmin(bool $boolean): void;
 
     /**
      * Tells if the the given user has the super admin role.

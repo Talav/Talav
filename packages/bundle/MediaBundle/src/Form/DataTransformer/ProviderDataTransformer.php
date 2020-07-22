@@ -11,14 +11,11 @@ use Talav\Component\Media\Provider\ProviderPool;
 
 class ProviderDataTransformer implements DataTransformerInterface
 {
-    /** @var ProviderPool */
-    protected $pool;
+    protected ProviderPool $pool;
 
-    /** @var MediaManager */
-    protected $manager;
+    protected MediaManager $manager;
 
-    /** @var array */
-    protected $options = [];
+    protected array $options = [];
 
     public function __construct(ProviderPool $pool, MediaManager $manager, array $options = [])
     {
@@ -86,10 +83,8 @@ class ProviderDataTransformer implements DataTransformerInterface
 
     /**
      * Define the default options for the DataTransformer.
-     *
-     * @return array
      */
-    protected function getOptions(array $options)
+    protected function getOptions(array $options): array
     {
         return array_merge([
             'provider' => false,

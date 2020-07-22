@@ -9,8 +9,7 @@ use Talav\Component\User\Model\UserInterface;
 
 class UserEvent extends Event
 {
-    /** @var UserInterface */
-    private $user;
+    private UserInterface $user;
 
     public function __construct(UserInterface $user)
     {

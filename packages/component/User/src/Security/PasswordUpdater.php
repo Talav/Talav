@@ -9,12 +9,8 @@ use Talav\Component\User\Model\CredentialsHolderInterface;
 
 class PasswordUpdater implements PasswordUpdaterInterface
 {
-    /** @var EncoderFactoryInterface */
-    private $encoderFactory;
+    private EncoderFactoryInterface $encoderFactory;
 
-    /**
-     * PasswordUpdater constructor.
-     */
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;

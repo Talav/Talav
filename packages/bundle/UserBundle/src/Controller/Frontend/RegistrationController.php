@@ -8,6 +8,7 @@ use AutoMapperPlus\AutoMapperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
@@ -20,23 +21,17 @@ class RegistrationController extends AbstractController
 {
     use TargetPathTrait;
 
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /** @var LoginFormAuthenticator */
-    private $authenticator;
+    private LoginFormAuthenticator $authenticator;
 
-    /** @var GuardAuthenticatorHandler */
-    private $guard;
+    private GuardAuthenticatorHandler $guard;
 
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /** @var AutoMapperInterface */
-    private $mapper;
+    private AutoMapperInterface $mapper;
 
-    /** @var array */
-    private $parameters = [];
+    private iterable $parameters = [];
 
     public function __construct(
         UserManagerInterface $userManager,
@@ -57,7 +52,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="talav_user_register")
      */
-    public function register(Request $request)
+    public function register(Request $request): Response
     {
         $form = $this->createForm(
             $this->parameters['form_type'],

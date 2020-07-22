@@ -10,22 +10,17 @@ use Zend\Stdlib\PriorityQueue;
 
 final class PrioritizedServiceRegistry implements PrioritizedServiceRegistryInterface
 {
-    /** @var PriorityQueue */
-    private $services;
+    private PriorityQueue $services;
 
     /**
      * Interface which is required by all services.
-     *
-     * @var string
      */
-    private $interface;
+    private string $interface;
 
     /**
      * Human readable context for these services, e.g. "tax calculation"
-     *
-     * @var string
      */
-    private $context;
+    private string $context;
 
     public function __construct(string $interface, string $context = 'service')
     {

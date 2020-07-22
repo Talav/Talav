@@ -16,14 +16,12 @@ use Webmozart\Assert\Assert;
 
 class UserManager extends ResourceManager implements UserManagerInterface
 {
-    /** @var CanonicalizerInterface */
-    private $canonicalizer;
+    private CanonicalizerInterface $canonicalizer;
 
-    /** @var PasswordUpdaterInterface */
-    protected $passwordUpdater;
+    protected PasswordUpdaterInterface $passwordUpdater;
 
     public function __construct(
-        $className,
+        string $className,
         EntityManagerInterface $em,
         FactoryInterface $factory,
         CanonicalizerInterface $canonicalizer,
@@ -45,7 +43,7 @@ class UserManager extends ResourceManager implements UserManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findUserByEmail($email): ?UserInterface
+    public function findUserByEmail(string $email): ?UserInterface
     {
         return $this->getTypedRepository()->findOneByEmail($this->canonicalizer->canonicalize($email));
     }
@@ -53,7 +51,7 @@ class UserManager extends ResourceManager implements UserManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findUserByUsername($username): ?UserInterface
+    public function findUserByUsername(string $username): ?UserInterface
     {
         return $this->getTypedRepository()->findOneByUsername($this->canonicalizer->canonicalize($username));
     }
@@ -61,7 +59,7 @@ class UserManager extends ResourceManager implements UserManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findUserByUsernameOrEmail($usernameOrEmail): ?UserInterface
+    public function findUserByUsernameOrEmail(string $usernameOrEmail): ?UserInterface
     {
         if (filter_var($usernameOrEmail, \FILTER_VALIDATE_EMAIL)) {
             return $this->findUserByEmail($usernameOrEmail);

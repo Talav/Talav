@@ -9,5 +9,5 @@ use Talav\Component\User\Model\UserOAuthInterface;
 
 interface UserOAuthManagerInterface extends ManagerInterface
 {
-    public function findOneByProviderIdentifier($provider, $identifier): ?UserOAuthInterface;
+    public function findOneByProviderIdentifier(string $provider, string $identifier): ?UserOAuthInterface;
 }

@@ -15,31 +15,23 @@ abstract class UserOAuth implements UserOAuthInterface
 
     /**
      * OAuth access token.
-     *
-     * @var string|null
      */
-    protected $accessToken;
+    protected ?string $accessToken;
 
     /**
      * OAuth identifier.
-     *
-     * @var string|null
      */
-    protected $identifier;
+    protected ?string $identifier;
 
     /**
      * OAuth provider name.
-     *
-     * @var string|null
      */
-    protected $provider;
+    protected ?string $provider;
 
     /**
      * OAuth refresh token.
-     *
-     * @var string|null
      */
-    protected $refreshToken;
+    protected ?string $refreshToken;
 
     public function getAccessToken(): ?string
     {

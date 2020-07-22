@@ -11,15 +11,11 @@ interface UserRepositoryInterface extends RepositoryInterface
 {
     /**
      * Find a user by its username.
-     *
-     * @param string $username
      */
-    public function findOneByUsername($username): ?UserInterface;
+    public function findOneByUsername(string $username): ?UserInterface;
 
     /**
      * Finds a user by its email.
-     *
-     * @param string $email
      */
-    public function findOneByEmail($email): ?UserInterface;
+    public function findOneByEmail(string $email): ?UserInterface;
 }

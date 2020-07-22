@@ -13,17 +13,13 @@ use Twig\Environment;
 
 class UserMailer implements UserMailerInterface
 {
-    /** @var MailerInterface */
-    protected $mailer;
+    protected MailerInterface $mailer;
 
-    /** @var UrlGeneratorInterface */
-    protected $router;
+    protected UrlGeneratorInterface $router;
 
-    /** @var Environment */
-    protected $twig;
+    protected Environment $twig;
 
-    /** @var array */
-    protected $parameters;
+    protected iterable $parameters;
 
     public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router, Environment $twig, array $parameters)
     {
@@ -73,7 +69,7 @@ class UserMailer implements UserMailerInterface
         $this->sendMessage($template, $context, $user->getEmail());
     }
 
-    protected function sendMessage($templateName, $context, $toEmail)
+    protected function sendMessage($templateName, $context, $toEmail): void
     {
         $template = $this->twig->load($templateName);
         $subject = $template->renderBlock('subject', $context);

@@ -14,7 +14,7 @@ use Talav\UserBundle\Manipulator\UserManipulator;
 
 abstract class AbstractRoleCommand extends Command
 {
-    private $userManipulator;
+    private UserManipulator $userManipulator;
 
     public function __construct(UserManipulator $userManipulator)
     {

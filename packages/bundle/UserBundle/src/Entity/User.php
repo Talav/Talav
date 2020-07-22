@@ -24,73 +24,48 @@ abstract class User implements UserInterface
 
     public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
-    /** @var string|null */
-    protected $username;
+    protected ?string $username = null;
 
-    /** @var string|null */
-    protected $usernameCanonical;
+    protected ?string $usernameCanonical = null;
 
-    /** @var bool */
-    protected $enabled;
+    protected bool $enabled;
 
-    /** @var bool */
-    protected $locked;
+    protected bool $locked;
 
-    /** @var string */
-    protected $salt;
+    protected string $salt;
 
-    /** @var string|null */
-    protected $password;
+    protected ?string $password = null;
 
     /**
      * Plain password.
-     *
-     * @var string|null
      */
-    protected $plainPassword;
+    protected ?string $plainPassword = null;
 
-    /** @var DateTimeInterface|null */
-    protected $lastLogin;
+    protected ?DateTimeInterface $lastLogin = null;
 
-    /** @var string|null */
-    protected $passwordResetToken;
+    protected ?string $passwordResetToken = null;
 
-    /** @var DateTimeInterface|null */
-    protected $passwordRequestedAt;
+    protected ?DateTimeInterface $passwordRequestedAt = null;
 
-    /** @var string|null */
-    protected $emailVerificationToken;
+    protected ?string $emailVerificationToken = null;
 
-    /** @var DateTimeInterface|null */
-    protected $verifiedAt;
+    protected ?DateTimeInterface $verifiedAt = null;
 
-    /** @var DateTimeInterface|null */
-    protected $expiresAt;
+    protected ?DateTimeInterface $expiresAt = null;
 
-    /** @var DateTimeInterface|null */
-    protected $credentialsExpireAt;
+    protected ?DateTimeInterface $credentialsExpireAt = null;
 
-    /** @var array */
-    protected $roles = [];
+    protected iterable $roles = [];
 
-    /** @var string|null */
-    protected $email;
+    protected ?string $email = null;
 
-    /** @var string|null */
-    protected $emailCanonical;
+    protected ?string $emailCanonical = null;
 
-    /** @var string|null */
-    protected $firstName;
+    protected ?string $firstName = null;
 
-    /** @var string|null */
-    protected $lastName;
+    protected ?string $lastName = null;
 
-    /**
-     * Owning Side.
-     *
-     * @var ArrayCollection
-     */
-    public $oauthAccounts;
+    public Collection $oauthAccounts;
 
     public function __construct()
     {

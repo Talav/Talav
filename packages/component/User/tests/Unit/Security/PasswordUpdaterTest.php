@@ -12,15 +12,9 @@ use Talav\Component\User\Tests\Helper\User;
 
 final class PasswordUpdaterTest extends TestCase
 {
-    /**
-     * @var PasswordUpdater
-     */
-    private $updater;
+    private PasswordUpdater $updater;
 
-    /**
-     * @before
-     */
-    public function setup(): void
+    public function setUp(): void
     {
         $factory = new EncoderFactory([User::class => new PlaintextPasswordEncoder()]);
         $this->updater = new PasswordUpdater($factory);

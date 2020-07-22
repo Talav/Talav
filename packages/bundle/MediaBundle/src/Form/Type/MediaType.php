@@ -21,11 +21,9 @@ use Talav\MediaBundle\Form\DataTransformer\ProviderDataTransformer;
 
 class MediaType extends AbstractType
 {
-    /** @var ProviderPool */
-    protected $pool;
+    protected ProviderPool $pool;
 
-    /** @var MediaManager */
-    protected $manager;
+    protected MediaManager $manager;
 
     public function __construct(ProviderPool $pool, MediaManager $manager)
     {
@@ -36,7 +34,7 @@ class MediaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $dataTransformer = new ProviderDataTransformer($this->pool, $this->manager, [
             'provider' => $options['provider'],
@@ -75,7 +73,7 @@ class MediaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['provider'] = $options['provider'];
         $view->vars['context'] = $options['context'];
@@ -84,7 +82,7 @@ class MediaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -101,7 +99,7 @@ class MediaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return FormType::class;
     }
@@ -109,7 +107,7 @@ class MediaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'talav_media_type';
     }

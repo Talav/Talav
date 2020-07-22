@@ -19,8 +19,6 @@ interface MetadataInterface
     public function getPluralName(): string;
 
     /**
-     * @return string|array
-     *
      * @throws InvalidArgumentException
      */
     public function getParameter(string $name);

@@ -12,15 +12,9 @@ interface ManagerInterface
 {
     public function getClassName(): string;
 
-    /**
-     * @return RepositoryInterface
-     */
-    public function getRepository();
+    public function getRepository(): RepositoryInterface;
 
-    /**
-     * @return FactoryInterface
-     */
-    public function getFactory();
+    public function getFactory(): FactoryInterface;
 
     public function create(): ResourceInterface;
 
@@ -28,7 +22,7 @@ interface ManagerInterface
 
     public function remove(ResourceInterface $resource): void;
 
-    public function update(ResourceInterface $resource, $flush = false): void;
+    public function update(ResourceInterface $resource, bool $flush = false): void;
 
     public function reload(ResourceInterface $resource): ResourceInterface;
 

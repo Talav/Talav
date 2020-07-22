@@ -6,8 +6,7 @@ namespace Talav\Component\User\Model;
 
 trait UpdatedBy
 {
-    /** @var UserInterface|null */
-    protected $updatedBy;
+    protected ?UserInterface $updatedBy;
 
     public function getUpdatedBy(): ?UserInterface
     {

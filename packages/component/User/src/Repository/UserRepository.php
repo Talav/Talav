@@ -12,7 +12,7 @@ class UserRepository extends ResourceRepository implements UserRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function findOneByUsername($username): ?UserInterface
+    public function findOneByUsername(string $username): ?UserInterface
     {
         return $this->findOneBy(['usernameCanonical' => $username]);
     }
@@ -20,7 +20,7 @@ class UserRepository extends ResourceRepository implements UserRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function findOneByEmail($email): ?UserInterface
+    public function findOneByEmail(string $email): ?UserInterface
     {
         return $this->findOneBy(['emailCanonical' => $email]);
     }
