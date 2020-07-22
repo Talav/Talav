@@ -10,8 +10,8 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Talav\Component\Resource\Model\ResourceTrait;
+use Talav\Component\Resource\Model\Timestampable;
 use Talav\Component\User\Model\UserInterface;
 use Talav\Component\User\Model\UserOAuthInterface;
 
