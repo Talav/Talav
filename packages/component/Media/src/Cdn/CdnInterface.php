@@ -47,7 +47,6 @@ interface CdnInterface
     /**
      * Flush a set of resources matching the paths in provided array.
      *
-     *
      * @return void|string
      */
     public function flushPaths(array $paths);

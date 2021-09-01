@@ -25,8 +25,8 @@ class UserManager extends ResourceManager implements UserManagerInterface
         EntityManagerInterface $em,
         FactoryInterface $factory,
         CanonicalizerInterface $canonicalizer,
-        PasswordUpdaterInterface $passwordUpdater)
-    {
+        PasswordUpdaterInterface $passwordUpdater
+    ) {
         parent::__construct($className, $em, $factory);
         $this->canonicalizer = $canonicalizer;
         $this->passwordUpdater = $passwordUpdater;

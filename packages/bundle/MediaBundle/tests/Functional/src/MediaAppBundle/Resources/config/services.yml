@@ -1,7 +1,0 @@
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-  MediaAppBundle\Controller\:
-    resource: '../../Controller'
-    tags: ['controller.service_arguments']

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\Component\Resource\Repository;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Pagerfanta\Pagerfanta;
 
 interface RepositoryInterface extends ObjectRepository

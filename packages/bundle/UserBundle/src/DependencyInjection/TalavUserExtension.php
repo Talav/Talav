@@ -23,7 +23,7 @@ class TalavUserExtension extends AbstractResourceExtension
         $config = $this->processConfiguration($configuration, $configs);
 
         // Load services.
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
         $container->autowire(UserMailerInterface::class, $config['mailer']['class']);
@@ -51,7 +51,10 @@ class TalavUserExtension extends AbstractResourceExtension
         $container->setParameter('talav_user.resetting.token_ttl', $config['resetting']['token_ttl']);
         $container->setParameter('talav_user.registration.form_type', $config['registration']['form']['type']);
         $container->setParameter('talav_user.registration.form_model', $config['registration']['form']['model']);
-        $container->setParameter('talav_user.registration.form_validation_groups', $config['registration']['form']['validation_groups']);
+        $container->setParameter(
+            'talav_user.registration.form_validation_groups',
+            $config['registration']['form']['validation_groups']
+        );
 
         $this->registerResources('app', $config['resources'], $container);
     }

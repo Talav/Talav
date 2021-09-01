@@ -27,33 +27,21 @@ abstract class AbstractAuthor implements AuthorInterface
      */
     protected $book;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return BookInterface
-     */
     public function getBook(): BookInterface
     {
         return $this->book;
     }
 
-    /**
-     * @param BookInterface $book
-     */
     public function setBook(BookInterface $book): void
     {
         $this->book = $book;

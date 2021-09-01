@@ -11,7 +11,7 @@ use Doctrine\ORM\Internal\Hydration\ObjectHydrator;
 use Gedmo\Tree\TreeListener;
 
 /**
- * Automatically maps the parent and children properties of Tree nodes
+ * Automatically maps the parent and children properties of Tree nodes.
  */
 class TreeObjectHydrator extends ObjectHydrator
 {
@@ -28,7 +28,7 @@ class TreeObjectHydrator extends ObjectHydrator
     private $childrenField;
 
     /**
-     * We hook into the `hydrateAllData` to map the children collection of the entity
+     * We hook into the `hydrateAllData` to map the children collection of the entity.
      *
      * {@inheritdoc}
      */
@@ -36,7 +36,7 @@ class TreeObjectHydrator extends ObjectHydrator
     {
         $data = parent::hydrateAllData();
 
-        if (count($data) === 0) {
+        if (0 === count($data)) {
             return $data;
         }
 
@@ -56,7 +56,7 @@ class TreeObjectHydrator extends ObjectHydrator
     }
 
     /**
-     * Creates a hashmap to quickly find the children of a node
+     * Creates a hashmap to quickly find the children of a node.
      *
      * ```
      * [parentId => [child1, child2, ...], ...]
@@ -74,7 +74,7 @@ class TreeObjectHydrator extends ObjectHydrator
             $parentProxy = $this->getPropertyValue($node, $this->config['parent']);
             $parentId = null;
 
-            if ($parentProxy !== null) {
+            if (null !== $parentProxy) {
                 $parentId = $this->getPropertyValue($parentProxy, $this->idField);
             }
             $parentId = null === $parentId ? 0 : (string) $parentId;
@@ -98,7 +98,7 @@ class TreeObjectHydrator extends ObjectHydrator
             $nodeId = (string) $this->getPropertyValue($node, $this->idField);
             $childrenCollection = $this->getPropertyValue($node, $this->childrenField);
 
-            if ($childrenCollection === null) {
+            if (null === $childrenCollection) {
                 $childrenCollection = new ArrayCollection();
                 $this->setPropertyValue($node, $this->childrenField, $childrenCollection);
             }
@@ -134,11 +134,11 @@ class TreeObjectHydrator extends ObjectHydrator
             $parentProxy = $this->getPropertyValue($node, $this->config['parent']);
             $parentId = null;
 
-            if ($parentProxy !== null) {
+            if (null !== $parentProxy) {
                 $parentId = (string) $this->getPropertyValue($parentProxy, $this->idField);
             }
 
-            if ($parentId === null || !array_key_exists($parentId, $idHashmap)) {
+            if (null === $parentId || !array_key_exists($parentId, $idHashmap)) {
                 $rootNodes[] = $node;
             }
         }
@@ -147,7 +147,7 @@ class TreeObjectHydrator extends ObjectHydrator
     }
 
     /**
-     * Creates a hashmap of all nodes returned in the query
+     * Creates a hashmap of all nodes returned in the query.
      *
      * ```
      * [node1.id => true, node2.id => true, ...]
@@ -183,7 +183,9 @@ class TreeObjectHydrator extends ObjectHydrator
     protected function getParentField()
     {
         if (!isset($this->config['parent'])) {
-            throw new \Gedmo\Exception\InvalidMappingException('The `parent` property is required for the TreeHydrator to work');
+            throw new \Gedmo\Exception\InvalidMappingException(
+                'The `parent` property is required for the TreeHydrator to work'
+            );
         }
 
         return $this->config['parent'];
@@ -212,7 +214,9 @@ class TreeObjectHydrator extends ObjectHydrator
             return $associationMapping['fieldName'];
         }
 
-        throw new \Gedmo\Exception\InvalidMappingException('The children property could not found. It is identified through the `mappedBy` annotation to your parent property.');
+        throw new \Gedmo\Exception\InvalidMappingException(
+            'The children property could not found. It is identified through the `mappedBy` annotation to your parent property.'
+        );
     }
 
     /**
@@ -228,7 +232,9 @@ class TreeObjectHydrator extends ObjectHydrator
             }
         }
 
-        throw new \Gedmo\Exception\InvalidMappingException('Tree listener was not found on your entity manager, it must be hooked into the event manager');
+        throw new \Gedmo\Exception\InvalidMappingException(
+            'Tree listener was not found on your entity manager, it must be hooked into the event manager'
+        );
     }
 
     /**

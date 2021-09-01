@@ -21,7 +21,11 @@ class TalavResourceBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new RegisterResourcesPass());
-        $container->addCompilerPass(new DoctrineTargetEntitiesResolverPass(new TargetEntitiesResolver()), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1);
+        $container->addCompilerPass(
+            new DoctrineTargetEntitiesResolverPass(new TargetEntitiesResolver()),
+            PassConfig::TYPE_BEFORE_OPTIMIZATION,
+            1
+        );
         $container->addCompilerPass(new RegisterResourceRepositoryPass());
     }
 }

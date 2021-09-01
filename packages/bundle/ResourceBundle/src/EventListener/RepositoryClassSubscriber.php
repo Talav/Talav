@@ -12,9 +12,7 @@ final class RepositoryClassSubscriber extends AbstractDoctrineSubscriber
 {
     public function getSubscribedEvents(): array
     {
-        return [
-            Events::loadClassMetadata,
-        ];
+        return [Events::loadClassMetadata];
     }
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void

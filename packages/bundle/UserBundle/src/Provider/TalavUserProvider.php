@@ -26,10 +26,8 @@ class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderI
 
     protected UserOAuthManagerInterface $userOAuthManager;
 
-    public function __construct(
-        UserManagerInterface $userManager,
-        UserOAuthManagerInterface $userOAuthManager
-    ) {
+    public function __construct(UserManagerInterface $userManager, UserOAuthManagerInterface $userOAuthManager)
+    {
         $this->userManager = $userManager;
         $this->userOAuthManager = $userOAuthManager;
     }
@@ -39,7 +37,10 @@ class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderI
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface
     {
-        $oauth = $this->userOAuthManager->findOneByProviderIdentifier($response->getResourceOwner()->getName(), $response->getUsername());
+        $oauth = $this->userOAuthManager->findOneByProviderIdentifier(
+            $response->getResourceOwner()->getName(),
+            $response->getUsername()
+        );
         if ($oauth instanceof UserOAuthInterface) {
             return $oauth->getUser();
         }
@@ -95,8 +96,10 @@ class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderI
     /**
      * Attach OAuth sign-in provider account to existing user.
      */
-    private function updateUserByOAuthUserResponse(TalavUserInterface $user, UserResponseInterface $response): TalavUserInterface
-    {
+    private function updateUserByOAuthUserResponse(
+        TalavUserInterface $user,
+        UserResponseInterface $response
+    ): TalavUserInterface {
         Assert::isInstanceOf($user, TalavUserInterface::class);
 
         /** @var UserOAuthInterface $oauth */
@@ -120,6 +123,6 @@ class TalavUserProvider extends UsernameOrEmailProvider implements UserProviderI
      */
     private function generateRandomUsername($serviceName): string
     {
-        return $serviceName . '_' . substr(uniqid((rand()), true), 10);
+        return $serviceName.'_'.substr(uniqid((rand()), true), 10);
     }
 }

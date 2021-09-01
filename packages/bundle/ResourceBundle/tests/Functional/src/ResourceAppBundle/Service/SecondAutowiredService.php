@@ -35,25 +35,16 @@ final class SecondAutowiredService
         $this->authorManager = $authorManager;
     }
 
-    /**
-     * @return AuthorFactoryInterface
-     */
     public function getAuthorFactory(): AuthorFactoryInterface
     {
         return $this->authorFactory;
     }
 
-    /**
-     * @return AuthorRepositoryInterface
-     */
     public function getAuthorRepository(): AuthorRepositoryInterface
     {
         return $this->authorRepository;
     }
 
-    /**
-     * @return AuthorManagerInterface
-     */
     public function getAuthorManager(): AuthorManagerInterface
     {
         return $this->authorManager;

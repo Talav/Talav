@@ -35,25 +35,16 @@ final class FirstAutowiredService
         $this->bookManager = $bookManager;
     }
 
-    /**
-     * @return FactoryInterface
-     */
     public function getBookFactory(): FactoryInterface
     {
         return $this->bookFactory;
     }
 
-    /**
-     * @return RepositoryInterface
-     */
     public function getBookRepository(): RepositoryInterface
     {
         return $this->bookRepository;
     }
 
-    /**
-     * @return ManagerInterface
-     */
     public function getBookManager(): ManagerInterface
     {
         return $this->bookManager;

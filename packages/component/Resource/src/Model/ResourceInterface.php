@@ -7,7 +7,7 @@ namespace Talav\Component\Resource\Model;
 interface ResourceInterface
 {
     /**
-     * Gets resource identifier
+     * Gets resource identifier.
      *
      * @return int
      */

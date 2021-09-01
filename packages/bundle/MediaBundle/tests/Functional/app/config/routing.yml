@@ -1,3 +1,0 @@
-app_file:
-  # loads routes from the given routing file stored in some bundle
-  resource: '@MediaAppBundle/Resources/config/routing.yml'

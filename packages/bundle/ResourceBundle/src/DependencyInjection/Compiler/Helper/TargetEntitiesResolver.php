@@ -19,7 +19,7 @@ final class TargetEntitiesResolver implements TargetEntitiesResolverInterface
             }
         }
         $interfaces = array_filter($interfaces, function (array $classes): bool {
-            return count($classes) === 1;
+            return 1 === count($classes);
         });
         $interfaces = array_map(function (array $classes): string {
             return (string) current($classes);

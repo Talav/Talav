@@ -8,5 +8,4 @@ use Talav\Component\Resource\Model\ResourceInterface;
 
 interface AuthorInterface extends ResourceInterface
 {
-
 }

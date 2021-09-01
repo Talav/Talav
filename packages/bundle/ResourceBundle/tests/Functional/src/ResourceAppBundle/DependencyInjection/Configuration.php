@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace ResourceAppBundle\DependencyInjection;
 
-use ResourceAppBundle\Entity\AbstractAuthor;
-use ResourceAppBundle\Entity\AbstractBook;
 use ResourceAppBundle\Entity\Author;
-use ResourceAppBundle\Entity\AuthorInterface;
 use ResourceAppBundle\Entity\Book;
-use ResourceAppBundle\Entity\BookInterface;
 use ResourceAppBundle\Factory\AuthorFactory;
-use ResourceAppBundle\Factory\AuthorFactoryInterface;
 use ResourceAppBundle\Manager\AuthorManager;
-use ResourceAppBundle\Manager\AuthorManagerInterface;
 use ResourceAppBundle\Repository\AuthorRepository;
-use ResourceAppBundle\Repository\AuthorRepositoryInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Talav\Component\Resource\Factory\Factory;
-use Talav\Component\Resource\Manager\ResourceManager;
-use Talav\Component\Resource\Repository\ResourceRepository;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -63,6 +53,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+
         return $treeBuilder;
     }
 }

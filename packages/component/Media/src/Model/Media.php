@@ -33,21 +33,21 @@ class Media implements MediaInterface
     protected $size;
 
     /**
-     * Mime type of the new file
+     * Mime type of the new file.
      *
      * @var string|null
      */
     protected $mimeType;
 
     /**
-     * File extension
+     * File extension.
      *
      * @var string|null
      */
     protected $fileExtension;
 
     /**
-     * File name
+     * File name.
      *
      * @var string|null
      */
@@ -197,11 +197,11 @@ class Media implements MediaInterface
 
     protected function generateReferenceName(): string
     {
-        return sha1($this->getName() . uniqid() . random_int(11111, 99999));
+        return sha1($this->getName().uniqid().random_int(11111, 99999));
     }
 
     /**
-     * Fixes media name if it's not provided
+     * Fixes media name if it's not provided.
      */
     protected function fixName(): void
     {

@@ -30,7 +30,7 @@ final class GlideServer implements ThumbnailInterface
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
         $this->disableErrorHandler();
-        if (file_put_contents($tmp, $imageData) === false) {
+        if (false === file_put_contents($tmp, $imageData)) {
             $this->restoreErrorHandler();
             throw new FilesystemException('Unable to write temporary file');
         }

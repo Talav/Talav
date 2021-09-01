@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\EventSubscriber\Tests;
 
-use Talav\UserBundle\EventSubscriber\UserLastLoginSubscriber;
-use UserAppBundle\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Talav\Component\User\Manager\UserManagerInterface;
 use Talav\UserBundle\Event\UserEvent;
+use Talav\UserBundle\EventSubscriber\UserLastLoginSubscriber;
+use UserAppBundle\Entity\User;
 
 final class UserLastLoginSubscriberTest extends TestCase
 {
@@ -44,6 +44,7 @@ final class UserLastLoginSubscriberTest extends TestCase
         $mock = $this->createMock(UserManagerInterface::class);
         $mock->expects($this->once())->method('getClassName')->willReturn(User::class);
         $mock->expects($this->once())->method('update')->withAnyParameters();
+
         return $mock;
     }
 }

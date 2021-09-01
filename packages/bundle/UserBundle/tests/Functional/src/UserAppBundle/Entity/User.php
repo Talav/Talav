@@ -8,5 +8,4 @@ use Talav\UserBundle\Entity\User as BaseUser;
 
 class User extends BaseUser
 {
-
 }

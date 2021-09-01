@@ -50,7 +50,7 @@ final class ResourceRepositoryTest extends TestCase
      */
     public function it_creates_paginator_with_filtering_by_value()
     {
-        $paginator = $this->resourceRepository->createPaginator(["title" => "Title 1"]);
+        $paginator = $this->resourceRepository->createPaginator(['title' => 'Title 1']);
         self::assertEquals(5, $paginator->count());
     }
 
@@ -59,7 +59,7 @@ final class ResourceRepositoryTest extends TestCase
      */
     public function it_creates_paginator_with_filtering_by_array()
     {
-        $paginator = $this->resourceRepository->createPaginator(["title" => ["Title 1", "Title 2"]]);
+        $paginator = $this->resourceRepository->createPaginator(['title' => ['Title 1', 'Title 2']]);
         self::assertEquals(10, $paginator->count());
     }
 
@@ -68,25 +68,25 @@ final class ResourceRepositoryTest extends TestCase
      */
     public function it_creates_paginator_with_sorting()
     {
-        $paginator = $this->resourceRepository->createPaginator([], ["name" => RepositoryInterface::ORDER_DESCENDING]);
+        $paginator = $this->resourceRepository->createPaginator([], ['name' => RepositoryInterface::ORDER_DESCENDING]);
         $paginator->setMaxPerPage(2);
         $entities = $paginator->getCurrentPageResults();
         self::assertEquals(2, count($entities));
-        self::assertEquals("Name 9", $entities[0]->name);
+        self::assertEquals('Name 9', $entities[0]->name);
     }
 
     private function insertRecords()
     {
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; ++$i) {
             $entity = new TestEntity();
-            $entity->name = "Name " . $i;
-            $entity->title = "Title 1";
+            $entity->name = 'Name '.$i;
+            $entity->title = 'Title 1';
             $this->em->persist($entity);
         }
-        for ($i = 6; $i <= 10; $i++) {
+        for ($i = 6; $i <= 10; ++$i) {
             $entity = new TestEntity();
-            $entity->name = "Name " . $i;
-            $entity->title = "Title 2";
+            $entity->name = 'Name '.$i;
+            $entity->title = 'Title 2';
             $this->em->persist($entity);
         }
         $this->em->flush();

@@ -11,14 +11,12 @@
         }
     ],
     "require": {
-        "php": "^7.4",
-        "webmozart/assert": "^1.8",
-        "zendframework/zend-stdlib": "^3.2"
+        "php": ">=7.4",
+        "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.2",
-        "symfony/thanks": "^1.2",
-        "talav/coding-standard": "@dev"
+        "phpunit/phpunit": "^9.5",
+        "symfony/thanks": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -42,9 +40,5 @@
             "type": "path",
             "url": "../../*/*"
         }
-    ],
-    "scripts": {
-        "check-cs": "vendor/bin/ecs check src --ansi",
-        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
-    }
+    ]
 }

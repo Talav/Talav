@@ -54,7 +54,10 @@ class ChangePasswordController extends AbstractController
                 $user->setPlainPassword($form->getData()->getNewPassword());
                 $this->userManager->update($user, true);
                 $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::CHANGE_PASSWORD_SUCCESS);
-                $this->addFlash('success', $this->translator->trans('talav.change_password.flash.success', [], 'TalavUserBundle'));
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('talav.change_password.flash.success', [], 'TalavUserBundle')
+                );
 
                 return new RedirectResponse($this->container->get('router')->generate('talav_user_login'));
             }

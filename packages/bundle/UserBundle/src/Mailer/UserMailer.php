@@ -21,8 +21,12 @@ class UserMailer implements UserMailerInterface
 
     protected iterable $parameters;
 
-    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router, Environment $twig, array $parameters)
-    {
+    public function __construct(
+        MailerInterface $mailer,
+        UrlGeneratorInterface $router,
+        Environment $twig,
+        array $parameters
+    ) {
         $this->mailer = $mailer;
         $this->router = $router;
         $this->twig = $twig;
@@ -34,13 +38,22 @@ class UserMailer implements UserMailerInterface
      */
     public function sendConfirmationEmailMessage(UserInterface $user): void
     {
-//        $template = $this->parameters['template']['confirmation'];
-//        $url = $this->router->generate('fos_user_registration_confirm', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
-//        $context = array(
-//            'user' => $user,
-//            'confirmationUrl' => $url,
-//        );
-//        $this->sendMessage($template, $context, $this->parameters['from_email']['confirmation'], (string) $user->getEmail());
+        $template = $this->parameters['template']['confirmation'];
+        $url = $this->router->generate(
+            'fos_user_registration_confirm',
+            ['token' => $user->getConfirmationToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $context = [
+            'user' => $user,
+            'confirmationUrl' => $url,
+        ];
+        $this->sendMessage(
+            $template,
+            $context,
+            $this->parameters['from_email']['confirmation'],
+            (string) $user->getEmail()
+        );
     }
 
     /**
@@ -49,7 +62,11 @@ class UserMailer implements UserMailerInterface
     public function sendResettingEmailMessage(UserInterface $user): void
     {
         $template = '@TalavUser/email/reset.twig';
-        $url = $this->router->generate('talav_user_reset_password', ['token' => $user->getPasswordResetToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->router->generate(
+            'talav_user_reset_password',
+            ['token' => $user->getPasswordResetToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $context = [
             'user' => $user,
             'confirmationUrl' => $url,

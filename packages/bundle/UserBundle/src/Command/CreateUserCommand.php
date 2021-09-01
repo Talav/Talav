@@ -39,7 +39,8 @@ class CreateUserCommand extends Command
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
                 new InputOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive'),
             ])
-            ->setHelp(<<<'EOT'
+            ->setHelp(
+                <<<'EOT'
 The <info>talav:user:create</info> command creates a user:
   <info>php %command.full_name% matt</info>
 This interactive shell will ask you for an email and then a password.

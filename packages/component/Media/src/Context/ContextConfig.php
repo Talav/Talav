@@ -7,7 +7,7 @@ namespace Talav\Component\Media\Context;
 use Talav\Component\Media\Provider\MediaProviderInterface;
 
 /**
- * Configuration for each context
+ * Configuration for each context.
  */
 class ContextConfig
 {

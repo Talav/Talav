@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Talav\Component\User\Tests\Unit\Security;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Encoder\EncoderFactory;
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Talav\Component\User\Security\PasswordUpdater;
 use Talav\Component\User\Tests\Helper\User;
 
@@ -16,8 +17,9 @@ final class PasswordUpdaterTest extends TestCase
 
     public function setUp(): void
     {
-        $factory = new EncoderFactory([User::class => new PlaintextPasswordEncoder()]);
-        $this->updater = new PasswordUpdater($factory);
+        $this->updater = new PasswordUpdater(new UserPasswordHasher(new PasswordHasherFactory(
+            [User::class => new PlaintextPasswordHasher()]
+        )));
     }
 
     /**

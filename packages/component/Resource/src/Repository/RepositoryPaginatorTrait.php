@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Talav\Component\Resource\Repository;
 
 use Doctrine\ORM\QueryBuilder;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
 trait RepositoryPaginatorTrait
@@ -26,13 +26,17 @@ trait RepositoryPaginatorTrait
     protected function getPaginator(QueryBuilder $queryBuilder): Pagerfanta
     {
         // Use output walkers option in DoctrineORMAdapter should be false as it affects performance greatly
-        return new Pagerfanta(new DoctrineORMAdapter($queryBuilder, false, false));
+        return new Pagerfanta(new QueryAdapter($queryBuilder, false, false));
     }
 
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = []): void
     {
         foreach ($criteria as $property => $value) {
-            if (!in_array($property, array_merge($this->_class->getAssociationNames(), $this->_class->getFieldNames()), true)) {
+            if (!in_array(
+                $property,
+                array_merge($this->_class->getAssociationNames(), $this->_class->getFieldNames()),
+                true
+            )) {
                 continue;
             }
 
@@ -45,7 +49,7 @@ trait RepositoryPaginatorTrait
             } elseif ('' !== $value) {
                 $parameter = str_replace('.', '_', $property);
                 $queryBuilder
-                    ->andWhere($queryBuilder->expr()->eq($name, ':' . $parameter))
+                    ->andWhere($queryBuilder->expr()->eq($name, ':'.$parameter))
                     ->setParameter($parameter, $value)
                 ;
             }
@@ -55,7 +59,11 @@ trait RepositoryPaginatorTrait
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting = []): void
     {
         foreach ($sorting as $property => $order) {
-            if (!in_array($property, array_merge($this->_class->getAssociationNames(), $this->_class->getFieldNames()), true)) {
+            if (!in_array(
+                $property,
+                array_merge($this->_class->getAssociationNames(), $this->_class->getFieldNames()),
+                true
+            )) {
                 continue;
             }
 
@@ -68,7 +76,7 @@ trait RepositoryPaginatorTrait
     protected function getPropertyName(string $name): string
     {
         if (false === strpos($name, '.')) {
-            return 'o.' . $name;
+            return 'o.'.$name;
         }
 
         return $name;

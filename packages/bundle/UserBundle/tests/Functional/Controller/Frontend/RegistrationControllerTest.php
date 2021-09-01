@@ -2,25 +2,35 @@
 
 namespace Talav\UserBundle\Controller\Frontend;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Talav\UserBundle\Tests\Functional\Setup\Doctrine;
-use Talav\UserBundle\Tests\Functional\Setup\SymfonyKernel;
+use UserAppBundle\DataFixtures\UserFixtures;
 
-class RegistrationControllerTest extends KernelTestCase
+class RegistrationControllerTest extends WebTestCase
 {
-    use SymfonyKernel;
-    use Doctrine;
+    protected KernelBrowser $client;
+
+    protected AbstractDatabaseTool $databaseTool;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->client->disableReboot();
+        $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool->loadFixtures([UserFixtures::class]);
+    }
 
     /**
      * @test
      */
     public function it_correctly_shows_registration_page()
     {
-        $client = $this->getClient();
-        $crawler = $client->request('GET', '/register');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertNotNull($crawler->selectLink("Log in")->getNode(0));
+        $crawler = $this->client->request('GET', '/register');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectLink('Log in')->getNode(0));
     }
 
     /**
@@ -28,8 +38,7 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_shows_error_messages_for_empty_values()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client);
+        $crawler = $this->submitForm();
         $this->assertStringContainsStringIgnoringCase('Please enter an email.', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('Please enter a username.', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('Please enter a password.', $crawler->html());
@@ -40,8 +49,7 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_shows_error_messages_for_incorrect_email()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client, ['talav_user_registration[email]' => 'incorrectemail']);
+        $crawler = $this->submitForm(['talav_user_registration[email]' => 'incorrectemail']);
         $this->assertStringContainsStringIgnoringCase('The email is not valid.', $crawler->html());
     }
 
@@ -50,8 +58,7 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_shows_error_messages_for_existing_email()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client, ['talav_user_registration[email]' => 'tester@test.com']);
+        $crawler = $this->submitForm(['talav_user_registration[email]' => 'tester@test.com']);
         $this->assertStringContainsStringIgnoringCase('The email is already used.', $crawler->html());
     }
 
@@ -60,8 +67,7 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_shows_error_messages_for_existing_username()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client, ['talav_user_registration[username]' => 'tester']);
+        $crawler = $this->submitForm(['talav_user_registration[username]' => 'tester']);
         $this->assertStringContainsStringIgnoringCase('The username is already used', $crawler->html());
     }
 
@@ -70,8 +76,7 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_shows_error_messages_for_password_mismatch()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client, [
+        $crawler = $this->submitForm([
             'talav_user_registration[plainPassword][first]' => 'first',
             'talav_user_registration[plainPassword][second]' => 'second',
         ]);
@@ -83,37 +88,33 @@ class RegistrationControllerTest extends KernelTestCase
      */
     public function it_allows_to_register_and_logs_user_and_send_email()
     {
-        $client = $this->getClient();
-        $crawler = $this->submitForm($client, [
+        $this->databaseTool->loadFixtures([UserFixtures::class]);
+        $this->submitForm([
             'talav_user_registration[username]' => 'tester1',
             'talav_user_registration[email]' => 'tester1@test.com',
             'talav_user_registration[plainPassword][first]' => 'tester1',
             'talav_user_registration[plainPassword][second]' => 'tester1',
         ]);
-        $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
-        $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
         $this->assertEmailCount(1);
         $email = $this->getMailerMessage(0);
         $this->assertEmailHeaderSame($email, 'To', 'tester1@test.com');
         $this->assertEmailHeaderSame($email, 'Subject', 'Welcome email');
+        $crawler = $this->client->followRedirect();
+        $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
+        $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
     }
 
     /**
-     * @param $client
      * @param array $data
-     *
-     * @return Crawler
      */
-    private function submitForm($client, $data = []): Crawler
+    private function submitForm($data = []): Crawler
     {
-        $crawler = $client->request('GET', '/register');
+        $crawler = $this->client->request('GET', '/register');
         $form = $crawler->selectButton('Register')->form();
         foreach ($data as $key => $value) {
             $form[$key] = $value;
         }
-        $client->followRedirects(true);
-        $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        return $crawler;
+
+        return $this->client->submit($form);
     }
 }

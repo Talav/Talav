@@ -75,8 +75,13 @@ class ResettingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserInterface $user */
             $user = $form->getData()->getUser();
-            if (null !== $user->getPasswordRequestedAt() && $user->isPasswordRequestNonExpired(DateInterval::createFromDateString($this->retryTtl))) {
-                $this->addFlash('error', $this->translator->trans('talav.reset.flash.token_too_often', [], 'TalavUserBundle'));
+            if (null !== $user->getPasswordRequestedAt() && $user->isPasswordRequestNonExpired(
+                DateInterval::createFromDateString($this->retryTtl)
+            )) {
+                $this->addFlash(
+                    'error',
+                    $this->translator->trans('talav.reset.flash.token_too_often', [], 'TalavUserBundle')
+                );
 
                 return new RedirectResponse($this->generateUrl('talav_user_login'));
             }
@@ -87,7 +92,10 @@ class ResettingController extends AbstractController
             $this->userManager->update($user, true);
             $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::RESET_REQUEST_SUCCESS);
             $this->mailer->sendResettingEmailMessage($user);
-            $this->addFlash('success', $this->translator->trans('talav.reset.flash.success_request', [], 'TalavUserBundle'));
+            $this->addFlash(
+                'success',
+                $this->translator->trans('talav.reset.flash.success_request', [], 'TalavUserBundle')
+            );
 
             return new RedirectResponse($this->generateUrl('talav_user_reset_request'));
         }
@@ -106,12 +114,18 @@ class ResettingController extends AbstractController
     {
         $user = $this->userManager->getRepository()->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {
-            $this->addFlash('error', $this->translator->trans('talav.reset.flash.token_not_found', [], 'TalavUserBundle'));
+            $this->addFlash(
+                'error',
+                $this->translator->trans('talav.reset.flash.token_not_found', [], 'TalavUserBundle')
+            );
 
             return new RedirectResponse($this->container->get('router')->generate('talav_user_login'));
         }
         if (!$user->isPasswordRequestNonExpired(DateInterval::createFromDateString($this->tokenTtl))) {
-            $this->addFlash('error', $this->translator->trans('talav.reset.flash.token_expired', [], 'TalavUserBundle'));
+            $this->addFlash(
+                'error',
+                $this->translator->trans('talav.reset.flash.token_expired', [], 'TalavUserBundle')
+            );
 
             return new RedirectResponse($this->container->get('router')->generate('talav_user_reset_request'));
         }

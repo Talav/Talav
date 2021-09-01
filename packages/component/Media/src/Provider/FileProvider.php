@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Provider;
 
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -18,7 +18,7 @@ class FileProvider implements MediaProviderInterface
     /** @var string */
     protected $name;
 
-    /** @var FilesystemInterface */
+    /** @var FilesystemOperator */
     protected $filesystem;
 
     /** @var CdnInterface */
@@ -35,7 +35,7 @@ class FileProvider implements MediaProviderInterface
 
     public function __construct(
         string $name,
-        FilesystemInterface $filesystem,
+        FilesystemOperator $filesystem,
         CdnInterface $cdn,
         GeneratorInterface $generator,
         ?Constraints $constrains = null
@@ -136,7 +136,7 @@ class FileProvider implements MediaProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getFilesystem(): FilesystemInterface
+    public function getFilesystem(): FilesystemOperator
     {
         return $this->filesystem;
     }
@@ -167,11 +167,7 @@ class FileProvider implements MediaProviderInterface
      */
     public function getFilesystemReference(MediaInterface $media): string
     {
-        return sprintf(
-            '%s/%s',
-            $this->generatePath($media),
-            $media->getProviderReference()
-        );
+        return sprintf('%s/%s', $this->generatePath($media), $media->getProviderReference());
     }
 
     /**
@@ -215,24 +211,24 @@ class FileProvider implements MediaProviderInterface
      */
     protected function copyTempFile(MediaInterface $media): void
     {
-        $this->getFilesystem()->put(
+        $this->getFilesystem()->write(
             $this->getFilesystemReference($media),
             file_get_contents($media->getFile()->getRealPath())
         );
     }
 
     /**
-     * Delete file if it exists
+     * Delete file if it exists.
      */
     protected function deletePath(string $path): void
     {
-        if ($this->getFilesystem()->has($path)) {
+        if ($this->getFilesystem()->fileExists($path)) {
             $this->getFilesystem()->delete($path);
         }
     }
 
     /**
-     * Make sure media is valid
+     * Make sure media is valid.
      */
     protected function validateMedia(MediaInterface $media): void
     {

@@ -7,7 +7,7 @@ namespace Talav\ResourceBundle\DependencyInjection\Compiler\Helper;
 interface TargetEntitiesResolverInterface
 {
     /**
-     * @return array Interface to class map.
+     * @return array interface to class map
      */
     public function resolve(array $resourcesConfiguration): array;
 }

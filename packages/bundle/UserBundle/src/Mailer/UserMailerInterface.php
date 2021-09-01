@@ -19,7 +19,7 @@ interface UserMailerInterface
     public function sendResettingEmailMessage(UserInterface $user): void;
 
     /**
-     * Send an email to a user to confirm registration success, welcome email
+     * Send an email to a user to confirm registration success, welcome email.
      */
     public function sendRegistrationSuccessfulEmail(UserInterface $user): void;
 }

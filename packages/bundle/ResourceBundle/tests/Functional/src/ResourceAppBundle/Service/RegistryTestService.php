@@ -19,25 +19,17 @@ final class RegistryTestService
      */
     public $serviceRegistry;
 
-    public function __construct(
-        RegistryInterface $registry,
-        ServiceRegistryInterface $serviceRegistry
-    ) {
+    public function __construct(RegistryInterface $registry, ServiceRegistryInterface $serviceRegistry)
+    {
         $this->registry = $registry;
         $this->serviceRegistry = $serviceRegistry;
     }
 
-    /**
-     * @return RegistryInterface
-     */
     public function getRegistry(): RegistryInterface
     {
         return $this->registry;
     }
 
-    /**
-     * @return ServiceRegistryInterface
-     */
     public function getServiceRegistry(): ServiceRegistryInterface
     {
         return $this->serviceRegistry;

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Provider;
 
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Talav\Component\Media\Model\MediaInterface;
 
 interface MediaProviderInterface
 {
     /**
-     * Returns provider name
+     * Returns provider name.
      */
     public function getName(): string;
 
-    public function getFilesystem(): FilesystemInterface;
+    public function getFilesystem(): FilesystemOperator;
 
     public function prePersist(MediaInterface $media): void;
 

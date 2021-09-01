@@ -16,7 +16,7 @@ class TestEntity implements ResourceInterface
     /**
      * A unique ID.
      *
-     * @var integer|null
+     * @var int|null
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue

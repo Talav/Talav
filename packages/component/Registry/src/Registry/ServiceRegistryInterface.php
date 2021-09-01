@@ -11,7 +11,7 @@ use Talav\Component\Registry\Exception\NonExistingServiceException;
 interface ServiceRegistryInterface
 {
     /**
-     * Returns list of all services
+     * Returns list of all services.
      */
     public function all(): iterable;
 

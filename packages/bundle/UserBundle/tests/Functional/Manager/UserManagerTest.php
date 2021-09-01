@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace Talav\UserBundle\Manager\Tests;
 
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Talav\Component\User\Manager\UserManagerInterface;
-use Talav\UserBundle\Tests\Functional\Setup\Doctrine;
-use Talav\UserBundle\Tests\Functional\Setup\SymfonyKernel;
+use UserAppBundle\DataFixtures\UserFixtures;
 
 final class UserManagerTest extends KernelTestCase
 {
-    use SymfonyKernel;
-    use Doctrine;
+    private AbstractDatabaseTool $databaseTool;
 
-    /**
-     * @var UserManagerInterface
-     */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
     public function setUp(): void
     {
-        $this->userManager = self::$container->get('app.manager.user');
+        $this->userManager = static::getContainer()->get('app.manager.user');
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool->loadFixtures([UserFixtures::class]);
     }
 
     /**

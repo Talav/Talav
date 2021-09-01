@@ -2,26 +2,36 @@
 
 namespace Talav\UserBundle\Controller\Frontend;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Talav\UserBundle\Tests\Functional\Setup\Doctrine;
-use Talav\UserBundle\Tests\Functional\Setup\SymfonyKernel;
+use UserAppBundle\DataFixtures\UserFixtures;
 
-class SecurityControllerTest extends KernelTestCase
+class SecurityControllerTest extends WebTestCase
 {
-    use SymfonyKernel;
-    use Doctrine;
+    protected KernelBrowser $client;
+
+    protected AbstractDatabaseTool $databaseTool;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->client->disableReboot();
+        $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool->loadFixtures([UserFixtures::class]);
+    }
 
     /**
      * @test
      */
     public function it_correctly_shows_login_page()
     {
-        $client = $this->getClient();
-        $crawler = $client->request('GET', '/login');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertNotNull($crawler->selectLink("Register")->getNode(0));
-        $this->assertNotNull($crawler->selectLink("Forgot password?")->getNode(0));
+        $crawler = $this->client->request('GET', '/login');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectLink('Register')->getNode(0));
+        $this->assertNotNull($crawler->selectLink('Forgot password?')->getNode(0));
     }
 
     /**
@@ -29,15 +39,14 @@ class SecurityControllerTest extends KernelTestCase
      */
     public function it_shows_error_message_for_incorrect_credentials()
     {
-        $client = $this->getClient();
-        $crawler = $client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('submit')->form();
         $form['_username'] = 'incorrect';
         $form['_password'] = 'incorrect';
-        $client->followRedirects(true);
-        $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsStringIgnoringCase('Username could not be found', $crawler->html());
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsStringIgnoringCase('Invalid credentials', $crawler->html());
     }
 
     /**
@@ -45,9 +54,8 @@ class SecurityControllerTest extends KernelTestCase
      */
     public function it_shows_logout_link_for_correct_credentials()
     {
-        $client = $this->getClient();
-        $crawler = $this->login($client);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $crawler = $this->login();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertStringContainsStringIgnoringCase('logout', $crawler->html());
     }
 
@@ -56,21 +64,21 @@ class SecurityControllerTest extends KernelTestCase
      */
     public function it_supports_logout()
     {
-        $client = $this->getClient();
-        $crawler = $this->login($client);
+        $crawler = $this->login();
         $link = $crawler->selectLink('Log out')->link();
-        $crawler = $client->click($link);
+        $crawler = $this->client->click($link);
         $this->assertStringNotContainsStringIgnoringCase('logout', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('login', $crawler->html());
     }
 
-    private function login($client): Crawler
+    private function login(): Crawler
     {
-        $crawler = $client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('submit')->form();
         $form['_username'] = 'tester';
         $form['_password'] = 'tester';
-        $client->followRedirects(true);
-        return $client->submit($form);
+        $this->client->followRedirects(true);
+
+        return $this->client->submit($form);
     }
 }

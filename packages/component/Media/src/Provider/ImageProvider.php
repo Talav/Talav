@@ -32,7 +32,10 @@ class ImageProvider extends FileProvider
      */
     protected function setFileContents(MediaInterface $media)
     {
-        $file = $this->getFilesystem()->get(sprintf('%s/%s', $this->generatePath($media), $media->getProviderReference()), true);
+        $file = $this->getFilesystem()->get(
+            sprintf('%s/%s', $this->generatePath($media), $media->getProviderReference()),
+            true
+        );
         $metadata = $this->metadata ? $this->metadata->get($media, $file->getName()) : [];
 
         $binaryContent = $media->getBinaryContent();

@@ -22,7 +22,7 @@ abstract class AbstractResourceExtension extends Extension
     ): void {
         $defaults = $this->getDefaultParameters($container);
         foreach ($resources as $resourceName => $resourceConfig) {
-            $alias = $applicationName . '.' . $resourceName;
+            $alias = $applicationName.'.'.$resourceName;
             $resourceConfig['classes'] = array_merge($defaults, $resourceConfig['classes']);
             $resources = $container->hasParameter('talav.resources') ? $container->getParameter('talav.resources') : [];
             $resources = array_merge($resources, [$alias => $resourceConfig]);
@@ -52,7 +52,7 @@ abstract class AbstractResourceExtension extends Extension
     }
 
     /**
-     * Adds a factory for entity
+     * Adds a factory for entity.
      */
     protected function addFactory(ContainerBuilder $container, MetadataInterface $metadata): void
     {
@@ -68,7 +68,7 @@ abstract class AbstractResourceExtension extends Extension
             $container->registerAliasForArgument(
                 $metadata->getServiceId('factory'),
                 $typehintClass,
-                $metadata->getHumanizedName() . ' factory'
+                $metadata->getHumanizedName().' factory'
             );
         }
     }
@@ -86,7 +86,7 @@ abstract class AbstractResourceExtension extends Extension
             $container->registerAliasForArgument(
                 $metadata->getServiceId('repository'),
                 $typehintClass,
-                $metadata->getHumanizedName() . ' repository'
+                $metadata->getHumanizedName().' repository'
             );
         }
     }
@@ -106,7 +106,7 @@ abstract class AbstractResourceExtension extends Extension
             $container->registerAliasForArgument(
                 $metadata->getServiceId('manager'),
                 $typehintClass,
-                $metadata->getHumanizedName() . ' manager'
+                $metadata->getHumanizedName().' manager'
             );
         }
     }
@@ -124,7 +124,7 @@ abstract class AbstractResourceExtension extends Extension
     }
 
     /**
-     * Returns a list of default classes
+     * Returns a list of default classes.
      */
     protected function getDefaultParameters(ContainerBuilder $container): array
     {

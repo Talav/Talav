@@ -31,10 +31,9 @@ class DeactivateUserCommand extends Command
         $this
             ->setName('talav:user:deactivate')
             ->setDescription('Deactivate a user')
-            ->setDefinition([
-                new InputArgument('username', InputArgument::REQUIRED, 'The username'),
-            ])
-            ->setHelp(<<<'EOT'
+            ->setDefinition([new InputArgument('username', InputArgument::REQUIRED, 'The username')])
+            ->setHelp(
+                <<<'EOT'
 The <info>talav:user:deactivate</info> command deactivates a user (will not be able to log in)
   <info>php %command.full_name% matthieu</info>
 EOT

@@ -37,7 +37,10 @@ final class ResourceManagerTest extends TestCase
      */
     public function it_returns_full_class_name()
     {
-        self::assertEquals("Talav\Component\Resource\Tests\Functional\Setup\Entity\TestEntity", $this->resourceManager->getClassName());
+        self::assertEquals(
+            "Talav\Component\Resource\Tests\Functional\Setup\Entity\TestEntity",
+            $this->resourceManager->getClassName()
+        );
     }
 
     /**
@@ -46,17 +49,17 @@ final class ResourceManagerTest extends TestCase
     public function it_creates_and_saves_and_updates_entity()
     {
         $entity = $this->resourceManager->create();
-        $entity->name = "test";
+        $entity->name = 'test';
         self::assertInstanceOf(TestEntity::class, $entity);
         $this->resourceManager->add($entity);
         $this->resourceManager->flush();
 
         $entities = $this->resourceManager->getRepository()->findAll();
         self::assertEquals(1, count($entities));
-        self::assertEquals("test", $entities[0]->name);
+        self::assertEquals('test', $entities[0]->name);
 
-        $entity->name = "blabla";
+        $entity->name = 'blabla';
         $this->resourceManager->flush();
-        self::assertEquals("blabla",  $this->resourceManager->getRepository()->find($entity->id)->name);
+        self::assertEquals('blabla', $this->resourceManager->getRepository()->find($entity->id)->name);
     }
 }

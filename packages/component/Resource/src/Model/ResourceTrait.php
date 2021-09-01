@@ -18,7 +18,7 @@ trait ResourceTrait
     }
 
     /**
-     * Return string representation of entity
+     * Return string representation of entity.
      */
     public function __toString(): string
     {

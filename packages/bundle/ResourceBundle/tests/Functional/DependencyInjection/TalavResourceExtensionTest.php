@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Talav\ResourceBundle\Tests\DependencyInjection\Extension;
 
-use ResourceAppBundle\Entity\AbstractBook;
 use ResourceAppBundle\Factory\AuthorFactoryInterface;
 use ResourceAppBundle\Manager\AuthorManagerInterface;
 use ResourceAppBundle\Repository\AuthorRepositoryInterface;
@@ -12,16 +11,12 @@ use ResourceAppBundle\Service\FirstAutowiredService;
 use ResourceAppBundle\Service\RegistryTestService;
 use ResourceAppBundle\Service\SecondAutowiredService;
 use ResourceAppBundle\Service\ThirdAutowiredService;
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Talav\Component\Registry\Registry\ServiceRegistryInterface;
-use Talav\Component\Resource\Factory\Factory;
 use Talav\Component\Resource\Factory\FactoryInterface;
 use Talav\Component\Resource\Manager\ManagerInterface;
 use Talav\Component\Resource\Metadata\RegistryInterface;
 use Talav\Component\Resource\Repository\RepositoryInterface;
-use Talav\Component\Resource\Repository\ResourceRepository;
-use Talav\ResourceBundle\Tests\Unit\DependencyInjection\Extension\TestExtension;
 use Talav\ResourceBundle\Tests\Functional\Setup\Doctrine;
 use Talav\ResourceBundle\Tests\Functional\Setup\SymfonyKernel;
 
@@ -40,7 +35,6 @@ final class TalavResourceExtensionTest extends KernelTestCase
         $this->assertInstanceOf(FactoryInterface::class, $service->getBookFactory());
         $this->assertInstanceOf(RepositoryInterface::class, $service->getBookRepository());
         $this->assertInstanceOf(ManagerInterface::class, $service->getBookManager());
-
     }
 
     /**

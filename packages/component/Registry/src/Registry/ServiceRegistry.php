@@ -17,7 +17,7 @@ final class ServiceRegistry implements ServiceRegistryInterface
     private string $className;
 
     /**
-     * Human readable context for these services, e.g. "grid field"
+     * Human readable context for these services, e.g. "grid field".
      */
     private string $context;
 
@@ -44,12 +44,19 @@ final class ServiceRegistry implements ServiceRegistryInterface
             throw new ExistingServiceException($this->context, $identifier);
         }
         if (!is_object($service)) {
-            throw new \InvalidArgumentException(sprintf('%s needs to be an object, %s given.', ucfirst($this->context), gettype($service)));
+            throw new \InvalidArgumentException(sprintf(
+                '%s needs to be an object, %s given.',
+                ucfirst($this->context),
+                gettype($service)
+            ));
         }
         if (!$service instanceof $this->className) {
-            throw new \InvalidArgumentException(
-                sprintf('%s needs to be of type "%s", "%s" given.', ucfirst($this->context), $this->className, get_class($service))
-            );
+            throw new \InvalidArgumentException(sprintf(
+                '%s needs to be of type "%s", "%s" given.',
+                ucfirst($this->context),
+                $this->className,
+                get_class($service)
+            ));
         }
         $this->services[$identifier] = $service;
     }

@@ -26,9 +26,7 @@ abstract class AbstractUserProvider implements UserProviderInterface
     {
         $user = $this->findUser($username);
         if (null === $user) {
-            throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exist.', $username)
-            );
+            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
 
         return $user;
@@ -40,15 +38,11 @@ abstract class AbstractUserProvider implements UserProviderInterface
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$this->supportsClass(get_class($user))) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
         $reloadedUser = $this->userManager->reload($user);
         if (null === $reloadedUser) {
-            throw new UsernameNotFoundException(
-                sprintf('User with ID "%d" could not be refreshed.', $user->getId())
-            );
+            throw new UsernameNotFoundException(sprintf('User with ID "%d" could not be refreshed.', $user->getId()));
         }
 
         return $reloadedUser;
@@ -61,6 +55,9 @@ abstract class AbstractUserProvider implements UserProviderInterface
      */
     public function supportsClass(string $class): bool
     {
-        return $this->userManager->getClassName() === $class || is_subclass_of($class, $this->userManager->getClassName());
+        return $this->userManager->getClassName() === $class || is_subclass_of(
+            $class,
+            $this->userManager->getClassName()
+        );
     }
 }

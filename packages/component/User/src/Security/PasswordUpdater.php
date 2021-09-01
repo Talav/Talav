@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Talav\Component\User\Security;
 
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Talav\Component\User\Model\CredentialsHolderInterface;
 
 class PasswordUpdater implements PasswordUpdaterInterface
 {
-    private EncoderFactoryInterface $encoderFactory;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
     {
-        $this->encoderFactory = $encoderFactory;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updatePassword(CredentialsHolderInterface $user): void
     {
-        $encoder = $this->encoderFactory->getEncoder($user);
         if (!empty($user->getPlainPassword())) {
-            $user->setPassword($encoder->encodePassword($user->getPlainPassword(), $user->getSalt()));
+            $user->setPassword($this->userPasswordHasher->hashPassword($user, $user->getPlainPassword()));
             $user->eraseCredentials();
         }
     }

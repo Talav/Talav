@@ -41,7 +41,9 @@ final class WelcomeEmailSubscriber implements EventSubscriberInterface
             return;
         }
         if (!$user instanceof UserInterface) {
-            throw new \UnexpectedValueException('In order to use this subscriber, your class has to implement UserInterface');
+            throw new \UnexpectedValueException(
+                'In order to use this subscriber, your class has to implement UserInterface'
+            );
         }
         $this->mailer->sendRegistrationSuccessfulEmail($user);
     }

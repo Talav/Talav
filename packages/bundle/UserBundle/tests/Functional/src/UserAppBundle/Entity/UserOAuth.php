@@ -8,5 +8,4 @@ use Talav\UserBundle\Entity\UserOAuth as BaseUserOAuth;
 
 class UserOAuth extends BaseUserOAuth
 {
-
 }

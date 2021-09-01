@@ -18,6 +18,7 @@
     <testsuites>
         <testsuite name="Component Test Suite">
             <directory>./packages/component/*/Tests/</directory>
+            <directory>./packages/bundle/*/Tests/</directory>
         </testsuite>
     </testsuites>
 

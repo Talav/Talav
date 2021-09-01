@@ -1,8 +1,0 @@
-parameters:
-  sets:
-    - code-quality
-    - symfony50
-  paths:
-    - 'src'
-    - 'tests'
-  php_version_features: '7.4'

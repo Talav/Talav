@@ -20,8 +20,8 @@ final class ServiceRegistryTest extends TestCase
         $mock1 = $this->getMockBuilder(TestInterface::class)->getMock();
         $mock2 = $this->getMockBuilder(TestInterface::class)->getMock();
         $registry = new ServiceRegistry(TestInterface::class);
-        $registry->register("mock1", $mock1);
-        $registry->register("mock2", $mock2);
+        $registry->register('mock1', $mock1);
+        $registry->register('mock2', $mock2);
         $this->assertEquals(2, count($registry->all()));
     }
 
@@ -34,8 +34,8 @@ final class ServiceRegistryTest extends TestCase
         $mock1 = $this->getMockBuilder(TestInterface::class)->getMock();
         $mock2 = $this->getMockBuilder(TestInterface::class)->getMock();
         $registry = new ServiceRegistry(TestInterface::class);
-        $registry->register("mock1", $mock1);
-        $registry->register("mock1", $mock2);
+        $registry->register('mock1', $mock1);
+        $registry->register('mock1', $mock2);
     }
 
     /**
@@ -47,8 +47,8 @@ final class ServiceRegistryTest extends TestCase
         $mock1 = $this->getMockBuilder(TestInterface::class)->getMock();
         $mock2 = $this->getMockBuilder(IncorrectInterface::class)->getMock();
         $registry = new ServiceRegistry(TestInterface::class);
-        $registry->register("mock1", $mock1);
-        $registry->register("mock2", $mock2);
+        $registry->register('mock1', $mock1);
+        $registry->register('mock2', $mock2);
     }
 
     /**
@@ -58,6 +58,6 @@ final class ServiceRegistryTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $registry = new ServiceRegistry(TestInterface::class);
-        $registry->register("mock1", null);
+        $registry->register('mock1', null);
     }
 }

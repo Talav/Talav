@@ -6,7 +6,7 @@ namespace Talav\Component\Media\Tests\Functional\Provider;
 
 use Doctrine\ORM\EntityManager;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Talav\Component\Media\Cdn\Server;
@@ -21,8 +21,8 @@ use Webfactory\Doctrine\ORMTestInfrastructure\ORMInfrastructure;
 
 final class FileProviderTest extends TestCase
 {
-    private const FILE_CONTENT = "File content";
-    private const FILE_NAME = "test_file.txt";
+    private const FILE_CONTENT = 'File content';
+    private const FILE_NAME = 'test_file.txt';
 
     /**
      * @var ORMInfrastructure
@@ -46,12 +46,16 @@ final class FileProviderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->fs = new Filesystem(new MemoryAdapter());
+        $this->fs = new Filesystem(new InMemoryFilesystemAdapter());
         $cdn = new Server(sys_get_temp_dir());
         $generator = new DefaultGenerator();
-        $provider1 = new FileProvider("file1", $this->fs, $cdn, $generator, new Constraints(['txt'], ['mimeTypes' => ['text/plain']], []));
-        $provider2 = new FileProvider("file2", $this->fs, $cdn, $generator, new Constraints(['jpeg'], [], []));
-        $provider3 = new FileProvider("file3", $this->fs, $cdn, $generator, new Constraints([], ['mimeTypes' => ['image/jpeg']], []));
+        $provider1 = new FileProvider('file1', $this->fs, $cdn, $generator, new Constraints(['txt'], ['mimeTypes' => [
+            'text/plain',
+        ]], []));
+        $provider2 = new FileProvider('file2', $this->fs, $cdn, $generator, new Constraints(['jpeg'], [], []));
+        $provider3 = new FileProvider('file3', $this->fs, $cdn, $generator, new Constraints([], ['mimeTypes' => [
+            'image/jpeg',
+        ]], []));
         $this->pool = new ProviderPool();
         $this->pool->addContext(new ContextConfig('test1', $provider1, []));
         $this->pool->addContext(new ContextConfig('test2', $provider2, []));
@@ -99,10 +103,10 @@ final class FileProviderTest extends TestCase
     {
         $media = $this->createMedia();
         $path = $this->pool->getProvider('file1')->getFilesystemReference($media);
-        self::assertTrue($this->fs->has($path));
+        self::assertTrue($this->fs->fileExists($path));
         $this->em->remove($media);
         $this->em->flush();
-        self::assertFalse($this->fs->has($path));
+        self::assertFalse($this->fs->fileExists($path));
     }
 
     /**
@@ -112,10 +116,10 @@ final class FileProviderTest extends TestCase
     {
         $media = $this->createMedia();
         $path = $this->pool->getProvider('file1')->getFilesystemReference($media);
-        self::assertTrue($this->fs->has($path));
+        self::assertTrue($this->fs->fileExists($path));
         $media->setFile($this->createTempFile());
         $this->em->flush();
-        self::assertFalse($this->fs->has($path));
+        self::assertFalse($this->fs->fileExists($path));
     }
 
     protected function createMedia(?string $providerName = null): MediaEntity
@@ -129,13 +133,15 @@ final class FileProviderTest extends TestCase
         $media->setContext('test1');
         $this->em->persist($media);
         $this->em->flush();
+
         return $media;
     }
 
     protected function createTempFile(): UploadedFile
     {
-        $tmpfname = tempnam(sys_get_temp_dir(), "test") . ".txt";
+        $tmpfname = tempnam(sys_get_temp_dir(), 'test').'.txt';
         file_put_contents($tmpfname, self::FILE_CONTENT);
+
         return new UploadedFile($tmpfname, self::FILE_NAME);
     }
 }

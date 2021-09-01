@@ -23,6 +23,6 @@ final class ResourceAppExtension extends AbstractResourceExtension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->registerResources("app", $config['resources'], $container);
+        $this->registerResources('app', $config['resources'], $container);
     }
 }

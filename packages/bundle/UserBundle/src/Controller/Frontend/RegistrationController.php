@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Talav\Component\User\Manager\UserManagerInterface;
 use Talav\UserBundle\Event\TalavUserEvents;
 use Talav\UserBundle\Event\UserEvent;
@@ -19,8 +18,6 @@ use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class RegistrationController extends AbstractController
 {
-    use TargetPathTrait;
-
     private UserManagerInterface $userManager;
 
     private LoginFormAuthenticator $authenticator;

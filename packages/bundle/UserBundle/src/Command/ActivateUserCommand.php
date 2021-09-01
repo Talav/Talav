@@ -31,10 +31,9 @@ class ActivateUserCommand extends Command
         $this
             ->setName('talav:user:activate')
             ->setDescription('Activate a user')
-            ->setDefinition([
-                new InputArgument('username', InputArgument::REQUIRED, 'The username'),
-            ])
-            ->setHelp(<<<'EOT'
+            ->setDefinition([new InputArgument('username', InputArgument::REQUIRED, 'The username')])
+            ->setHelp(
+                <<<'EOT'
 The <info>talav:user:activate</info> command activates a user (so they will be able to log in):
   <info>php %command.full_name% matthieu</info>
 EOT

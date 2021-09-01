@@ -49,7 +49,9 @@ final class UserLastLoginSubscriber implements EventSubscriberInterface
             return;
         }
         if (!$user instanceof UserInterface) {
-            throw new \UnexpectedValueException('In order to use this subscriber, your class has to implement UserInterface');
+            throw new \UnexpectedValueException(
+                'In order to use this subscriber, your class has to implement UserInterface'
+            );
         }
         $user->setLastLogin(new \DateTime());
         $this->userManager->update($user, true);

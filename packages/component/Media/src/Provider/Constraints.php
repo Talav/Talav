@@ -32,7 +32,7 @@ class Constraints
 
     public function isValidExtension(string $ext): bool
     {
-        return count($this->extensions) == 0 || in_array($ext, $this->extensions);
+        return 0 == count($this->extensions) || in_array($ext, $this->extensions);
     }
 
     public function isValidMimeType(string $ext): bool
@@ -41,7 +41,7 @@ class Constraints
             return true;
         }
 
-        return count($this->fileConstraints['mimeTypes']) == 0 || in_array($ext, $this->fileConstraints['mimeTypes']);
+        return 0 == count($this->fileConstraints['mimeTypes']) || in_array($ext, $this->fileConstraints['mimeTypes']);
     }
 
     /**

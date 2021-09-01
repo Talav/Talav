@@ -31,7 +31,12 @@ abstract class AbstractRoleCommand extends Command
             ->setDefinition([
                 new InputArgument('username', InputArgument::REQUIRED, 'The username'),
                 new InputArgument('role', InputArgument::OPTIONAL, 'The role'),
-                new InputOption('super', null, InputOption::VALUE_NONE, 'Instead specifying role, use this to quickly add the super administrator role'),
+                new InputOption(
+                    'super',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Instead specifying role, use this to quickly add the super administrator role'
+                ),
             ]);
     }
 
@@ -44,7 +49,9 @@ abstract class AbstractRoleCommand extends Command
         $role = $input->getArgument('role');
         $super = (true === $input->getOption('super'));
         if (null !== $role && $super) {
-            throw new \InvalidArgumentException('You can pass either the role or the --super option (but not both simultaneously).');
+            throw new \InvalidArgumentException(
+                'You can pass either the role or the --super option (but not both simultaneously).'
+            );
         }
         if (null === $role && !$super) {
             throw new \RuntimeException('Not enough arguments.');
@@ -56,11 +63,17 @@ abstract class AbstractRoleCommand extends Command
     /**
      * @see Command
      *
-     * @param string          $username
-     * @param bool            $super
-     * @param string          $role
+     * @param string $username
+     * @param bool   $super
+     * @param string $role
      */
-    abstract protected function executeRoleCommand(UserManipulator $manipulator, OutputInterface $output, $username, $super, $role);
+    abstract protected function executeRoleCommand(
+        UserManipulator $manipulator,
+        OutputInterface $output,
+        $username,
+        $super,
+        $role
+    );
 
     /**
      * {@inheritdoc}

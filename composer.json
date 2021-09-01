@@ -1,124 +1,74 @@
 {
     "name": "talav/talav",
-    "autoload": {
-        "exclude-from-classmap": [
-            "packages/bundle/UserBundle/tests/"
-        ],
-        "psr-4": {
-            "Talav\\Component\\Media\\": "packages/component/Media/src/",
-            "Talav\\Component\\Plan\\": "packages/component/Plan/src/",
-            "Talav\\Component\\Registry\\": "packages/component/Registry/src/",
-            "Talav\\Component\\Resource\\": "packages/component/Resource/src/",
-            "Talav\\Component\\User\\": "packages/component/User/src/",
-            "Talav\\MediaBundle\\": "packages/bundle/MediaBundle/src/",
-            "Talav\\ResourceBundle\\": "packages/bundle/ResourceBundle/src/",
-            "Talav\\UserBundle\\": "packages/bundle/UserBundle/src/",
-            "UserAppBundle\\": "packages/bundle/UserBundle/tests/Functional/src/UserAppBundle/"
+    "authors": [
+        {
+            "name": "Talav",
+            "email": "support@talav.com"
         }
-    },
-    "autoload-dev": {
-        "files": [
-            "packages/bundle/MediaBundle/tests/Functional/app/MediaAppKernel.php",
-            "packages/bundle/ResourceBundle/tests/Functional/app/ResourceAppKernel.php",
-            "packages/bundle/UserBundle/Tests/Functional/app/UserAppKernel.php"
-        ],
-        "psr-4": {
-            "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/Functional/src/MediaAppBundle/",
-            "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/Functional/src/ResourceAppBundle/",
-            "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
-            "Talav\\Component\\Plan\\Tests\\": "packages/component/Plan/tests/",
-            "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
-            "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/tests/",
-            "Talav\\Component\\User\\Tests\\": "packages/component/User/tests/",
-            "Talav\\MediaBundle\\Tests\\": "packages/bundle/MediaBundle/tests/",
-            "Talav\\ResourceBundle\\Tests\\": "packages/bundle/ResourceBundle/tests/",
-            "Talav\\UserBundle\\Tests\\": "packages/bundle/UserBundle/tests/"
-        }
-    },
+    ],
     "require": {
-        "php": "^7.4",
-        "doctrine/common": "^2.7",
-        "egulias/email-validator": "^2.1",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "gedmo/doctrine-extensions": "^2.4",
-        "hwi/oauth-bundle": "^1.1",
-        "league/flysystem": "^1.0",
-        "league/flysystem-memory": "^1.0",
-        "league/glide": "^1.5",
-        "liip/imagine-bundle": "^2.3",
-        "mark-gerarts/automapper-plus-bundle": "^1.3",
-        "oneup/flysystem-bundle": "^3.4",
-        "pagerfanta/pagerfanta": "^2.0",
-        "php-http/guzzle6-adapter": "^2.0",
-        "php-http/httplug-bundle": "^1.18",
-        "rector/rector": "^0.7.33",
-        "slevomat/coding-standard": "@dev",
-        "symfony/config": "^5.1",
-        "symfony/event-dispatcher": "^5.1",
-        "symfony/form": "^5.1",
+        "doctrine/common": "^3.1",
+        "gedmo/doctrine-extensions": "^3.1",
+        "league/flysystem": "^2.1",
+        "league/flysystem-memory": "^2.0",
+        "league/glide": "@dev",
+        "pagerfanta/pagerfanta": "^3.1",
+        "php": ">=7.4",
         "symfony/framework-bundle": "^5.1",
         "symfony/http-foundation": "^5.1",
-        "symfony/mailer": "^5.1",
         "symfony/mime": "^5.1",
-        "symfony/monolog-bundle": "^3.5",
         "symfony/orm-pack": "^1.0",
-        "symfony/security-bundle": "^5.1",
         "symfony/security-core": "^5.1",
         "symfony/security-csrf": "^5.1",
         "symfony/security-guard": "^5.1",
         "symfony/security-http": "^5.1",
-        "symfony/translation": "^5.1",
-        "symfony/twig-bundle": "^5.1",
         "symfony/validator": "^5.1",
-        "symplify/easy-coding-standard": "^8.0",
-        "vich/uploader-bundle": "^1.13",
-        "webmozart/assert": "^1.8",
-        "zendframework/zend-stdlib": "^3.2"
+        "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "fzaninotto/faker": "^1.9",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
-        "phpunit/phpunit": "^9.2",
-        "symfony/browser-kit": "^5.1",
-        "symfony/console": "^5.1",
-        "symfony/css-selector": "^5.1",
+        "phpunit/phpunit": "^9.5",
         "symfony/phpunit-bridge": "^5.1",
         "symfony/thanks": "^1.2",
-        "symfony/twig-pack": "^1.0",
         "symfony/var-dumper": "^5.1",
-        "symplify/monorepo-builder": "^8.1",
+        "symplify/easy-coding-standard": "^9.0",
+        "symplify/monorepo-builder": "^9.3",
         "webfactory/doctrine-orm-test-infrastructure": "^1.7"
     },
+    "autoload": {
+        "psr-4": {
+            "Talav\\Component\\Media\\": "packages/component/Media/src/",
+            "Talav\\Component\\Registry\\": "packages/component/Registry/src/",
+            "Talav\\Component\\Resource\\": "packages/component/Resource/src/",
+            "Talav\\Component\\User\\": "packages/component/User/src/",
+            "Talav\\ResourceBundle\\": "packages/bundle/ResourceBundle/src/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "packages/bundle/ResourceBundle/tests/Functional/app/ResourceAppKernel.php"
+        ],
+        "psr-4": {
+            "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/Functional/src/ResourceAppBundle/",
+            "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
+            "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
+            "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/tests/",
+            "Talav\\Component\\User\\Tests\\": "packages/component/User/tests/",
+            "Talav\\ResourceBundle\\Tests\\": "packages/bundle/ResourceBundle/tests/"
+        }
+    },
     "repositories": [
-        {
-            "type": "path",
-            "url": "*/*"
-        },
         {
             "type": "path",
             "url": "../../*/*"
         }
     ],
     "replace": {
-        "talav/coding-standard": "self.version",
         "talav/media": "self.version",
-        "talav/media-bundle": "self.version",
-        "talav/plan": "self.version",
         "talav/registry": "self.version",
         "talav/resource": "self.version",
         "talav/resource-bundle": "self.version",
-        "talav/user": "self.version",
-        "talav/user-bundle": "self.version"
-    },
-    "scripts": {
-        "test": [
-            "./vendor/bin/phpunit -c ./packages/component/Plan/phpunit.xml.dist",
-            "./vendor/bin/phpunit -c ./packages/component/Registry/phpunit.xml.dist",
-            "./vendor/bin/phpunit -c ./packages/component/Resource/phpunit.xml.dist",
-            "./vendor/bin/phpunit -c ./packages/component/User/phpunit.xml.dist"
-        ],
-        "fix-cs": "vendor/bin/ecs check src --fix --ansi"
+        "talav/user": "self.version"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

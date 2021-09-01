@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Talav\ResourceBundle\EventListener;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Bundle\DoctrineBundle\Mapping\MappingDriver;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
@@ -16,9 +16,7 @@ final class MappedSuperClassSubscriber extends AbstractDoctrineSubscriber
 {
     public function getSubscribedEvents(): array
     {
-        return [
-            Events::loadClassMetadata,
-        ];
+        return [Events::loadClassMetadata];
     }
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
@@ -43,10 +41,7 @@ final class MappedSuperClassSubscriber extends AbstractDoctrineSubscriber
             if (false === in_array($parent, $metadataDriver->getAllClassNames(), true)) {
                 continue;
             }
-            $parentMetadata = new ClassMetadata(
-                $parent,
-                $configuration->getNamingStrategy()
-            );
+            $parentMetadata = new ClassMetadata($parent, $configuration->getNamingStrategy());
             // Wakeup Reflection
             $parentMetadata->wakeupReflection($this->getReflectionService());
             // Load Metadata
@@ -80,11 +75,7 @@ final class MappedSuperClassSubscriber extends AbstractDoctrineSubscriber
     {
         return in_array(
             $type,
-            [
-                ClassMetadataInfo::MANY_TO_MANY,
-                ClassMetadataInfo::ONE_TO_MANY,
-                ClassMetadataInfo::ONE_TO_ONE,
-            ],
+            [ClassMetadataInfo::MANY_TO_MANY, ClassMetadataInfo::ONE_TO_MANY, ClassMetadataInfo::ONE_TO_ONE],
             true
         );
     }

@@ -57,10 +57,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             'password' => $request->request->get('_password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['username']
-        );
+        $request->getSession()->set(Security::LAST_USERNAME, $credentials['username']);
 
         return $credentials;
     }
@@ -82,7 +79,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        return $this->encoderFactory->getEncoder($user)->isPasswordValid($user->getPassword(), $credentials['password'], $user->getSalt());
+        return $this->encoderFactory->getEncoder($user)->isPasswordValid(
+            $user->getPassword(),
+            $credentials['password'],
+            $user->getSalt()
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): Response
