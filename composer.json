@@ -8,26 +8,45 @@
     ],
     "require": {
         "doctrine/common": "^3.1",
+        "egulias/email-validator": "^3.1",
         "gedmo/doctrine-extensions": "^3.1",
+        "hwi/oauth-bundle": "^1.3",
         "league/flysystem": "^2.1",
         "league/flysystem-memory": "^2.0",
         "league/glide": "@dev",
+        "mark-gerarts/automapper-plus-bundle": "^1.3",
+        "oneup/flysystem-bundle": "^4.0",
         "pagerfanta/pagerfanta": "^3.1",
         "php": ">=7.4",
+        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/httplug-bundle": "^1.20",
+        "symfony/config": "^5.1",
+        "symfony/event-dispatcher": "^5.1",
+        "symfony/form": "^5.1",
         "symfony/framework-bundle": "^5.1",
         "symfony/http-foundation": "^5.1",
+        "symfony/mailer": "^5.1",
         "symfony/mime": "^5.1",
-        "symfony/orm-pack": "^1.0",
+        "symfony/monolog-bundle": "^3.7",
+        "symfony/orm-pack": "^2.1",
         "symfony/security-core": "^5.1",
         "symfony/security-csrf": "^5.1",
         "symfony/security-guard": "^5.1",
         "symfony/security-http": "^5.1",
+        "symfony/translation": "^5.1",
+        "symfony/twig-bundle": "^5.1",
         "symfony/validator": "^5.1",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fakerphp/faker": "^1.9",
+        "liip/test-fixtures-bundle": "^2.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "^5.1",
+        "symfony/console": "^5.1",
+        "symfony/css-selector": "^5.1",
         "symfony/phpunit-bridge": "^5.1",
         "symfony/thanks": "^1.2",
         "symfony/var-dumper": "^5.1",
@@ -36,25 +55,36 @@
         "webfactory/doctrine-orm-test-infrastructure": "^1.7"
     },
     "autoload": {
+        "exclude-from-classmap": [
+            "packages/bundle/UserBundle/tests/"
+        ],
         "psr-4": {
             "Talav\\Component\\Media\\": "packages/component/Media/src/",
             "Talav\\Component\\Registry\\": "packages/component/Registry/src/",
             "Talav\\Component\\Resource\\": "packages/component/Resource/src/",
             "Talav\\Component\\User\\": "packages/component/User/src/",
-            "Talav\\ResourceBundle\\": "packages/bundle/ResourceBundle/src/"
+            "Talav\\MediaBundle\\": "packages/bundle/MediaBundle/src/",
+            "Talav\\ResourceBundle\\": "packages/bundle/ResourceBundle/src/",
+            "Talav\\UserBundle\\": "packages/bundle/UserBundle/src/",
+            "UserAppBundle\\": "packages/bundle/UserBundle/tests/Functional/src/UserAppBundle/"
         }
     },
     "autoload-dev": {
         "files": [
-            "packages/bundle/ResourceBundle/tests/Functional/app/ResourceAppKernel.php"
+            "packages/bundle/MediaBundle/tests/Functional/app/MediaAppKernel.php",
+            "packages/bundle/ResourceBundle/tests/Functional/app/ResourceAppKernel.php",
+            "packages/bundle/UserBundle/Tests/Functional/app/UserAppKernel.php"
         ],
         "psr-4": {
+            "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/Functional/src/MediaAppBundle/",
             "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/Functional/src/ResourceAppBundle/",
             "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
             "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
             "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/tests/",
             "Talav\\Component\\User\\Tests\\": "packages/component/User/tests/",
-            "Talav\\ResourceBundle\\Tests\\": "packages/bundle/ResourceBundle/tests/"
+            "Talav\\MediaBundle\\Tests\\": "packages/bundle/MediaBundle/tests/",
+            "Talav\\ResourceBundle\\Tests\\": "packages/bundle/ResourceBundle/tests/",
+            "Talav\\UserBundle\\Tests\\": "packages/bundle/UserBundle/tests/"
         }
     },
     "repositories": [
@@ -65,10 +95,12 @@
     ],
     "replace": {
         "talav/media": "self.version",
+        "talav/media-bundle": "self.version",
         "talav/registry": "self.version",
         "talav/resource": "self.version",
         "talav/resource-bundle": "self.version",
-        "talav/user": "self.version"
+        "talav/user": "self.version",
+        "talav/user-bundle": "self.version"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
