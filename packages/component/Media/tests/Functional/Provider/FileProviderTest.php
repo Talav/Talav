@@ -9,6 +9,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\ValidatorBuilder;
 use Talav\Component\Media\Cdn\Server;
 use Talav\Component\Media\Context\ContextConfig;
 use Talav\Component\Media\Generator\DefaultGenerator;
@@ -49,11 +50,12 @@ final class FileProviderTest extends TestCase
         $this->fs = new Filesystem(new InMemoryFilesystemAdapter());
         $cdn = new Server(sys_get_temp_dir());
         $generator = new DefaultGenerator();
-        $provider1 = new FileProvider('file1', $this->fs, $cdn, $generator, new Constraints(['txt'], ['mimeTypes' => [
+        $validator = (new ValidatorBuilder())->getValidator();
+        $provider1 = new FileProvider('file1', $this->fs, $cdn, $generator, $validator, new Constraints(['txt'], ['mimeTypes' => [
             'text/plain',
         ]], []));
-        $provider2 = new FileProvider('file2', $this->fs, $cdn, $generator, new Constraints(['jpeg'], [], []));
-        $provider3 = new FileProvider('file3', $this->fs, $cdn, $generator, new Constraints([], ['mimeTypes' => [
+        $provider2 = new FileProvider('file2', $this->fs, $cdn, $generator, $validator, new Constraints(['jpeg'], [], []));
+        $provider3 = new FileProvider('file3', $this->fs, $cdn, $generator, $validator, new Constraints([], ['mimeTypes' => [
             'image/jpeg',
         ]], []));
         $this->pool = new ProviderPool();
@@ -72,7 +74,7 @@ final class FileProviderTest extends TestCase
     public function it_validates_extension_in_pre_persist_hook()
     {
         self::expectException("\Talav\Component\Media\Exception\InvalidMediaException");
-        self::expectExceptionMessage('Invalid file extension');
+        self::expectExceptionMessage('Invalid media file');
         $this->createMedia('file2');
     }
 
@@ -82,7 +84,7 @@ final class FileProviderTest extends TestCase
     public function it_validates_mime_type_in_pre_persist_hook()
     {
         self::expectException("\Talav\Component\Media\Exception\InvalidMediaException");
-        self::expectExceptionMessage('Invalid file mime type');
+        self::expectExceptionMessage('Invalid media file');
         $this->createMedia('file3');
     }
 
@@ -142,6 +144,6 @@ final class FileProviderTest extends TestCase
         $tmpfname = tempnam(sys_get_temp_dir(), 'test').'.txt';
         file_put_contents($tmpfname, self::FILE_CONTENT);
 
-        return new UploadedFile($tmpfname, self::FILE_NAME);
+        return new UploadedFile($tmpfname, self::FILE_NAME, null, null, true);
     }
 }

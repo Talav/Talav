@@ -13,26 +13,20 @@ use Talav\Component\Media\Model\MediaInterface;
 
 class FileProvider implements MediaProviderInterface
 {
-    /** @var string */
-    protected $name;
+    protected string $name;
 
-    /** @var FilesystemOperator */
-    protected $filesystem;
+    protected FilesystemOperator $filesystem;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected ValidatorInterface $validator;
 
-    /** @var CdnInterface */
-    protected $cdn;
+    protected CdnInterface $cdn;
 
-    /** @var GeneratorInterface */
-    protected $generator;
+    protected GeneratorInterface $generator;
 
-    /** @var Constraints */
-    protected $constrains;
+    protected Constraints $constrains;
 
     /** @var MediaInterface[] */
-    private $clones = [];
+    private array $clones = [];
 
     public function __construct(
         string $name,
