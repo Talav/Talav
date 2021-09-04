@@ -20,22 +20,13 @@ class ProviderPool
     public function getProvider($name): MediaProviderInterface
     {
         if (!$name) {
-            throw new \InvalidArgumentException(
-                'Provider name cannot be empty, did you forget to call setProviderName() in your Media object?'
-            );
+            throw new \InvalidArgumentException('Provider name cannot be empty, did you forget to call setProviderName() in your Media object?');
         }
         if (empty($this->providers)) {
-            throw new \RuntimeException(sprintf(
-                'Unable to retrieve provider named "%s" since there are no providers configured yet.',
-                $name
-            ));
+            throw new \RuntimeException(sprintf('Unable to retrieve provider named "%s" since there are no providers configured yet.', $name));
         }
         if (!isset($this->providers[$name])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unable to retrieve the provider named "%s". Available providers are %s.',
-                $name,
-                '"'.implode('", "', $this->getProviderList()).'"'
-            ));
+            throw new \InvalidArgumentException(sprintf('Unable to retrieve the provider named "%s". Available providers are %s.', $name, '"'.implode('", "', $this->getProviderList()).'"'));
         }
 
         return $this->providers[$name];

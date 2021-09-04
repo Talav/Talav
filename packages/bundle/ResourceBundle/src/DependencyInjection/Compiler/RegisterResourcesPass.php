@@ -31,11 +31,7 @@ final class RegisterResourcesPass implements CompilerPassInterface
     private function validateResource(string $class): void
     {
         if (!in_array(ResourceInterface::class, class_implements($class), true)) {
-            throw new InvalidArgumentException(sprintf(
-                'Class "%s" must implement "%s" to be registered as a valid resource.',
-                $class,
-                ResourceInterface::class
-            ));
+            throw new InvalidArgumentException(sprintf('Class "%s" must implement "%s" to be registered as a valid resource.', $class, ResourceInterface::class));
         }
     }
 }

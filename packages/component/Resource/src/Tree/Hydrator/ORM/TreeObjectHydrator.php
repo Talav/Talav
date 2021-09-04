@@ -183,9 +183,7 @@ class TreeObjectHydrator extends ObjectHydrator
     protected function getParentField()
     {
         if (!isset($this->config['parent'])) {
-            throw new \Gedmo\Exception\InvalidMappingException(
-                'The `parent` property is required for the TreeHydrator to work'
-            );
+            throw new \Gedmo\Exception\InvalidMappingException('The `parent` property is required for the TreeHydrator to work');
         }
 
         return $this->config['parent'];
@@ -214,9 +212,7 @@ class TreeObjectHydrator extends ObjectHydrator
             return $associationMapping['fieldName'];
         }
 
-        throw new \Gedmo\Exception\InvalidMappingException(
-            'The children property could not found. It is identified through the `mappedBy` annotation to your parent property.'
-        );
+        throw new \Gedmo\Exception\InvalidMappingException('The children property could not found. It is identified through the `mappedBy` annotation to your parent property.');
     }
 
     /**
@@ -232,9 +228,7 @@ class TreeObjectHydrator extends ObjectHydrator
             }
         }
 
-        throw new \Gedmo\Exception\InvalidMappingException(
-            'Tree listener was not found on your entity manager, it must be hooked into the event manager'
-        );
+        throw new \Gedmo\Exception\InvalidMappingException('Tree listener was not found on your entity manager, it must be hooked into the event manager');
     }
 
     /**

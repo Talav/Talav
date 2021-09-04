@@ -43,7 +43,7 @@ class MediaAppKernel extends Kernel
      */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $routes->import(__DIR__ . '/config/routing.yml');
+        $routes->import(__DIR__.'/config/routing.yml');
     }
 
     /**

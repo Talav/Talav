@@ -49,9 +49,7 @@ abstract class AbstractRoleCommand extends Command
         $role = $input->getArgument('role');
         $super = (true === $input->getOption('super'));
         if (null !== $role && $super) {
-            throw new \InvalidArgumentException(
-                'You can pass either the role or the --super option (but not both simultaneously).'
-            );
+            throw new \InvalidArgumentException('You can pass either the role or the --super option (but not both simultaneously).');
         }
         if (null === $role && !$super) {
             throw new \RuntimeException('Not enough arguments.');

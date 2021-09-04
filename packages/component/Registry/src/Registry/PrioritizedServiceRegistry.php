@@ -54,9 +54,7 @@ final class PrioritizedServiceRegistry implements PrioritizedServiceRegistryInte
     public function unregister($service): void
     {
         if (!$this->has($service)) {
-            throw new NonExistingServiceException($this->context, gettype($service), array_keys(
-                $this->services->toArray()
-            ));
+            throw new NonExistingServiceException($this->context, gettype($service), array_keys($this->services->toArray()));
         }
         $this->services->remove($service);
     }

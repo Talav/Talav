@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MediaAppBundle\Controller;
 
-use MediaAppBundle\Entity\Author;
-use MediaAppBundle\Form\Model\EntityModel;
 use MediaAppBundle\Form\Type\AuthorForm;
 use MediaAppBundle\Form\Type\AuthorRequiredForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,9 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Talav\Component\Resource\Manager\ManagerInterface;
-use Talav\Component\User\Manager\UserManagerInterface;
 
 class IndexController extends AbstractController
 {
@@ -39,14 +35,15 @@ class IndexController extends AbstractController
             if ($form->isValid()) {
                 $this->authorManager->add($form->getData());
                 $this->authorManager->flush();
-                $this->addFlash('success', "Test passed");
+                $this->addFlash('success', 'Test passed');
+
                 return new RedirectResponse($this->container->get('router')->generate('talav_media_test1'));
             }
         }
 
         return $this->render('@MediaApp/test.html.twig', [
             'form' => $form->createView(),
-            'action' => 'talav_media_test1'
+            'action' => 'talav_media_test1',
         ]);
     }
 
@@ -61,14 +58,15 @@ class IndexController extends AbstractController
             if ($form->isValid()) {
                 $this->authorManager->add($form->getData());
                 $this->authorManager->flush();
-                $this->addFlash('success', "Test passed");
+                $this->addFlash('success', 'Test passed');
+
                 return new RedirectResponse($this->container->get('router')->generate('talav_media_test2'));
             }
         }
 
         return $this->render('@MediaApp/test.html.twig', [
             'form' => $form->createView(),
-            'action' => 'talav_media_test2'
+            'action' => 'talav_media_test2',
         ]);
     }
 }

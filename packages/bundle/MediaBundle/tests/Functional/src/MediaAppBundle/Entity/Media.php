@@ -8,5 +8,4 @@ use Talav\MediaBundle\Entity\Media as BaseMedia;
 
 class Media extends BaseMedia
 {
-
 }

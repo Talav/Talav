@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Provider;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Constraint;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 class Constraints
 {
     /** @var array|string[] */
@@ -22,41 +26,33 @@ class Constraints
         $this->imageConstraints = $imageConstraints;
     }
 
-    /**
-     * @return array|string[]
-     */
-    public function getExtensions(): array
+    public function getFieldConstraints(): array
     {
-        return $this->extensions;
+        return [
+            new Constraint\File($this->fileConstraints),
+            new Constraint\Callback([$this, 'validateExtension']),
+        ];
     }
 
-    public function isValidExtension(string $ext): bool
+    public function validateExtension($object, ExecutionContextInterface $context)
+    {
+        if ($object instanceof UploadedFile) {
+            if (!$this->isValidExtension($object->getClientOriginalExtension())) {
+                $context->addViolation(
+                    sprintf(
+                        'It\'s not allowed to upload a file with extension "%s"',
+                        $object->getClientOriginalExtension()
+                    )
+                );
+            }
+        }
+    }
+
+    /**
+     * Validates provided extension.
+     */
+    protected function isValidExtension(string $ext): bool
     {
         return 0 == count($this->extensions) || in_array($ext, $this->extensions);
-    }
-
-    public function isValidMimeType(string $ext): bool
-    {
-        if (!isset($this->fileConstraints['mimeTypes']) || !is_array($this->fileConstraints['mimeTypes'])) {
-            return true;
-        }
-
-        return 0 == count($this->fileConstraints['mimeTypes']) || in_array($ext, $this->fileConstraints['mimeTypes']);
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function getFileConstraints(): array
-    {
-        return $this->fileConstraints;
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function getImageConstraints(): array
-    {
-        return $this->imageConstraints;
     }
 }

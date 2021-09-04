@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Talav\MediaBundle\Tests\DependencyInjection\Extension;
 
+use function PHPUnit\Framework\assertEquals;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Talav\Component\Media\Provider\ProviderPool;
-use function PHPUnit\Framework\assertEquals;
 
 final class TalavMediaExtensionTest extends KernelTestCase
 {

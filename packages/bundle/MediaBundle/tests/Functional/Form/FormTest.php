@@ -23,7 +23,7 @@ class FormTest extends WebTestCase
         $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
         $this->databaseTool->loadFixtures([]);
     }
-    
+
     /**
      * @test
      */
@@ -40,7 +40,7 @@ class FormTest extends WebTestCase
      */
     public function it_allows_to_submit_form_with_file(): void
     {
-        $filename = tempnam(sys_get_temp_dir(), 'test') . '.txt';
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.txt';
         $this->createTxtFile($filename);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
@@ -57,9 +57,9 @@ class FormTest extends WebTestCase
      */
     public function it_correctly_stores_file(): void
     {
-        $filename = tempnam(sys_get_temp_dir(), 'test') . '.txt';
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.txt';
         $this->createTxtFile($filename);
-        $crawler = $this->submitMediaTypeForm('/test1','Test name', $filename);
+        $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
         $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findOneBy(['name' => 'Test name']);
         $media = $author->getMedia();
@@ -67,7 +67,7 @@ class FormTest extends WebTestCase
         /** @var ProviderPool $pool */
         $pool = self::$kernel->getContainer()->get('talav.media.provider.pool');
         $provider = $pool->getProvider($media->getProviderName());
-        self::assertEquals("Test file", $provider->getMediaContent($media));
+        self::assertEquals('Test file', $provider->getMediaContent($media));
         unlink($filename);
     }
 
@@ -86,7 +86,7 @@ class FormTest extends WebTestCase
      */
     public function it_errors_if_file_is_too_large(): void
     {
-        $filename = tempnam(sys_get_temp_dir(), 'test') . '.txt';
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.txt';
         $this->generateRandFile($filename, 5100000);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('The file is too large (5.1 MB). Allowed maximum size is 5 MB', $crawler->html());
@@ -98,7 +98,7 @@ class FormTest extends WebTestCase
      */
     public function it_errors_if_file_has_incorrect_mime_type(): void
     {
-        $filename = tempnam(sys_get_temp_dir(), 'test') . '.php';
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.php';
         $this->createPhpFile($filename);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('The mime type of the file is invalid', $crawler->html());
@@ -110,7 +110,7 @@ class FormTest extends WebTestCase
      */
     public function it_errors_if_file_has_incorrect_extension(): void
     {
-        $filename = tempnam(sys_get_temp_dir(), 'test') . '.bla';
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.bla';
         $this->createTxtFile($filename);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('It\'s not allowed to upload a file with extension', $crawler->html());
@@ -133,6 +133,7 @@ class FormTest extends WebTestCase
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
         return $crawler;
     }
 
@@ -140,8 +141,8 @@ class FormTest extends WebTestCase
     {
         if ($h = fopen($filename, 'w')) {
             if ($filesize > 1024) {
-                for ($i = 0; $i < floor($filesize / 1024); $i++) {
-                    fwrite($h, bin2hex(openssl_random_pseudo_bytes(511)) . PHP_EOL);
+                for ($i = 0; $i < floor($filesize / 1024); ++$i) {
+                    fwrite($h, bin2hex(openssl_random_pseudo_bytes(511)).PHP_EOL);
                 }
                 $filesize = $filesize - (1024 * $i);
             }
@@ -165,6 +166,6 @@ echo '1'; ";
 
     private function createTxtFile($path)
     {
-        file_put_contents($path, "Test file");
+        file_put_contents($path, 'Test file');
     }
 }

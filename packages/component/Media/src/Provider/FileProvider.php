@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Talav\Component\Media\Provider;
 
 use League\Flysystem\FilesystemOperator;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Constraint;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Talav\Component\Media\Cdn\CdnInterface;
 use Talav\Component\Media\Exception\InvalidMediaException;
 use Talav\Component\Media\Generator\GeneratorInterface;
@@ -20,6 +18,9 @@ class FileProvider implements MediaProviderInterface
 
     /** @var FilesystemOperator */
     protected $filesystem;
+
+    /** @var ValidatorInterface */
+    protected $validator;
 
     /** @var CdnInterface */
     protected $cdn;
@@ -38,10 +39,12 @@ class FileProvider implements MediaProviderInterface
         FilesystemOperator $filesystem,
         CdnInterface $cdn,
         GeneratorInterface $generator,
+        ValidatorInterface $validator,
         ?Constraints $constrains = null
     ) {
         $this->name = $name;
         $this->filesystem = $filesystem;
+        $this->validator = $validator;
         $this->cdn = $cdn;
         $this->generator = $generator;
         if (null === $constrains) {
@@ -50,35 +53,23 @@ class FileProvider implements MediaProviderInterface
         $this->constrains = $constrains;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prePersist(MediaInterface $media): void
     {
         // validate media file
         $this->validateMedia($media);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preUpdate(MediaInterface $media): void
     {
         // validate media file
         $this->validateMedia($media);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preRemove(MediaInterface $media): void
     {
         // clone image to process files int postRemove
@@ -86,9 +77,6 @@ class FileProvider implements MediaProviderInterface
         $this->clones[$hash] = clone $media;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postUpdate(MediaInterface $media): void
     {
         if (null === $media->getFile()) {
@@ -107,9 +95,6 @@ class FileProvider implements MediaProviderInterface
         $media->resetFile();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postRemove(MediaInterface $media): void
     {
         $hash = spl_object_hash($media);
@@ -121,9 +106,6 @@ class FileProvider implements MediaProviderInterface
         $this->deletePath($this->getFilesystemReference($media));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postPersist(MediaInterface $media): void
     {
         if (null === $media->getFile()) {
@@ -133,77 +115,29 @@ class FileProvider implements MediaProviderInterface
         $media->resetFile();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFilesystem(): FilesystemOperator
     {
         return $this->filesystem;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    final public function transform(MediaInterface $media): void
-    {
-        if (null === $media->getBinaryContent()) {
-            return;
-        }
-
-        $this->doTransform($media);
-        $this->flushCdn($media);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function generatePath(MediaInterface $media): string
     {
         return $this->generator->generatePath($media);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFilesystemReference(MediaInterface $media): string
     {
         return sprintf('%s/%s', $this->generatePath($media), $media->getProviderReference());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMediaContent(MediaInterface $media): string
     {
         return $this->getFilesystem()->read($this->getFilesystemReference($media));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFileFieldConstraints(): array
     {
-        return [
-            new Constraint\File($this->constrains->getFileConstraints()),
-            new Constraint\Callback([$this, 'validateExtension']),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateExtension($object, ExecutionContextInterface $context)
-    {
-        if ($object instanceof UploadedFile) {
-            if (!$this->constrains->isValidExtension($object->getClientOriginalExtension())) {
-                $context->addViolation(
-                    sprintf(
-                        'It\'s not allowed to upload a file with extension "%s"',
-                        $object->getClientOriginalExtension()
-                    )
-                );
-            }
-        }
+        return $this->constrains->getFieldConstraints();
     }
 
     /**
@@ -245,11 +179,9 @@ class FileProvider implements MediaProviderInterface
         if (null === $media->getFile()) {
             return;
         }
-        if (!$this->constrains->isValidExtension($media->getFileExtension())) {
-            throw new InvalidMediaException('Invalid file extension');
-        }
-        if (!$this->constrains->isValidMimeType($media->getMimeType())) {
-            throw new InvalidMediaException('Invalid file mime type');
+        $violations = $this->validator->validate($media->getFile(), $this->constrains->getFieldConstraints());
+        if (0 < $violations->count()) {
+            throw new InvalidMediaException('Invalid media file');
         }
     }
 }

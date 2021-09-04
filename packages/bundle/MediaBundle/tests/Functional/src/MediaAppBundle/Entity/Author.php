@@ -29,33 +29,21 @@ class Author implements ResourceInterface
      */
     protected $media;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return MediaInterface|null
-     */
     public function getMedia(): ?MediaInterface
     {
         return $this->media;
     }
 
-    /**
-     * @param MediaInterface|null $media
-     */
     public function setMedia(?MediaInterface $media): void
     {
         $this->media = $media;

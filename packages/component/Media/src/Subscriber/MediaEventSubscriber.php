@@ -12,7 +12,7 @@ use Talav\Component\Media\Provider\MediaProviderInterface;
 use Talav\Component\Media\Provider\ProviderPool;
 
 /**
- * Subscriber to connect providers and doctrine events
+ * Subscriber to connect providers and doctrine events.
  */
 class MediaEventSubscriber implements EventSubscriber
 {
