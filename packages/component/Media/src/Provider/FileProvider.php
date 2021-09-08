@@ -169,10 +169,6 @@ class FileProvider implements MediaProviderInterface
         if (empty($media->getName())) {
             throw new InvalidMediaException('Media should have name defined');
         }
-        // all other checks only applicable if a new file is uploaded
-        if (null === $media->getFile()) {
-            return;
-        }
         $violations = $this->validator->validate($media->getFile(), $this->constrains->getFieldConstraints());
         if (0 < $violations->count()) {
             throw new InvalidMediaException('Invalid media file');

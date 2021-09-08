@@ -10,16 +10,16 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class Constraints
 {
-    /** @var array|string[] */
-    protected $extensions = [];
+    /** @var string[] */
+    protected array $extensions = [];
 
-    /** @var array|string[] */
-    protected $fileConstraints = [];
+    /** @var string[] */
+    protected array $fileConstraints = [];
 
-    /** @var array|string[] */
-    protected $imageConstraints = [];
+    /** @var string[] */
+    protected array $imageConstraints = [];
 
-    public function __construct($extensions, $fileConstraints, $imageConstraints)
+    public function __construct(array $extensions, array $fileConstraints = [], array $imageConstraints = [])
     {
         $this->extensions = $extensions;
         $this->fileConstraints = $fileConstraints;
@@ -30,22 +30,21 @@ class Constraints
     {
         return [
             new Constraint\File($this->fileConstraints),
-            new Constraint\Callback([$this, 'validateExtension']),
+            new Constraint\Callback(
+                function ($object, ExecutionContextInterface $context) {
+                    if ($object instanceof UploadedFile) {
+                        if (!$this->isValidExtension($object->getClientOriginalExtension())) {
+                            $context->addViolation(
+                                sprintf(
+                                'It\'s not allowed to upload a file with extension "%s"',
+                                $object->getClientOriginalExtension()
+                            )
+                            );
+                        }
+                    }
+                }
+            ),
         ];
-    }
-
-    public function validateExtension($object, ExecutionContextInterface $context)
-    {
-        if ($object instanceof UploadedFile) {
-            if (!$this->isValidExtension($object->getClientOriginalExtension())) {
-                $context->addViolation(
-                    sprintf(
-                        'It\'s not allowed to upload a file with extension "%s"',
-                        $object->getClientOriginalExtension()
-                    )
-                );
-            }
-        }
     }
 
     /**
