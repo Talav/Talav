@@ -37,7 +37,7 @@ class ProviderPool
     public function addContext(ContextConfig $contextConfig): void
     {
         if ($this->hasContext($contextConfig->getName())) {
-            throw new \RuntimeException(sprintf('Context "%s" has already been registered'));
+            throw new \RuntimeException(sprintf('Context "%s" has already been registered', $contextConfig->getName()));
         }
         $this->contexts[$contextConfig->getName()] = $contextConfig;
         if (!$this->hasContext($contextConfig->getProvider()->getName())) {
@@ -50,10 +50,10 @@ class ProviderPool
         return isset($this->contexts[$name]);
     }
 
-    public function getContext(string $name): array
+    public function getContext(string $name): ContextConfig
     {
         if (!$this->hasContext($name)) {
-            throw new \RuntimeException(sprintf('Context "%s" does not exists'));
+            throw new \RuntimeException(sprintf('Context "%s" does not exists', $name));
         }
 
         return $this->contexts[$name];
