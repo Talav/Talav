@@ -21,8 +21,8 @@ talav_media:
       filesystem:
       cdn:
       constraints:
-        # any parameter supported by symfony file constraint
         extensions: ['jpg', 'png', 'jpeg']
+        # any parameter supported by symfony file constraint
         file_constraints:
           maxSize: '5M'
           mimeTypes: ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png']

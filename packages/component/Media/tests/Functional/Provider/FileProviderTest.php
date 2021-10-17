@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\ValidatorBuilder;
 use Talav\Component\Media\Cdn\Server;
 use Talav\Component\Media\Context\ContextConfig;
-use Talav\Component\Media\Generator\DefaultGenerator;
+use Talav\Component\Media\Generator\UuidGenerator;
 use Talav\Component\Media\Provider\Constraints;
 use Talav\Component\Media\Provider\FileProvider;
 use Talav\Component\Media\Provider\ProviderPool;
@@ -49,7 +49,7 @@ final class FileProviderTest extends TestCase
     {
         $this->fs = new Filesystem(new InMemoryFilesystemAdapter());
         $cdn = new Server(sys_get_temp_dir());
-        $generator = new DefaultGenerator();
+        $generator = new UuidGenerator();
         $validator = (new ValidatorBuilder())->getValidator();
         $provider1 = new FileProvider('file1', $this->fs, $cdn, $generator, $validator, new Constraints(['txt'], ['mimeTypes' => [
             'text/plain',
@@ -58,10 +58,12 @@ final class FileProviderTest extends TestCase
         $provider3 = new FileProvider('file3', $this->fs, $cdn, $generator, $validator, new Constraints([], ['mimeTypes' => [
             'image/jpeg',
         ]], []));
+        $provider4 = new FileProvider('file4', $this->fs, $cdn, $generator, $validator, new Constraints([]));
         $this->pool = new ProviderPool();
         $this->pool->addContext(new ContextConfig('test1', $provider1, []));
         $this->pool->addContext(new ContextConfig('test2', $provider2, []));
         $this->pool->addContext(new ContextConfig('test3', $provider3, []));
+        $this->pool->addContext(new ContextConfig('test4', $provider4, []));
         $subscriber = new MediaEventSubscriber($this->pool);
         $this->infrastructure = ORMInfrastructure::createWithDependenciesFor(MediaEntity::class);
         $this->em = $this->infrastructure->getEntityManager();
@@ -101,6 +103,16 @@ final class FileProviderTest extends TestCase
     /**
      * @test
      */
+    public function it_creates_file_without_any_extension_from_post_persist_hook()
+    {
+        $media = $this->createMedia('file4', 'test4');
+        self::assertEquals(self::FILE_CONTENT, $this->pool->getProvider('file4')->getMediaContent($media));
+        self::assertEquals(self::FILE_NAME, $media->getFileName());
+    }
+
+    /**
+     * @test
+     */
     public function it_removes_file_from_remove_hooks()
     {
         $media = $this->createMedia();
@@ -124,15 +136,12 @@ final class FileProviderTest extends TestCase
         self::assertFalse($this->fs->fileExists($path));
     }
 
-    protected function createMedia(?string $providerName = null): MediaEntity
+    protected function createMedia(string $providerName = 'file1', string $context = 'test1'): MediaEntity
     {
-        if (is_null($providerName)) {
-            $providerName = 'file1';
-        }
         $media = new MediaEntity();
         $media->setFile($this->createTempFile());
         $media->setProviderName($providerName);
-        $media->setContext('test1');
+        $media->setContext($context);
         $this->em->persist($media);
         $this->em->flush();
 

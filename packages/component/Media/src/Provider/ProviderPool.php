@@ -12,12 +12,11 @@ use Talav\Component\Media\Context\ContextConfig;
 class ProviderPool
 {
     /** @var MediaProviderInterface[] */
-    protected $providers = [];
+    protected array $providers = [];
 
-    /** @var array */
-    protected $contexts = [];
+    protected array $contexts = [];
 
-    public function getProvider($name): MediaProviderInterface
+    public function getProvider(string $name): MediaProviderInterface
     {
         if (!$name) {
             throw new \InvalidArgumentException('Provider name cannot be empty, did you forget to call setProviderName() in your Media object?');
@@ -46,20 +45,12 @@ class ProviderPool
         }
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasContext($name)
+    public function hasContext(string $name): bool
     {
         return isset($this->contexts[$name]);
     }
 
-    /**
-     * @param string $name
-     */
-    public function getContext($name): array
+    public function getContext(string $name): array
     {
         if (!$this->hasContext($name)) {
             throw new \RuntimeException(sprintf('Context "%s" does not exists'));
@@ -68,9 +59,6 @@ class ProviderPool
         return $this->contexts[$name];
     }
 
-    /**
-     * @return array|string[]
-     */
     public function getProviderList(): array
     {
         $choices = [];
@@ -81,11 +69,6 @@ class ProviderPool
         return $choices;
     }
 
-    /**
-     * Returns the context list.
-     *
-     * @return array|array[]
-     */
     public function getContexts(): array
     {
         return $this->contexts;

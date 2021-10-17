@@ -28,23 +28,25 @@ class Constraints
 
     public function getFieldConstraints(): array
     {
-        return [
-            new Constraint\File($this->fileConstraints),
+        $constraints = [
             new Constraint\Callback(
                 function ($object, ExecutionContextInterface $context) {
                     if ($object instanceof UploadedFile) {
                         if (!$this->isValidExtension($object->getClientOriginalExtension())) {
                             $context->addViolation(
                                 sprintf(
-                                'It\'s not allowed to upload a file with extension "%s"',
-                                $object->getClientOriginalExtension()
-                            )
+                                    'It\'s not allowed to upload a file with extension "%s"',
+                                    $object->getClientOriginalExtension()
+                                )
                             );
                         }
                     }
                 }
             ),
+            count($this->imageConstraints) > 0 ? new Constraint\Image(array_merge($this->fileConstraints, $this->imageConstraints)) : new Constraint\File($this->fileConstraints),
         ];
+
+        return $constraints;
     }
 
     /**

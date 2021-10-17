@@ -19,8 +19,8 @@ services:
   talav.media.provider.pool:
     class: Talav\Component\Media\Provider\ProviderPool
     public: true
-  talav.media.generator.default:
-    class: Talav\Component\Media\Generator\DefaultGenerator
+  talav.media.generator.uuid:
+    class: Talav\Component\Media\Generator\UuidGenerator
     public: true
   talav.media.cdn.server:
     class: Talav\Component\Media\Cdn\Server

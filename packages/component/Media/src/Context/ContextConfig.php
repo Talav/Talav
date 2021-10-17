@@ -11,14 +11,12 @@ use Talav\Component\Media\Provider\MediaProviderInterface;
  */
 class ContextConfig
 {
-    /** @var string */
-    protected $name;
+    protected string $name;
 
-    /** @var MediaProviderInterface */
-    protected $provider = [];
+    protected MediaProviderInterface $provider;
 
     /** @var array|string[] */
-    protected $formats = [];
+    protected array $formats = [];
 
     public function __construct(string $name, MediaProviderInterface $provider, array $formats = [])
     {

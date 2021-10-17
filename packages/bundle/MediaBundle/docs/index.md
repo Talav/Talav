@@ -26,7 +26,7 @@ talav_media:
   providers:
    file:
       service: talav.media.provider.file
-      generator: talav.media.generator.default
+      generator: talav.media.generator.uuid
       filesystem: oneup_flysystem.default_filesystem
       cdn: talav.media.cdn.server
       constrains:
@@ -43,13 +43,14 @@ talav_media:
          ]
     image:
       service: talav.media.provider.image
-      generator: talav.media.generator.default
+      generator: talav.media.generator.uuid
       filesystem: oneup_flysystem.default_filesystem
       cdn: talav.media.cdn.server
       constrains:
         extensions: ['jpg', 'png', 'jpeg']
         file_constraints:
           mimeTypes: ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png']
+        # both parameters are merged internally so image parameters override file parameters with the same key
         image_constraints:
           minWidth: 100
           minHeight: 100

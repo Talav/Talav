@@ -14,50 +14,36 @@ class Media implements MediaInterface
     use ResourceTrait;
     use Timestampable;
 
-    /** @var string|null */
-    protected $name;
+    protected ?string $name = null;
 
-    /** @var string|null */
-    protected $description;
+    protected ?string $description = null;
 
-    /** @var string|null */
-    protected $context;
+    protected ?string $context = null;
 
-    /** @var string|null */
-    protected $providerName;
+    protected ?string $providerName = null;
 
-    /** @var string|null */
-    protected $providerReference;
+    protected ?string $providerReference = null;
 
-    /** @var int|null */
-    protected $size;
+    protected ?int $size = null;
 
     /**
      * Mime type of the new file.
-     *
-     * @var string|null
      */
-    protected $mimeType;
+    protected ?string $mimeType = null;
 
     /**
      * File extension.
-     *
-     * @var string|null
      */
-    protected $fileExtension;
+    protected ?string $fileExtension = null;
 
     /**
      * File name.
-     *
-     * @var string|null
      */
-    protected $fileName;
+    protected ?string $fileName = null;
 
-    /** @var UploadedFile|null */
-    protected $file;
+    protected ?UploadedFile $file = null;
 
-    /** @var string|null */
-    protected $previousProviderReference;
+    protected ?string $previousProviderReference = null;
 
     public function setFile(File $file): void
     {
@@ -77,9 +63,6 @@ class Media implements MediaInterface
         return $this->file;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resetFile(): void
     {
         $this->file = null;
@@ -188,9 +171,7 @@ class Media implements MediaInterface
     protected function ensureProviderReference(): void
     {
         // this is the name used to store the file
-        if (!$this->getProviderReference() ||
-            MediaInterface::MISSING_BINARY_REFERENCE === $this->getProviderReference()
-        ) {
+        if (null === $this->getProviderReference()) {
             $this->setProviderReference($this->generateReferenceName());
         }
     }
