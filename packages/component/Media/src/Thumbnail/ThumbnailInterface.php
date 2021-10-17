@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Talav\MediaBundle\Thumbnail;
+namespace Talav\Component\Media\Thumbnail;
 
 use Talav\Component\Media\Model\MediaInterface;
 use Talav\Component\Media\Provider\MediaProviderInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Talav\MediaBundle\Thumbnail;
+namespace Talav\Component\Media\Thumbnail;
 
 use League\Glide\Server;
 use Talav\Component\Media\Exception\FilesystemException;
