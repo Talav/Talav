@@ -4,52 +4,49 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Provider;
 
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Talav\Component\Media\Cdn\CdnInterface;
+use Talav\Component\Media\Generator\GeneratorInterface;
 use Talav\Component\Media\Model\MediaInterface;
+use Talav\Component\Media\Thumbnail\ThumbnailInterface;
 
 class ImageProvider extends FileProvider
 {
-    /**
-     * {@inheritdoc}
-     */
+    protected ThumbnailInterface $thumbnail;
+
+    public function __construct(
+        string $name,
+        FilesystemOperator $filesystem,
+        CdnInterface $cdn,
+        GeneratorInterface $generator,
+        ValidatorInterface $validator,
+        ThumbnailInterface $thumbnail,
+        ?Constraints $constrains = null
+    ) {
+        parent::__construct(
+            $name,
+            $filesystem,
+            $cdn,
+            $generator,
+            $validator,
+            $constrains
+        );
+        $this->thumbnail = $thumbnail;
+    }
+
     public function postPersist(MediaInterface $media): void
     {
-        if (null === $media->getBinaryContent()) {
+        if (null === $media->getFile()) {
             return;
         }
-
-        $this->setFileContents($media);
-
+        $this->copyTempFile($media);
         $this->generateThumbnails($media);
-
-        $media->resetBinaryContent();
+        $media->resetFile();
     }
 
-    /**
-     * Set the file contents for an image.
-     */
-    protected function setFileContents(MediaInterface $media)
-    {
-        $file = $this->getFilesystem()->get(
-            sprintf('%s/%s', $this->generatePath($media), $media->getProviderReference()),
-            true
-        );
-        $metadata = $this->metadata ? $this->metadata->get($media, $file->getName()) : [];
-
-        $binaryContent = $media->getBinaryContent();
-        if ($binaryContent instanceof File) {
-            $path = $binaryContent->getRealPath() ?: $binaryContent->getPathname();
-            $file->setContent(file_get_contents($path), $metadata);
-
-            return;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function generateThumbnails(MediaInterface $media)
     {
         $this->thumbnail->generate($this, $media);

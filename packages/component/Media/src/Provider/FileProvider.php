@@ -25,6 +25,8 @@ class FileProvider implements MediaProviderInterface
 
     protected Constraints $constrains;
 
+    protected array $formats = [];
+
     /** @var MediaInterface[] */
     private array $clones = [];
 
@@ -132,6 +134,25 @@ class FileProvider implements MediaProviderInterface
     public function getFileFieldConstraints(): array
     {
         return $this->constrains->getFieldConstraints();
+    }
+
+    public function addFormat(string $name, array $options): void
+    {
+        $this->formats[$name] = $options;
+    }
+
+    public function getFormat($name): array
+    {
+        if (!isset($this->formats[$name])) {
+            throw new \RuntimeException('Format is not found');
+        }
+
+        return $this->formats[$name];
+    }
+
+    public function getFormats(): array
+    {
+        return $this->formats;
     }
 
     /**

@@ -45,7 +45,7 @@ class Media implements MediaInterface
 
     protected ?string $previousProviderReference = null;
 
-    public function setFile(File $file): void
+    public function setFile(UploadedFile $file): void
     {
         $this->file = $file;
         $this->mimeType = $file->getMimeType();

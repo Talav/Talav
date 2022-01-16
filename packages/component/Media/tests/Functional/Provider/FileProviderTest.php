@@ -25,25 +25,13 @@ final class FileProviderTest extends TestCase
     private const FILE_CONTENT = 'File content';
     private const FILE_NAME = 'test_file.txt';
 
-    /**
-     * @var ORMInfrastructure
-     */
-    private $infrastructure;
+    private ORMInfrastructure $infrastructure;
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    private EntityManager $em;
 
-    /**
-     * @var ProviderPool
-     */
-    private $pool;
+    private ProviderPool $pool;
 
-    /**
-     * @var Filesystem
-     */
-    private $fs;
+    private Filesystem $fs;
 
     protected function setUp(): void
     {

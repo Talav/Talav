@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Model;
 
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Talav\Component\Resource\Model\ResourceInterface;
 
 interface MediaInterface extends ResourceInterface
 {
-    public function setFile(File $file): void;
+    public function setFile(UploadedFile $file): void;
 
     public function getFile(): ?UploadedFile;
 

@@ -24,7 +24,8 @@
         "phpunit/phpunit": "^9.5",
         "symfony/var-dumper": "^5.1",
         "symfony/thanks": "^1.2",
-        "webfactory/doctrine-orm-test-infrastructure": "^1.7"
+        "webfactory/doctrine-orm-test-infrastructure": "^1.7",
+        "fakerphp/faker": "^1.16"
     },
     "autoload": {
         "psr-4": {

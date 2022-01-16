@@ -8,51 +8,51 @@ use League\Glide\Server;
 use Talav\Component\Media\Exception\FilesystemException;
 use Talav\Component\Media\Model\MediaInterface;
 use Talav\Component\Media\Provider\MediaProviderInterface;
-use Talav\Component\Media\Provider\ProviderPool;
 use Talav\Component\Resource\Error\ErrorHandlerTrait;
 
 final class GlideServer implements ThumbnailInterface
 {
     use ErrorHandlerTrait;
 
-    /**
-     * @var Server
-     */
-    protected $server;
+    protected Server $server;
 
-    /**
-     * @var ProviderPool
-     */
-    protected $pool;
+    protected ?string $tmpPath = null;
+
+    protected ?string $tmpPrefix = null;
+
+    public function __construct(Server $server)
+    {
+        $this->server = $server;
+        $this->server->setCacheWithFileExtensions(true);
+    }
 
     public function generate(MediaProviderInterface $provider, MediaInterface $media): void
     {
-        $tmp = $this->getTemporaryFile();
-        $imageData = $this->getImageData($media);
-        $this->disableErrorHandler();
-        if (false === file_put_contents($tmp, $imageData)) {
-            $this->restoreErrorHandler();
-            throw new FilesystemException('Unable to write temporary file');
-        }
-        $this->restoreErrorHandler();
+        $filesystem = $provider->getFilesystem();
+        $this->server->setSource($filesystem);
+        $this->server->setCache($filesystem);
+//        $tmp = $this->getTemporaryFile();
+//        $imageData = $this->getImageData($provider->getFilesystemReference($media));
+//        $this->disableErrorHandler();
+//        if (false === file_put_contents($tmp, $imageData)) {
+//            $this->restoreErrorHandler();
+//            throw new FilesystemException('Unable to write temporary file');
+//        }
+//        $this->restoreErrorHandler();
 
         try {
-            $filesystem = $this->pool->getProvider($media)->getFilesystem();
-            $this->server->setSource($filesystem);
-            $this->server->setCache($filesystem);
-//            foreach ($this->pool->getContext($media)->) {
-//
-//            }
-//            $this->server->getApi()->run($tmp, ['p' => ]);
-//            $this->server->getCache()->put($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
+            foreach ($provider->getFormats() as $options) {
+                $options = $this->enforceExtension($options, $media);
+                $this->server->makeImage($provider->getFilesystemReference($media), $options);
+            }
         } catch (\Exception $e) {
             throw new FilesystemException('Could not generate image', 0, $e);
-        } finally {
-            if (file_exists($tmp)) {
-                if (!@unlink($tmp)) {
-                    throw new FilesystemException('Unable to clean up temporary file');
-                }
-            }
+//        } finally {
+//            if (file_exists($tmp)) {
+//                if (!@unlink($tmp)) {
+//                    throw new FilesystemException('Unable to clean up temporary file');
+//                }
+//            }
         }
 
 //        $referenceFile = $provider->getFilesystemReference($media);
@@ -78,10 +78,17 @@ final class GlideServer implements ThumbnailInterface
 //        }
     }
 
-    protected function getImageData(MediaInterface $media): string
+    public function isThumbExists(MediaProviderInterface $provider, MediaInterface $media, array $options): bool
     {
-        if ($this->server->getSource()->has($media->getImage())) {
-            return $this->server->getSource()->read($media->getImage());
+        $options = $this->enforceExtension($options, $media);
+
+        return $this->server->cacheFileExists($provider->getFilesystemReference($media), $options);
+    }
+
+    protected function getImageData(string $reference): string
+    {
+        if ($this->server->getSource()->fileExists($reference)) {
+            return $this->server->getSource()->read($reference);
         }
         throw new FilesystemException('File not found');
     }
@@ -102,13 +109,10 @@ final class GlideServer implements ThumbnailInterface
         return $tempFile;
     }
 
-    protected function getProvider(MediaInterface $media): MediaProviderInterface
+    protected function enforceExtension(array $options, MediaInterface $media): array
     {
-        return $this->pool->getProvider($media->getProviderName());
-    }
+        $options['fm'] = $options['fm'] ?? $media->getFileExtension();
 
-    protected function getContext(MediaInterface $media): array
-    {
-        return $this->pool->getContext($media->getContext());
+        return $options;
     }
 }
