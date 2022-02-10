@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Talav\Component\Media\Provider;
 
 use League\Flysystem\FilesystemOperator;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Talav\Component\Media\Cdn\CdnInterface;
 use Talav\Component\Media\Generator\GeneratorInterface;
@@ -47,63 +45,22 @@ class ImageProvider extends FileProvider
         $media->resetFile();
     }
 
+    // Remove all generated thumbnails
+    public function postRemove(MediaInterface $media): void
+    {
+        $hash = spl_object_hash($media);
+
+        if (isset($this->clones[$hash])) {
+            $media = $this->clones[$hash];
+            unset($this->clones[$hash]);
+        }
+        $this->thumbnail->delete($this, $media);
+        $this->deletePath($this->getFilesystemReference($media));
+    }
+
     public function generateThumbnails(MediaInterface $media)
     {
         $this->thumbnail->generate($this, $media);
-    }
-
-//    /**
-//     * {@inheritdoc}
-//     */
-//    public function transform(MediaInterface $media): void
-//    {
-//        if (null === $media->getBinaryContent()) {
-//            return;
-//        }
-//
-//        $this->doTransform($media);
-//        $this->flushCdn($media);
-//    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function doTransform(MediaInterface $media): void
-    {
-//        // this is the name used to store the file
-//        if (!$media->getProviderReference() ||
-//            MediaInterface::MISSING_BINARY_REFERENCE === $media->getProviderReference()
-//        ) {
-//            $media->setProviderReference($this->generateReferenceName($media));
-//        }
-//
-//        if ($media->getBinaryContent() instanceof File) {
-//            $media->setContentType($media->getBinaryContent()->getMimeType());
-//            $media->setSize($media->getBinaryContent()->getSize());
-//        }
-//
-//        $media->setProviderStatus(MediaInterface::STATUS_OK);
-//
-//        // from image provider
-//        if ($media->getBinaryContent() instanceof UploadedFile) {
-//            $fileName = $media->getBinaryContent()->getClientOriginalName();
-//        } elseif ($media->getBinaryContent() instanceof File) {
-//            $fileName = $media->getBinaryContent()->getFilename();
-//        } else {
-//            // Should not happen, FileProvider should throw an exception in that case
-//            return;
-//        }
-//
-//        if (!in_array(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)), $this->allowedExtensions, true)
-//            || !in_array($media->getBinaryContent()->getMimeType(), $this->allowedMimeTypes, true)) {
-//            return;
-//        }
-//
-//        list($width, $height) = getimagesize($media->getBinaryContent()->getPathname());
-//        $media->setWidth($width);
-//        $media->setHeight($height);
-//
-//        $media->setProviderStatus(MediaInterface::STATUS_OK);
     }
 
     public function flushCdn(MediaInterface $media)

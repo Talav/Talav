@@ -10,4 +10,8 @@ use Talav\Component\Media\Provider\MediaProviderInterface;
 interface ThumbnailInterface
 {
     public function generate(MediaProviderInterface $provider, MediaInterface $media): void;
+
+    public function delete(MediaProviderInterface $provider, MediaInterface $media): void;
+
+    public function isThumbExists(MediaProviderInterface $provider, MediaInterface $media, array $options): bool;
 }

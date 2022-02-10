@@ -101,7 +101,7 @@ final class FileProviderTest extends TestCase
     /**
      * @test
      */
-    public function it_removes_file_from_remove_hooks()
+    public function it_removes_file_from_post_remove_hooks()
     {
         $media = $this->createMedia();
         $path = $this->pool->getProvider('file1')->getFilesystemReference($media);

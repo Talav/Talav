@@ -45,6 +45,7 @@ class GlideServerTest extends TestCase
         $this->provider = new ImageProvider('image1', $this->fs, $cdn, $generator, $validator, $this->glideServer, new Constraints(['png'], [], []));
         $this->provider->addFormat('format1', ['w' => 50, 'h' => 50]);
         $this->provider->addFormat('format2', ['w' => 150, 'h' => 150]);
+        $this->provider->addFormat('format3', ['w' => 250, 'h' => 50]);
     }
 
     /**
@@ -56,7 +57,21 @@ class GlideServerTest extends TestCase
         $this->provider->postPersist($media);
         $this->glideServer->generate($this->provider, $media);
         foreach ($this->provider->getFormats() as $format) {
-            $this->assertTrue($this->glideServer->isThumbExists($this->provider, $media, $format));
+            self::assertTrue($this->glideServer->isThumbExists($this->provider, $media, $format));
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_deletes_all_thumbnails()
+    {
+        $media = $this->createMedia();
+        $this->provider->postPersist($media);
+        $this->glideServer->generate($this->provider, $media);
+        $this->provider->postRemove($media);
+        foreach ($this->provider->getFormats() as $format) {
+            self::assertFalse($this->glideServer->isThumbExists($this->provider, $media, $format));
         }
     }
 

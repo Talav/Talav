@@ -20,6 +20,8 @@ class MediaTest extends TestCase
         $media = new Media();
         $media->setFile($file);
         self::assertNotNull($media->getProviderReference());
+        $parts = explode('.', $media->getProviderReference());
+        self::assertEquals('txt', end($parts));
     }
 
     /**

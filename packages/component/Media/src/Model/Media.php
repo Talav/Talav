@@ -54,7 +54,7 @@ class Media implements MediaInterface
         $this->previousProviderReference = $this->providerReference;
         $this->providerReference = null;
         $this->fileName = $file->getClientOriginalName();
-        $this->ensureProviderReference();
+        $this->ensureProviderReference($this->fileExtension);
         $this->fixName();
     }
 
@@ -168,11 +168,15 @@ class Media implements MediaInterface
         $this->fileExtension = $fileExtension;
     }
 
-    protected function ensureProviderReference(): void
+    protected function ensureProviderReference(?string $fileExtension): void
     {
         // this is the name used to store the file
         if (null === $this->getProviderReference()) {
-            $this->setProviderReference($this->generateReferenceName());
+            if (is_null($fileExtension)) {
+                $this->setProviderReference($this->generateReferenceName());
+            } else {
+                $this->setProviderReference(sprintf('%s.%s', $this->generateReferenceName(), $fileExtension));
+            }
         }
     }
 

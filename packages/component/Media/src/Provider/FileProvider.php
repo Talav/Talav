@@ -28,7 +28,7 @@ class FileProvider implements MediaProviderInterface
     protected array $formats = [];
 
     /** @var MediaInterface[] */
-    private array $clones = [];
+    protected array $clones = [];
 
     public function __construct(
         string $name,
@@ -68,7 +68,7 @@ class FileProvider implements MediaProviderInterface
 
     public function preRemove(MediaInterface $media): void
     {
-        // clone image to process files int postRemove
+        // clone media to process files in postRemove
         $hash = spl_object_hash($media);
         $this->clones[$hash] = clone $media;
     }
