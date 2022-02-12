@@ -24,7 +24,7 @@ talav_media:
         manager: MediaManager::class
         repository: ResourceRepository::class
   providers:
-   file:
+    file:
       service: talav.media.provider.file
       generator: talav.media.generator.uuid
       filesystem: oneup_flysystem.default_filesystem
@@ -46,6 +46,7 @@ talav_media:
       generator: talav.media.generator.uuid
       filesystem: oneup_flysystem.default_filesystem
       cdn: talav.media.cdn.server
+      thumbnail: talav.media.thumbnail.glide
       constrains:
         extensions: ['jpg', 'png', 'jpeg']
         file_constraints:
@@ -56,36 +57,30 @@ talav_media:
           minHeight: 100
           maxWidth: 3000
           maxHeight: 3000
+      
   contexts:
     logo:
-      provider: sonata.media.provider.image
-      presets:
-        - logo
-    icon:
-      provider: sonata.media.provider.image
-      presets:
-        - icon
-    post:
-      provider: sonata.media.provider.image
+      provider: talav.media.provider.image
       formats:
-        - small
-        - large
+        logo:
+          w: 100
+          h: 50
+        small:
+          w: 20
+          h: 20
+    article:
+      provider: talav.media.provider.image
+      formats:
+        small:
+          w: 100
+          h: 50
+        large:
+          w: 1000
+          h: 500
     doc:
-      provider: sonata.media.provider.file
+      provider: talav.media.provider.file
 
   cdn:
     server:
       path: /upload/media
-
-  filesystem:
-    local:
-      # Directory for uploads should be writable
-      directory: "%kernel.project_dir%/public/upload/media"
-      create: false
-
-  # if you don't use default namespace configuration
-  class:
-    media: Prodly\Entity\Media
-    gallery: Prodly\Entity\Gallery
-    gallery_has_media: Prodly\Entity\GalleryHasMedia
 ```
