@@ -71,12 +71,12 @@
     },
     "autoload-dev": {
         "files": [
-            "packages/bundle/MediaBundle/tests/Functional/app/MediaAppKernel.php",
+            "packages/bundle/MediaBundle/tests/TestApp/app/MediaAppKernel.php",
             "packages/bundle/ResourceBundle/tests/TestApp/app/ResourceAppKernel.php",
             "packages/bundle/UserBundle/Tests/TestApp/app/UserAppKernel.php"
         ],
         "psr-4": {
-            "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/Functional/src/MediaAppBundle/",
+            "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/TestApp/src/MediaAppBundle/",
             "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/TestApp/src/ResourceAppBundle/",
             "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
             "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",

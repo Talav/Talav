@@ -3,7 +3,6 @@
 namespace Talav\MediaAppBundle\Form;
 
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -14,14 +13,11 @@ class FormTest extends WebTestCase
 {
     protected KernelBrowser $client;
 
-    protected AbstractDatabaseTool $databaseTool;
-
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->client->disableReboot();
-        $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
-        $this->databaseTool->loadFixtures([]);
+        $this->client->getContainer()->get(DatabaseToolCollection::class)->get()->loadFixtures();
     }
 
     /**

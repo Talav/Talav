@@ -38,10 +38,10 @@
     "autoload-dev": {
         "psr-4": {
             "Talav\\MediaBundle\\Tests\\": "tests/",
-            "MediaAppBundle\\": "tests/Functional/src/MediaAppBundle/"
+            "MediaAppBundle\\": "tests/TestApp/src/MediaAppBundle/"
         },
         "files": [
-            "tests/Functional/app/MediaAppKernel.php"
+            "tests/TestApp/app/MediaAppKernel.php"
         ]
     },
     "extra": {
