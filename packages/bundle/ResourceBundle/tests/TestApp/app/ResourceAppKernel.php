@@ -19,9 +19,11 @@ class ResourceAppKernel extends Kernel
     {
         return [
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Talav\ResourceBundle\TalavResourceBundle(),
             new ResourceAppBundle\ResourceAppBundle(),
+            new Liip\TestFixturesBundle\LiipTestFixturesBundle(),
         ];
     }
 

@@ -5,7 +5,7 @@ framework:
   # Remove or comment this section to explicitly disable session support.
   session:
     handler_id: ~
-    storage_id: session.storage.mock_file
+    storage_factory_id: session.storage.factory.mock_file
 
   #esi: true
   #fragments: true

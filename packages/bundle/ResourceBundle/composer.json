@@ -22,7 +22,9 @@
         "symfony/phpunit-bridge": "^6.0",
         "symfony/thanks": "^1.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.3",
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.0",
+        "liip/test-fixtures-bundle": "^2.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -32,10 +34,10 @@
     "autoload-dev": {
         "psr-4": {
             "Talav\\ResourceBundle\\Tests\\": "tests/",
-            "ResourceAppBundle\\": "tests/Functional/src/ResourceAppBundle/"
+            "ResourceAppBundle\\": "tests/TestApp/src/ResourceAppBundle/"
         },
         "files": [
-            "tests/Functional/app/ResourceAppKernel.php"
+            "tests/TestApp/app/ResourceAppKernel.php"
         ]
     },
     "extra": {

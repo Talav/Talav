@@ -72,12 +72,12 @@
     "autoload-dev": {
         "files": [
             "packages/bundle/MediaBundle/tests/Functional/app/MediaAppKernel.php",
-            "packages/bundle/ResourceBundle/tests/Functional/app/ResourceAppKernel.php",
+            "packages/bundle/ResourceBundle/tests/TestApp/app/ResourceAppKernel.php",
             "packages/bundle/UserBundle/Tests/TestApp/app/UserAppKernel.php"
         ],
         "psr-4": {
             "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/Functional/src/MediaAppBundle/",
-            "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/Functional/src/ResourceAppBundle/",
+            "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/TestApp/src/ResourceAppBundle/",
             "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
             "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
             "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/tests/",
