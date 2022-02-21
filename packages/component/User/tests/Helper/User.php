@@ -14,49 +14,31 @@ final class User implements CredentialsHolderInterface
 
     private ?string $salt = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPassword(?string $encodedPassword): void
     {
         $this->password = $encodedPassword;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSalt(): ?string
     {
         return $this->salt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;

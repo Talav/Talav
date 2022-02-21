@@ -6,16 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class UserAppKernel extends Kernel
 {
     use MicroKernelTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
@@ -33,34 +30,22 @@ class UserAppKernel extends Kernel
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config.yml');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RoutingConfigurator $routes)
     {
         $routes->import(__DIR__.'/config/routing.yml');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return sys_get_temp_dir().'/TalavUserBundle/cache/'.$this->getEnvironment();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sys_get_temp_dir().'/TalavUserBundle/logs';
     }

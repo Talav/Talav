@@ -33,6 +33,3 @@ services:
       - '@app.manager.user'
       - '@app.manager.user_oauth'
     public: true
-  talav.user.provider.login:
-    class: Talav\Component\User\Provider\UsernameOrEmailProvider
-    public: true

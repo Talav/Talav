@@ -419,4 +419,9 @@ abstract class User implements UserInterface
     {
         return null !== $date && new \DateTime() >= $date;
     }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsernameCanonical();
+    }
 }

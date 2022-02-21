@@ -86,7 +86,7 @@ class RegistrationControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function it_allows_to_register_and_logs_user_and_send_email()
+    public function it_allows_to_register_and_authenticate_user_redirect_to_success_page()
     {
         $this->databaseTool->loadFixtures([UserFixtures::class]);
         $this->submitForm([
@@ -102,6 +102,24 @@ class RegistrationControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
+    }
+
+    /**
+     * @test
+     */
+    public function it_allows_to_register_and_sends_welcome_email()
+    {
+        $this->databaseTool->loadFixtures([UserFixtures::class]);
+        $this->submitForm([
+            'talav_user_registration[username]' => 'tester1',
+            'talav_user_registration[email]' => 'tester1@test.com',
+            'talav_user_registration[plainPassword][first]' => 'tester1',
+            'talav_user_registration[plainPassword][second]' => 'tester1',
+        ]);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage(0);
+        $this->assertEmailHeaderSame($email, 'To', 'tester1@test.com');
+        $this->assertEmailHeaderSame($email, 'Subject', 'Welcome email');
     }
 
     /**

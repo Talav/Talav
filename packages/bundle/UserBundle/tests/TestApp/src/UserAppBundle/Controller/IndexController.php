@@ -18,4 +18,20 @@ class IndexController extends AbstractController
     {
         return $this->render('@UserApp/index/registration-success.html.twig');
     }
+
+    /**
+     * @Route("/", name="test_talav_user_home")
+     */
+    public function home(Request $request): Response
+    {
+        return $this->render('@UserApp/index/home.html.twig');
+    }
+
+    /**
+     * @Route("/user/profile", name="test_talav_user_profile")
+     */
+    public function profile(Request $request): Response
+    {
+        return $this->render('@UserApp/index/profile.html.twig');
+    }
 }

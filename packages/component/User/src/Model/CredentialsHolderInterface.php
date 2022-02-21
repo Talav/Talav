@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Talav\Component\User\Model;
 
-interface CredentialsHolderInterface
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+interface CredentialsHolderInterface extends PasswordAuthenticatedUserInterface
 {
     /**
      * Gets plain password.
@@ -34,8 +36,6 @@ interface CredentialsHolderInterface
      *
      * This should be the hashed password. On authentication, a plain-text
      * password will be hashed, and then compared to this value.
-     *
-     * @return string|null The hashed password if any
      */
-    public function getPassword();
+    public function getPassword(): ?string;
 }

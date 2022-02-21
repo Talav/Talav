@@ -8,7 +8,7 @@ use Talav\Component\Resource\Manager\ManagerInterface;
 use Talav\Component\User\Model\UserInterface;
 
 /**
- * Interface to be implemented by user managers. This adds an additional level
+ * Interface to be implemented by user managers. This adds a level
  * of abstraction between your application, and the actual repository.
  *
  * All changes to users should happen through this interface.

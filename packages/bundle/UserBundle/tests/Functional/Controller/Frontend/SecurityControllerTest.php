@@ -39,12 +39,7 @@ class SecurityControllerTest extends WebTestCase
      */
     public function it_shows_error_message_for_incorrect_credentials()
     {
-        $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->selectButton('submit')->form();
-        $form['_username'] = 'incorrect';
-        $form['_password'] = 'incorrect';
-        $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
+        $crawler = $this->login('incorrect', 'incorrect');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertStringContainsStringIgnoringCase('Invalid credentials', $crawler->html());
     }
@@ -52,10 +47,22 @@ class SecurityControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function it_shows_logout_link_for_correct_credentials()
+    public function it_redirects_to_home_page_and_shows_logout_link_for_correct_credentials()
     {
         $crawler = $this->login();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsStringIgnoringCase('logout', $crawler->html());
+    }
+
+    /**
+     * @test
+     */
+    public function it_redirects_to_profile_page_after_login_if_user_tried_access_profile()
+    {
+        $this->client->request('GET', '/user/profile');
+        $crawler = $this->login();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsStringIgnoringCase('profile', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('logout', $crawler->html());
     }
 
@@ -71,12 +78,12 @@ class SecurityControllerTest extends WebTestCase
         $this->assertStringContainsStringIgnoringCase('login', $crawler->html());
     }
 
-    private function login(): Crawler
+    private function login(string $username = 'tester', string $password = 'tester'): Crawler
     {
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('submit')->form();
-        $form['_username'] = 'tester';
-        $form['_password'] = 'tester';
+        $form['_username'] = $username;
+        $form['_password'] = $password;
         $this->client->followRedirects(true);
 
         return $this->client->submit($form);

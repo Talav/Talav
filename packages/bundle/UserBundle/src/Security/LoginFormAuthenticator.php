@@ -7,9 +7,9 @@ namespace Talav\UserBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
@@ -17,10 +17,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
+class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
@@ -28,19 +29,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     private CsrfTokenManagerInterface $csrfTokenManager;
 
-    private EncoderFactoryInterface $encoderFactory;
+    private PasswordHasherFactoryInterface $hasherFactory;
 
     private iterable $parameters;
 
     public function __construct(
         RouterInterface $router,
         CsrfTokenManagerInterface $csrfTokenManager,
-        EncoderFactoryInterface $encoderFactory,
+        PasswordHasherFactoryInterface $hasherFactory,
         array $parameters
     ) {
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->encoderFactory = $encoderFactory;
+        $this->hasherFactory = $hasherFactory;
         $this->parameters = $parameters;
     }
 
@@ -79,7 +80,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        return $this->encoderFactory->getEncoder($user)->isPasswordValid(
+        return $this->hasherFactory->getEncoder($user)->isPasswordValid(
             $user->getPassword(),
             $credentials['password'],
             $user->getSalt()
@@ -95,8 +96,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($this->router->generate($this->parameters['success_route']));
     }
 
-    protected function getLoginUrl(): string
+    protected function getLoginUrl(Request $request): string
     {
         return $this->router->generate('talav_user_login');
+    }
+
+    public function authenticate(Request $request): Passport
+    {
+        return new Passport();
     }
 }

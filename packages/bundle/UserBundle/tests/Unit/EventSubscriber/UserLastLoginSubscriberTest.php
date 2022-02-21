@@ -34,7 +34,7 @@ final class UserLastLoginSubscriberTest extends TestCase
     {
         $subscriber = new UserLastLoginSubscriber($this->getManagerMock());
         $user = new User();
-        $event = new InteractiveLoginEvent(new Request(), new UsernamePasswordToken($user, '', 'test'));
+        $event = new InteractiveLoginEvent(new Request(), new UsernamePasswordToken($user, 'test', []));
         $subscriber->onSecurityInteractiveLogin($event);
         $this->assertNotNull($user->getLastLogin());
     }
