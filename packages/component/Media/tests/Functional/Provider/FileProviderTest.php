@@ -48,10 +48,10 @@ final class FileProviderTest extends TestCase
         ]], []));
         $provider4 = new FileProvider('file4', $this->fs, $cdn, $generator, $validator, new Constraints([]));
         $this->pool = new ProviderPool();
-        $this->pool->addContext(new ContextConfig('test1', $provider1, []));
-        $this->pool->addContext(new ContextConfig('test2', $provider2, []));
-        $this->pool->addContext(new ContextConfig('test3', $provider3, []));
-        $this->pool->addContext(new ContextConfig('test4', $provider4, []));
+        $this->pool->addContext(new ContextConfig('test1', [$provider1], []));
+        $this->pool->addContext(new ContextConfig('test2', [$provider2], []));
+        $this->pool->addContext(new ContextConfig('test3', [$provider3], []));
+        $this->pool->addContext(new ContextConfig('test4', [$provider4], []));
         $subscriber = new MediaEventSubscriber($this->pool);
         $this->infrastructure = ORMInfrastructure::createWithDependenciesFor(MediaEntity::class);
         $this->em = $this->infrastructure->getEntityManager();

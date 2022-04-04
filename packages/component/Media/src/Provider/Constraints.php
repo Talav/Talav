@@ -11,15 +11,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Constraints
 {
     /** @var string[] */
-    protected array $extensions = [];
+    protected iterable $extensions = [];
 
     /** @var string[] */
-    protected array $fileConstraints = [];
+    protected iterable $fileConstraints = [];
 
     /** @var string[] */
-    protected array $imageConstraints = [];
+    protected iterable $imageConstraints = [];
 
-    public function __construct(array $extensions, array $fileConstraints = [], array $imageConstraints = [])
+    public function __construct(iterable $extensions, iterable $fileConstraints = [], iterable $imageConstraints = [])
     {
         $this->extensions = $extensions;
         $this->fileConstraints = $fileConstraints;

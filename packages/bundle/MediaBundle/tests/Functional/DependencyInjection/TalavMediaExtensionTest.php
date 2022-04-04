@@ -26,6 +26,6 @@ final class TalavMediaExtensionTest extends KernelTestCase
     {
         /** @var ProviderPool $pool */
         $pool = static::getContainer()->get('talav.media.provider.pool');
-        assertEquals(1, count($pool->getProviderList()));
+        assertEquals(2, count($pool->getProviderList()));
     }
 }

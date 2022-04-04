@@ -40,14 +40,21 @@ class ProviderPool
             throw new \RuntimeException(sprintf('Context "%s" has already been registered', $contextConfig->getName()));
         }
         $this->contexts[$contextConfig->getName()] = $contextConfig;
-        if (!$this->hasContext($contextConfig->getProvider()->getName())) {
-            $this->providers[$contextConfig->getProvider()->getName()] = $contextConfig->getProvider();
+        foreach ($contextConfig->getProviders() as $provider) {
+            if (!$this->hasProvider($provider->getName())) {
+                $this->providers[$provider->getName()] = $provider;
+            }
         }
     }
 
     public function hasContext(string $name): bool
     {
         return isset($this->contexts[$name]);
+    }
+
+    public function hasProvider(string $name): bool
+    {
+        return isset($this->providers[$name]);
     }
 
     public function getContext(string $name): ContextConfig

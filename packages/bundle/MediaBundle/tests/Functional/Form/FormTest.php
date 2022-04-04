@@ -119,8 +119,6 @@ class FormTest extends WebTestCase
     private function submitMediaTypeForm(string $uri, string $name, ?string $file = null): Crawler
     {
         $crawler = $this->client->request('GET', $uri);
-//        file_put_contents("/Users/andriy/Downloads/1.html", $crawler->html());
-//        dd(1);
         $form = $crawler->selectButton('Submit')->form();
         $form->get('talav_media_app_entity[name]')->setValue($name);
         if (!is_null($file)) {

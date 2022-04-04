@@ -55,7 +55,8 @@ class TalavMediaExtension extends AbstractResourceExtension
             ->setArgument(2, new Reference($config['image']['cdn']))
             ->setArgument(3, new Reference($config['image']['generator']))
             ->setArgument(4, new Reference(ValidatorInterface::class))
-            ->setArgument(5, new Definition(Constraints::class, [
+            ->setArgument(5, new Reference($config['image']['thumbnail']))
+            ->setArgument(6, new Definition(Constraints::class, [
                 $config['image']['constraints']['extensions'],
                 $config['image']['constraints']['file_constraints'],
                 $config['image']['constraints']['image_constraints'],
@@ -67,9 +68,13 @@ class TalavMediaExtension extends AbstractResourceExtension
     {
         $pool = $container->getDefinition('talav.media.provider.pool');
         foreach ($config as $name => $conf) {
+            $providers = [];
+            foreach ($conf['providers'] as $provider) {
+                $providers[] = new Reference($provider);
+            }
             $pool->addMethodCall('addContext', [new Definition(ContextConfig::class, [
                 $name,
-                new Reference($conf['provider']),
+                $providers,
                 [],
             ])]);
         }

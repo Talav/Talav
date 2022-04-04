@@ -13,7 +13,6 @@ use Talav\Component\Media\Context\ContextConfig;
 use Talav\Component\Media\Generator\UuidGenerator;
 use Talav\Component\Media\Provider\Constraints;
 use Talav\Component\Media\Provider\FileProvider;
-use Talav\Component\Media\Provider\MediaProviderInterface;
 use Talav\Component\Media\Provider\ProviderPool;
 
 final class ProviderPoolTest extends TestCase
@@ -43,7 +42,7 @@ final class ProviderPoolTest extends TestCase
      */
     public function it_throws_invalid_argument_exception_if_provider_key_does_not_exists()
     {
-        $context = new ContextConfig('config', $this->createProvider('test'));
+        $context = new ContextConfig('config', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context);
         $this->expectException(\InvalidArgumentException::class);
@@ -56,7 +55,7 @@ final class ProviderPoolTest extends TestCase
     public function it_correctly_returns_provider_by_key()
     {
         $providerName = 'test';
-        $context = new ContextConfig('config', $this->createProvider($providerName));
+        $context = new ContextConfig('config', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context);
         $provider = $providerPool->getProvider($providerName);
@@ -68,8 +67,8 @@ final class ProviderPoolTest extends TestCase
      */
     public function it_does_not_allow_to_override_context()
     {
-        $context1 = new ContextConfig('config', $this->createProvider('test'));
-        $context2 = new ContextConfig('config', $this->createProvider('test'));
+        $context1 = new ContextConfig('config', $this->createProviders(['test']));
+        $context2 = new ContextConfig('config', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context1);
         $this->expectException(\RuntimeException::class);
@@ -81,7 +80,7 @@ final class ProviderPoolTest extends TestCase
      */
     public function it_throws_runtime_exception_if_config_key_does_not_exists()
     {
-        $context = new ContextConfig('config', $this->createProvider('test'));
+        $context = new ContextConfig('config', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context);
         $this->expectException(\RuntimeException::class);
@@ -93,7 +92,7 @@ final class ProviderPoolTest extends TestCase
      */
     public function it_correctly_returns_context_by_name()
     {
-        $context = new ContextConfig('config', $this->createProvider('test'));
+        $context = new ContextConfig('config', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context);
         $context = $providerPool->getContext('config');
@@ -105,23 +104,27 @@ final class ProviderPoolTest extends TestCase
      */
     public function it_returns_all_added_contexts()
     {
-        $context1 = new ContextConfig('config1', $this->createProvider('test'));
-        $context2 = new ContextConfig('config2', $this->createProvider('test'));
+        $context1 = new ContextConfig('config1', $this->createProviders(['test']));
+        $context2 = new ContextConfig('config2', $this->createProviders(['test']));
         $providerPool = new ProviderPool();
         $providerPool->addContext($context1);
         $providerPool->addContext($context2);
         $this->assertCount(2, $providerPool->getContexts());
     }
 
-    protected function createProvider(string $providerName): MediaProviderInterface
+    protected function createProviders(iterable $providerNames): iterable
     {
         $fs = new Filesystem(new InMemoryFilesystemAdapter());
         $cdn = new Server(sys_get_temp_dir());
         $generator = new UuidGenerator();
         $validator = (new ValidatorBuilder())->getValidator();
+        $return = [];
+        foreach ($providerNames as $providerName) {
+            $return[] = new FileProvider($providerName, $fs, $cdn, $generator, $validator, new Constraints(['txt'], ['mimeTypes' => [
+                'text/plain',
+            ]], []));
+        }
 
-        return new FileProvider($providerName, $fs, $cdn, $generator, $validator, new Constraints(['txt'], ['mimeTypes' => [
-            'text/plain',
-        ]], []));
+        return $return;
     }
 }

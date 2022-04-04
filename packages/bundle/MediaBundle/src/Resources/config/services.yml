@@ -3,7 +3,7 @@ services:
     autowire: true
     autoconfigure: true
     public: false
-  Talav\UserBundle\:
+  Talav\MediaBundle\:
     resource: '../../*/*'
     exclude: '../../{DependencyInjection,Entity,Event,Form,Model,Migrations,Tests,vendor,Controller,EventSubscriber}'
   talav.media.provider.file:
@@ -21,6 +21,15 @@ services:
     public: true
   talav.media.generator.uuid:
     class: Talav\Component\Media\Generator\UuidGenerator
+    public: true
+  talav.media.league.glide:
+    class: League\Glide\Server
+    factory: ['League\Glide\ServerFactory', 'create']
+    arguments:
+      - { source: "%kernel.cache_dir%", cache: "%kernel.cache_dir%"}
+  talav.media.thumbnail.glide:
+    class: Talav\Component\Media\Thumbnail\GlideServer
+    arguments: ['@talav.media.league.glide']
     public: true
   talav.media.cdn.server:
     class: Talav\Component\Media\Cdn\Server

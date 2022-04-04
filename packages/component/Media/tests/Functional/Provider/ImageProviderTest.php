@@ -55,8 +55,8 @@ class ImageProviderTest extends TestCase
         $provider1->addFormat('format3', ['w' => 250, 'h' => 50]);
         $provider2 = new ImageProvider('image2', $this->fs, $cdn, $generator, $validator, $this->glideServer, new Constraints(['png']));
         $this->pool = new ProviderPool();
-        $this->pool->addContext(new ContextConfig('test1', $provider1, []));
-        $this->pool->addContext(new ContextConfig('test2', $provider2, []));
+        $this->pool->addContext(new ContextConfig('test1', [$provider1], []));
+        $this->pool->addContext(new ContextConfig('test2', [$provider2], []));
         $subscriber = new MediaEventSubscriber($this->pool);
         $this->infrastructure = ORMInfrastructure::createWithDependenciesFor(MediaEntity::class);
         $this->em = $this->infrastructure->getEntityManager();

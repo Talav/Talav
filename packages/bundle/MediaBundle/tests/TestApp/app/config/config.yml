@@ -41,7 +41,21 @@ talav_media:
         model: MediaAppBundle\Entity\Media
   contexts:
     doc:
-      provider: talav.media.provider.file
+      providers:
+       - talav.media.provider.file
+    avatar:
+      providers:
+        - talav.media.provider.image
+      formats:
+        large:
+          w: 200
+          h: 200
+        medium:
+          w: 100
+          h: 100
+        small:
+          w: 50
+          h: 50
 
 oneup_flysystem:
   adapters:
