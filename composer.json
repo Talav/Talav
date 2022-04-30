@@ -14,6 +14,7 @@
         "league/flysystem": "^3.0",
         "league/flysystem-memory": "^3.0",
         "league/glide": "^2.2",
+        "mark-gerarts/auto-mapper-plus": "^1.3",
         "mark-gerarts/automapper-plus-bundle": "^1.4",
         "oneup/flysystem-bundle": "dev-allow_compatibility_with_flysysytem3#684c77ebe3507462f9129d39e1ff75cf89d37b2e",
         "pagerfanta/pagerfanta": "^3.5",
@@ -28,6 +29,7 @@
         "symfony/framework-bundle": "^6.0",
         "symfony/http-foundation": "^6.0",
         "symfony/mailer": "^6.0",
+        "symfony/messenger": "^6.0",
         "symfony/mime": "^6.0",
         "symfony/monolog-bundle": "^3.7",
         "symfony/orm-pack": "^2.2",
@@ -80,6 +82,7 @@
             "packages/bundle/UserBundle/Tests/TestApp/app/UserAppKernel.php"
         ],
         "psr-4": {
+            "AvatarAppBundle\\": "packages/bundle/AvatarBundle/tests/TestApp/src/AvatarAppBundle/",
             "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/TestApp/src/MediaAppBundle/",
             "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/TestApp/src/ResourceAppBundle/",
             "Talav\\AvatarBundle\\Tests\\": "packages/bundle/AvatarBundle/tests/",
