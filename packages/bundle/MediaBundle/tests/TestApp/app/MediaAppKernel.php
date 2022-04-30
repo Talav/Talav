@@ -24,6 +24,7 @@ class MediaAppKernel extends Kernel
             new Talav\MediaBundle\TalavMediaBundle(),
             new MediaAppBundle\MediaAppBundle(),
             new Liip\TestFixturesBundle\LiipTestFixturesBundle(),
+            new AutoMapperPlus\AutoMapperPlusBundle\AutoMapperPlusBundle(),
         ];
     }
 

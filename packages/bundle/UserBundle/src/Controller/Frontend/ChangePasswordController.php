@@ -44,7 +44,7 @@ class ChangePasswordController extends AbstractController
     /**
      * @Route("/change-password", name="talav_user_change_password")
      */
-    public function register(Request $request): Response
+    public function changePassword(Request $request): Response
     {
         $form = $this->createForm(ChangePasswordType::class, new ChangePasswordModel());
         $form->handleRequest($request);

@@ -1,0 +1,13 @@
+{% extends '@TalavAvatar/layout.html.twig' %}
+
+{% trans_default_domain 'TalavAvatarBundle' %}
+
+{% block talav_avatar_content %}
+    {{ form_start(form, { 'action': path('talav_user_profile_avatar') }) }}
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'talav.update_avatar.form.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+
+{% endblock talav_avatar_content %}

@@ -8,7 +8,7 @@ use Talav\Component\Media\Model\Media;
 /**
  * Doctrine media entity that is used for testing.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Talav\Component\Resource\Repository\ResourceRepository")
  * @ORM\Table(name="test_media")
  */
 class MediaEntity extends Media
@@ -71,6 +71,18 @@ class MediaEntity extends Media
      * @ORM\Column(type="string", name="file_extension", nullable=true)
      */
     protected ?string $fileExtension;
+
+    /**
+     * File extension.
+     *
+     * @ORM\Column(type="string", name="file_name", nullable=true)
+     */
+    protected ?string $fileName;
+
+    /**
+     * @ORM\Column(type="json", name="thumbs_info", nullable=false)
+     */
+    protected ?array $thumbsInfo = [];
 
     public function getId(): ?int
     {

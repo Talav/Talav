@@ -19,8 +19,7 @@ class ChangePasswordControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->client->disableReboot();
-        $this->databaseTool = $this->client->getContainer()->get(DatabaseToolCollection::class)->get();
-        $this->databaseTool->loadFixtures([UserFixtures::class]);
+        $this->client->getContainer()->get(DatabaseToolCollection::class)->get()->loadFixtures([UserFixtures::class]);
     }
 
     /**

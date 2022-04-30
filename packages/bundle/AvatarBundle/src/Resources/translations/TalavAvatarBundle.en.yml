@@ -1,0 +1,8 @@
+talav:
+  update_avatar:
+    link: 'Update avatar'
+    flash:
+      success: 'Your avatar has been updated successfully.'
+    form:
+      avatar: 'Avatar'
+      submit: 'Submit'

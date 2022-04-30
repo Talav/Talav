@@ -9,9 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Talav\Component\Media\Context\ContextConfig;
 use Talav\Component\Media\Provider\Constraints;
+use Talav\Component\Media\Provider\TemplateConfig;
 use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 
 class TalavMediaExtension extends AbstractResourceExtension
@@ -43,25 +43,30 @@ class TalavMediaExtension extends AbstractResourceExtension
             ->setArgument(1, new Reference($config['file']['filesystem']))
             ->setArgument(2, new Reference($config['file']['cdn']))
             ->setArgument(3, new Reference($config['file']['generator']))
-            ->setArgument(4, new Reference(ValidatorInterface::class))
-            ->setArgument(5, new Definition(Constraints::class, [
+            ->setArgument(4, new Definition(Constraints::class, [
                 $config['file']['constraints']['extensions'],
                 $config['file']['constraints']['file_constraints'],
                 [],
             ]))
-        ;
+            ->addMethodCall('setTemplateConfig', [new Definition(TemplateConfig::class, [
+                '@TalavMedia/Provider/thumbnail.html.twig',
+                '@TalavMedia/Provider/File/view.html.twig',
+            ])]);
+
         $container->getDefinition('talav.media.provider.image')
             ->setArgument(1, new Reference($config['image']['filesystem']))
             ->setArgument(2, new Reference($config['image']['cdn']))
             ->setArgument(3, new Reference($config['image']['generator']))
-            ->setArgument(4, new Reference(ValidatorInterface::class))
-            ->setArgument(5, new Reference($config['image']['thumbnail']))
-            ->setArgument(6, new Definition(Constraints::class, [
+            ->setArgument(4, new Definition(Constraints::class, [
                 $config['image']['constraints']['extensions'],
                 $config['image']['constraints']['file_constraints'],
                 $config['image']['constraints']['image_constraints'],
             ]))
-        ;
+            ->addMethodCall('setThumbnail', [new Reference($config['image']['thumbnail'])])
+            ->addMethodCall('setTemplateConfig', [new Definition(TemplateConfig::class, [
+                '@TalavMedia/Provider/thumbnail.html.twig',
+                '@TalavMedia/Provider/Image/view.html.twig',
+            ])]);
     }
 
     public function configureContexts(ContainerBuilder $container, array $config): void
@@ -75,7 +80,7 @@ class TalavMediaExtension extends AbstractResourceExtension
             $pool->addMethodCall('addContext', [new Definition(ContextConfig::class, [
                 $name,
                 $providers,
-                [],
+                $conf['formats'],
             ])]);
         }
     }

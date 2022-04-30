@@ -7,7 +7,6 @@ namespace Talav\Component\Media\Tests\Unit\Provider;
 use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\ValidatorBuilder;
 use Talav\Component\Media\Cdn\Server;
 use Talav\Component\Media\Context\ContextConfig;
 use Talav\Component\Media\Generator\UuidGenerator;
@@ -117,10 +116,9 @@ final class ProviderPoolTest extends TestCase
         $fs = new Filesystem(new InMemoryFilesystemAdapter());
         $cdn = new Server(sys_get_temp_dir());
         $generator = new UuidGenerator();
-        $validator = (new ValidatorBuilder())->getValidator();
         $return = [];
         foreach ($providerNames as $providerName) {
-            $return[] = new FileProvider($providerName, $fs, $cdn, $generator, $validator, new Constraints(['txt'], ['mimeTypes' => [
+            $return[] = new FileProvider($providerName, $fs, $cdn, $generator, new Constraints(['txt'], ['mimeTypes' => [
                 'text/plain',
             ]], []));
         }

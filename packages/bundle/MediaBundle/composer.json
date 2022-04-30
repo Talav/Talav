@@ -16,6 +16,7 @@
         "symfony/form": "^6.0",
         "symfony/translation": "^6.0",
         "symfony/twig-bundle": "^6.0",
+        "mark-gerarts/automapper-plus-bundle": "^1.4",
         "oneup/flysystem-bundle": "dev-allow_compatibility_with_flysysytem3#684c77ebe3507462f9129d39e1ff75cf89d37b2e",
         "talav/media": "@dev",
         "talav/resource-bundle": "@dev"
@@ -25,6 +26,7 @@
         "symfony/phpunit-bridge": "^6.0",
         "symfony/browser-kit": "^6.0",
         "symfony/var-dumper": "^6.0",
+        "symfony/css-selector": "^6.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.3",
         "fakerphp/faker": "^1.19",

@@ -4,81 +4,33 @@ declare(strict_types=1);
 
 namespace Talav\Component\Media\Provider;
 
-use League\Flysystem\FilesystemOperator;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Talav\Component\Media\Cdn\CdnInterface;
-use Talav\Component\Media\Generator\GeneratorInterface;
 use Talav\Component\Media\Model\MediaInterface;
-use Talav\Component\Media\Thumbnail\ThumbnailInterface;
 
-class ImageProvider extends FileProvider
+class ImageProvider extends FileProvider implements ThumbnailableProviderInterface
 {
-    protected ThumbnailInterface $thumbnail;
+    use ThumbnailableProviderTrait;
 
-    public function __construct(
-        string $name,
-        FilesystemOperator $filesystem,
-        CdnInterface $cdn,
-        GeneratorInterface $generator,
-        ValidatorInterface $validator,
-        ThumbnailInterface $thumbnail,
-        ?Constraints $constrains = null
-    ) {
-        parent::__construct(
-            $name,
-            $filesystem,
-            $cdn,
-            $generator,
-            $validator,
-            $constrains
-        );
-        $this->thumbnail = $thumbnail;
-    }
-
-    public function postPersist(MediaInterface $media): void
+    public function getViewHelperProperties(MediaInterface $media, string $formatName, iterable $options = []): array
     {
-        if (null === $media->getFile()) {
-            return;
+        if (isset($options['srcset'], $options['picture'])) {
+            throw new \LogicException("The 'srcset' and 'picture' options must not be used simultaneously.");
         }
-        $this->copyTempFile($media);
-        $this->generateThumbnails($media);
-        $media->resetFile();
+
+        $params = [
+            'alt' => $media->getDescription() ?? $media->getName(),
+            'title' => $media->getName(),
+            'src' => $this->getThumbnailPublicUrl($media, $formatName),
+        ];
+        $params['width'] = $media->getThumbsInfo()[$formatName]['width'];
+        $params['height'] = $media->getThumbsInfo()[$formatName]['height'];
+
+        // add logic to process $options['picture']
+
+        return array_merge($params, $options);
     }
 
-    // Remove all generated thumbnails
-    public function postRemove(MediaInterface $media): void
+    public function getThumbnailPublicUrl(MediaInterface $media, string $formatName): ?string
     {
-        $hash = spl_object_hash($media);
-
-        if (isset($this->clones[$hash])) {
-            $media = $this->clones[$hash];
-            unset($this->clones[$hash]);
-        }
-        $this->thumbnail->delete($this, $media);
-        $this->deletePath($this->getFilesystemReference($media));
-    }
-
-    public function generateThumbnails(MediaInterface $media)
-    {
-        $this->thumbnail->generate($this, $media);
-    }
-
-    public function flushCdn(MediaInterface $media)
-    {
-//        if ($media->getId() && $this->requireThumbnails() && !$media->getCdnIsFlushable()) {
-//            $flushPaths = [];
-//            foreach ($this->getFormats() as $format => $settings) {
-//                if (MediaProviderInterface::FORMAT_ADMIN === $format ||
-//                    substr($format, 0, \strlen((string) $media->getContext())) === $media->getContext()) {
-//                    $flushPaths[] = $this->getFilesystem()->get($this->generatePrivateUrl($media, $format), true)->getKey();
-//                }
-//            }
-//            if (!empty($flushPaths)) {
-//                $cdnFlushIdentifier = $this->getCdn()->flushPaths($flushPaths);
-//                $media->setCdnFlushIdentifier($cdnFlushIdentifier);
-//                $media->setCdnIsFlushable(true);
-//                $media->setCdnStatus(CDNInterface::STATUS_TO_FLUSH);
-//            }
-//        }
+        return $this->cdn->getPath($this->getThumbnailPath($media, $formatName));
     }
 }

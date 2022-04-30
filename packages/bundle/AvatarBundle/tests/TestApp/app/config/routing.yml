@@ -1,0 +1,5 @@
+talav_user:
+  resource: '@TalavUserBundle/Resources/config/routing.yml'
+
+talav_avatar:
+  resource: '@TalavAvatarBundle/Resources/config/routing.yml'

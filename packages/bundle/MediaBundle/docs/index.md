@@ -131,6 +131,105 @@ That means you can have a ``small`` user picture format and a ``small`` news
 picture format with different sizes and providers.
 
 
+Helpers
+=============
+
+The bundle comes with different helpers to render the thumbnail or the media
+itself. The thumbnail always represents the media's image preview (i.e. the
+thumbnail of a flash video). And the media helper generates the media itself
+(i.e. the flash video).
+
+Twig usage
+----------
+
+Render the reference to the original file:
+
+```
+    {{ media_reference(media) }}
+```
+Output similar to
+```html
+   /uploads/media/doc/0001/00/04054c62a7129bf967ba67c3b935ca18388d1781.txt
+```
+
+Render the reference to a thumbnail:
+
+```txt
+    {{ media_thumb_reference(media, 'small') }}
+```
+
+FileProvider does not provide any thumbnails. Output similar to
+
+```html
+   /uploads/media/avatar/0002/00/f7854c2624ec9581fd4b3c329c11ffc6.jpeg
+```
+
+Render the media:
+
+```txt
+    {{ media_thumb(media, 'small') }}
+
+    {{ media_thumb(media, 'small', {'class': 'myclass'}) }}
+```
+
+FileProvider does not render any thumbnails. Output similar to
+
+```html
+<img title="avatar.jpeg" alt="avatar.jpeg" width="50" height="50" src="/uploads/media/avatar/0002/00/1d63d5d0226c54f6fd127d54d2eeb7891f77dceb.jpeg" >
+```
+
+Render the media:
+
+```txt
+    {{ media_media(media, 'small') }}
+
+    {{ media_media(media, 'small', {'class': 'myclass'}) }}
+```
+
+The media helper for the ``talav.media.provider.image`` provider renders a responsive image tag with sensible defaults for ``srcset`` and ``sizes``.
+The size configured will be the one used for the default fallback ``src``.
+
+To override the ``sizes`` to fit your particular design, just pass a ``sizes`` option to the helper.
+
+```txt
+    {{ sonata_media(media, 'small', {'sizes': '(min-width: 20em) 50vw, 100vw'}) }}
+```
+
+To override the ``srcset`` attribute, just pass a ``srcset`` option to the
+helper. The option expects either a string or an array of formats.
+
+.. code-block:: jinja
+
+    {{ sonata_media(media, 'large', {'srcset': ['small', 'big']}) }}
+
+To render the image as ``<picture>`` element instead of ``<img>``, pass a ``picture`` key instead of ``srcset`` above:
+
+.. code-block:: jinja
+
+    {{ sonata_media(media, 'large', {'picture': ['small', 'big']}) }}
+
+Media queries for ``<source>`` tags will default to a ``max-width`` equal to the image size.
+If you need to specify media queries explicitly, do so with an object as follows:
+
+.. code-block:: jinja
+
+    {{ sonata_media(media, 'large', {'srcset': {'(max-width: 500px)': 'small', '(max-width: 1200px)': 'big'}}) }}
+
+The format parameter (``'large'`` above) determines which size is going to be rendered as ``<img>`` inside the ``<picture>`` element.
+
+Thumbnails for files
+--------------------
+
+The ``sonata.media.provider.file`` provider does not generate thumbnails.
+This provider tries to display a default thumbnail.
+
+The default thumbnail must be put in ``bundles/sonatamedia/file.png``.
+It is automatically available there when you install assets using
+
+.. code-block:: bash
+
+    bin/console assets:install
+
 Full configuration
 =============
 

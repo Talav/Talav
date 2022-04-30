@@ -57,9 +57,12 @@
     },
     "autoload": {
         "exclude-from-classmap": [
+            "packages/bundle/AvatarBundle/tests/",
             "packages/bundle/UserBundle/tests/"
         ],
         "psr-4": {
+            "AvatarAppBundle\\": "packages/bundle/AvatarBundle/tests/TestApp/src/AvatarAppBundle/",
+            "Talav\\AvatarBundle\\": "packages/bundle/AvatarBundle/src/",
             "Talav\\Component\\Media\\": "packages/component/Media/src/",
             "Talav\\Component\\Registry\\": "packages/component/Registry/src/",
             "Talav\\Component\\Resource\\": "packages/component/Resource/src/",
@@ -71,6 +74,7 @@
     },
     "autoload-dev": {
         "files": [
+            "packages/bundle/AvatarBundle/Tests/TestApp/app/AvatarAppKernel.php",
             "packages/bundle/MediaBundle/tests/TestApp/app/MediaAppKernel.php",
             "packages/bundle/ResourceBundle/tests/TestApp/app/ResourceAppKernel.php",
             "packages/bundle/UserBundle/Tests/TestApp/app/UserAppKernel.php"
@@ -78,6 +82,7 @@
         "psr-4": {
             "MediaAppBundle\\": "packages/bundle/MediaBundle/tests/TestApp/src/MediaAppBundle/",
             "ResourceAppBundle\\": "packages/bundle/ResourceBundle/tests/TestApp/src/ResourceAppBundle/",
+            "Talav\\AvatarBundle\\Tests\\": "packages/bundle/AvatarBundle/tests/",
             "Talav\\Component\\Media\\Tests\\": "packages/component/Media/tests/",
             "Talav\\Component\\Registry\\Tests\\": "packages/component/Registry/tests/",
             "Talav\\Component\\Resource\\Tests\\": "packages/component/Resource/tests/",
@@ -99,6 +104,7 @@
         }
     ],
     "replace": {
+        "talav/avatar-bundle": "self.version",
         "talav/media": "self.version",
         "talav/media-bundle": "self.version",
         "talav/registry": "self.version",

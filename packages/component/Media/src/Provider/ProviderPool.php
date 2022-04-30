@@ -44,17 +44,15 @@ class ProviderPool
             if (!$this->hasProvider($provider->getName())) {
                 $this->providers[$provider->getName()] = $provider;
             }
+            foreach ($contextConfig->getFormats() as $formatName => $format) {
+                $provider->addFormat($formatName, $format);
+            }
         }
     }
 
     public function hasContext(string $name): bool
     {
         return isset($this->contexts[$name]);
-    }
-
-    public function hasProvider(string $name): bool
-    {
-        return isset($this->providers[$name]);
     }
 
     public function getContext(string $name): ContextConfig
@@ -66,6 +64,16 @@ class ProviderPool
         return $this->contexts[$name];
     }
 
+    public function getContexts(): array
+    {
+        return $this->contexts;
+    }
+
+    public function hasProvider(string $name): bool
+    {
+        return isset($this->providers[$name]);
+    }
+
     public function getProviderList(): array
     {
         $choices = [];
@@ -74,10 +82,5 @@ class ProviderPool
         }
 
         return $choices;
-    }
-
-    public function getContexts(): array
-    {
-        return $this->contexts;
     }
 }

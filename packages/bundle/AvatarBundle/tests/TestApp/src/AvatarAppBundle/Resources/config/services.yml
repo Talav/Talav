@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+  AvatarAppBundle\DataFixtures\UserFixtures:
+    class: AvatarAppBundle\DataFixtures\UserFixtures

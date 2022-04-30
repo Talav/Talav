@@ -133,8 +133,37 @@ security:
     providers:
         app_user_provider:
             id: talav.user.provider.oath
+    
+    firewalls:
+        main:
+            lazy: true
+            provider: app_user_provider
+            entry_point: form_login
+            form_login:
+                login_path: talav_user_login
+                check_path: talav_user_login
+                enable_csrf: true
+            logout:
+                path: talav_user_logout
+                target: talav_user_login
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 2592000
 ```
 
 ### Step 4: Remove auto generated classes
 `src/Securiry/User.php`
 `src/Securiry/UserProvider.php`
+
+### Step 5: Enable automapper
+```yaml
+auto_mapper_plus:
+  options:
+    create_unregistered_mappings: true
+```
+
+### Step 6: Enable routes in `config/routes/talav.yaml`
+```yaml
+talav_user:
+  resource: '@TalavUserBundle/Resources/config/routing.yml'
+```

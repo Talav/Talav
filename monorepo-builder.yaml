@@ -26,4 +26,5 @@ parameters:
         packages/bundle/MediaBundle: 'git@github.com:Talav/media-bundle.git'
         packages/bundle/ResourceBundle: 'git@github.com:Talav/resource-bundle.git'
         packages/bundle/UserBundle: 'git@github.com:Talav/user-bundle.git'
+        packages/bundle/AvatarBundle: 'git@github.com:Talav/avatar-bundle.git'
         packages/lib/coding-standard: 'git@github.com:Talav/coding-standard.git'

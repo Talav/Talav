@@ -3,21 +3,29 @@
 namespace Talav\MediaAppBundle\Form;
 
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use MediaAppBundle\Entity\Author;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\FileFormField;
 use Talav\Component\Media\Provider\ProviderPool;
+use Talav\Component\Resource\Manager\ManagerInterface;
 
 class FormTest extends WebTestCase
 {
     protected KernelBrowser $client;
+
+    protected ManagerInterface $authorManager;
+
+    protected ManagerInterface $mediaManager;
 
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->client->disableReboot();
         $this->client->getContainer()->get(DatabaseToolCollection::class)->get()->loadFixtures();
+        $this->authorManager = self::$kernel->getContainer()->get('app.manager.author');
+        $this->mediaManager = self::$kernel->getContainer()->get('app.manager.media');
     }
 
     /**
@@ -27,7 +35,7 @@ class FormTest extends WebTestCase
     {
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name');
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
-        $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findBy(['name' => 'Test name']);
+        $author = $this->authorManager->getRepository()->findBy(['name' => 'Test name']);
         self::assertNotNull($author);
     }
 
@@ -40,7 +48,7 @@ class FormTest extends WebTestCase
         $this->createTxtFile($filename);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
-        $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findOneBy(['name' => 'Test name']);
+        $author = $this->authorManager->getRepository()->findOneBy(['name' => 'Test name']);
         self::assertNotNull($author);
         self::assertNotNull($author->getMedia());
         self::assertNotNull($author->getMedia()->getCreatedAt());
@@ -57,7 +65,7 @@ class FormTest extends WebTestCase
         $this->createTxtFile($filename);
         $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
         self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
-        $author = self::$kernel->getContainer()->get('app.manager.author')->getRepository()->findOneBy(['name' => 'Test name']);
+        $author = $this->authorManager->getRepository()->findOneBy(['name' => 'Test name']);
         $media = $author->getMedia();
 
         /** @var ProviderPool $pool */
@@ -114,6 +122,87 @@ class FormTest extends WebTestCase
     }
 
     /**
+     * @test
+     */
+    public function it_does_not_modify_media_if_file_is_not_selected(): void
+    {
+        $author = $this->createAuthorWithMedia();
+        $previousMedia = $author->getMedia();
+        // initialize doctrine proxy, field does not really matter
+        $previousMedia->getProviderReference();
+
+        // Submit form without file
+        $crawler = $this->client->request('GET', '/form/test3/'.$author->getId().'/edit');
+        $form = $crawler->selectButton('Submit')->form();
+        $form->get('talav_media_app_entity[name]')->setValue('Updated author name');
+        $this->client->followRedirects(true);
+        $this->client->submit($form);
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $author = $this->authorManager->reload($author);
+
+        self::assertEquals('Updated author name', $author->getName());
+        self::assertNotNull($author->getMedia());
+        self::assertEquals($previousMedia->getProviderReference(), $author->getMedia()->getProviderReference());
+        self::assertEquals($previousMedia->getName(), $author->getMedia()->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_modifies_media_if_file_is_selected(): void
+    {
+        $author = $this->createAuthorWithMedia();
+        $previousMedia = $author->getMedia();
+        // initialize doctrine proxy, field does not really matter
+        $previousMedia->getProviderReference();
+
+        // Submit form with file
+        $crawler = $this->client->request('GET', '/form/test3/'.$author->getId().'/edit');
+
+        $form = $crawler->selectButton('Submit')->form();
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.txt';
+        $this->createTxtFile($filename);
+        $uploadField = $form->get('talav_media_app_entity[media][file]');
+        $uploadField->upload($filename);
+        $this->client->followRedirects(true);
+        $this->client->submit($form);
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $author = $this->authorManager->reload($author);
+
+        // relation still exists
+        self::assertNotNull($author->getMedia());
+        // the same id but different provider reference because files are different
+        self::assertNotEquals($previousMedia->getProviderReference(), $author->getMedia()->getProviderReference());
+        self::assertNotEquals($previousMedia->getFilename(), $author->getMedia()->getFilename());
+        self::assertEquals($previousMedia->getId(), $author->getMedia()->getId());
+    }
+
+    /**
+     * @test
+     */
+    public function it_unlinks_and_deletes_media(): void
+    {
+        $author = $this->createAuthorWithMedia();
+        $previousMedia = $author->getMedia();
+        $id = $previousMedia->getId();
+
+        $crawler = $this->client->request('GET', '/form/test3/'.$author->getId().'/edit');
+        $form = $crawler->selectButton('Submit')->form();
+        $form->get('talav_media_app_entity[media][unlink]')->setValue(true);
+        $this->client->submit($form);
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $author = $this->authorManager->reload($author);
+
+        // relation does not exist
+        self::assertNull($author->getMedia());
+        // and media does not exist
+        self::assertNull($this->mediaManager->getRepository()->find($id));
+    }
+
+    /**
      * Submit form.
      */
     private function submitMediaTypeForm(string $uri, string $name, ?string $file = null): Crawler
@@ -163,5 +252,16 @@ echo '1'; ";
     private function createTxtFile($path)
     {
         file_put_contents($path, 'Test file');
+    }
+
+    private function createAuthorWithMedia(): Author
+    {
+        // create a new author using form
+        $filename = tempnam(sys_get_temp_dir(), 'test').'.txt';
+        $this->createTxtFile($filename);
+        $crawler = $this->submitMediaTypeForm('/test1', 'Test name', $filename);
+        self::assertStringContainsStringIgnoringCase('Test passed', $crawler->html());
+
+        return $this->authorManager->getRepository()->findOneBy(['name' => 'Test name']);
     }
 }
