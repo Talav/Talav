@@ -44,12 +44,6 @@ class MediaEntity extends Media
     protected ?string $providerName = null;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer", name="provider_status", nullable=true)
-     */
-    protected $providerStatus;
-
-    /**
      * @ORM\Column(type="string", name="provider_reference", nullable=true)
      */
     protected ?string $providerReference = null;
