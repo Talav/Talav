@@ -23,34 +23,9 @@ class Media implements MediaInterface
 
     protected ?string $providerReference = null;
 
-    protected ?int $size = null;
-
     protected ?array $thumbsInfo = null;
 
-    /**
-     * Mime type of the new file.
-     */
-    protected ?string $mimeType = null;
-
-    /**
-     * File extension.
-     */
-    protected ?string $fileExtension = null;
-
-    /**
-     * File name.
-     */
-    protected ?string $fileName = null;
-
-    public function getFileName(): ?string
-    {
-        return $this->fileName;
-    }
-
-    public function setFileName(?string $fileName): void
-    {
-        $this->fileName = $fileName;
-    }
+    protected ?FileInfo $fileInfo = null;
 
     public function getName(): ?string
     {
@@ -96,10 +71,10 @@ class Media implements MediaInterface
     {
         // this is the name used to store the file
         if (is_null($this->providerReference)) {
-            if (is_null($this->getFileExtension())) {
+            if ('' == $this->getFileInfo()->getExt()) {
                 $this->setProviderReference($this->generateReferenceName());
             } else {
-                $this->setProviderReference(sprintf('%s.%s', $this->generateReferenceName(), $this->getFileExtension()));
+                $this->setProviderReference(sprintf('%s.%s', $this->generateReferenceName(), $this->getFileInfo()->getExt()));
             }
         }
 
@@ -111,36 +86,6 @@ class Media implements MediaInterface
         $this->providerReference = $providerReference;
     }
 
-    public function getSize(): ?int
-    {
-        return $this->size;
-    }
-
-    public function setSize(?int $size): void
-    {
-        $this->size = $size;
-    }
-
-    public function getMimeType(): ?string
-    {
-        return $this->mimeType;
-    }
-
-    public function setMimeType(?string $mimeType): void
-    {
-        $this->mimeType = $mimeType;
-    }
-
-    public function getFileExtension(): ?string
-    {
-        return $this->fileExtension;
-    }
-
-    public function setFileExtension(?string $fileExtension): void
-    {
-        $this->fileExtension = $fileExtension;
-    }
-
     public function getThumbsInfo(): array
     {
         return $this->thumbsInfo;
@@ -149,6 +94,16 @@ class Media implements MediaInterface
     public function setThumbsInfo(array $thumbsInfo): void
     {
         $this->thumbsInfo = $thumbsInfo;
+    }
+
+    public function setFileInfo(?FileInfo $fileInfo): void
+    {
+        $this->fileInfo = $fileInfo;
+    }
+
+    public function getFileInfo(): ?FileInfo
+    {
+        return $this->fileInfo;
     }
 
     protected function generateReferenceName(): string

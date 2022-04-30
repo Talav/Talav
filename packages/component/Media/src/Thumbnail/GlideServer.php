@@ -70,7 +70,7 @@ final class GlideServer implements ThumbnailInterface
 
     protected function enforceExtension(array $options, MediaInterface $media): array
     {
-        $options['fm'] = $options['fm'] ?? $media->getFileExtension();
+        $options['fm'] = $options['fm'] ?? $media->getFileInfo()->getExt();
 
         return $options;
     }

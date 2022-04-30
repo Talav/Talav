@@ -6,8 +6,8 @@ namespace Talav\Component\Media\Mapper\Configurator;
 
 use AutoMapperPlus\AutoMapperPlusBundle\AutoMapperConfiguratorInterface;
 use AutoMapperPlus\Configuration\AutoMapperConfigInterface;
-use Talav\Component\Media\Mapper\CreateMediaMapper;
-use Talav\Component\Media\Mapper\UpdateMediaMapper;
+use Talav\Component\Media\Mapper\Dto\CreateMediaMapper;
+use Talav\Component\Media\Mapper\Dto\UpdateMediaMapper;
 use Talav\Component\Media\Message\Dto\Media\CreateMediaDto;
 use Talav\Component\Media\Message\Dto\Media\UpdateMediaDto;
 use Talav\Component\Media\Model\MediaInterface;

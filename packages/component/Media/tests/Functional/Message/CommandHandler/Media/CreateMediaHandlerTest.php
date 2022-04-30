@@ -82,7 +82,7 @@ class CreateMediaHandlerTest extends TestCase
         $command = new CreateMediaCommand($this->createMediaDto());
         $media = $this->createMediaHandler->__invoke($command);
         self::assertEquals(self::FILE_CONTENT, $this->pool->getProvider($media->getProviderName())->getMediaContent($media));
-        self::assertEquals(self::FILE_NAME, $media->getFileName());
+        self::assertEquals(self::FILE_NAME, $media->getFileInfo()->getName());
     }
 
     protected function createMediaDto(?string $providerName = 'provider1', ?string $context = 'context1'): CreateMediaDto

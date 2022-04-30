@@ -3,6 +3,7 @@
 namespace Talav\Component\Media\Tests\Functional\Setup\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Talav\Component\Media\Model\FileInfo;
 use Talav\Component\Media\Model\Media;
 
 /**
@@ -54,43 +55,17 @@ class MediaEntity extends Media
     protected ?string $providerReference = null;
 
     /**
-     * @ORM\Column(type="integer", name="size", nullable=true)
-     */
-    protected ?int $size = null;
-
-    /**
-     * Mime type of the new file.
-     *
-     * @ORM\Column(type="string", name="mime_type", nullable=true)
-     */
-    protected ?string $mimeType = null;
-
-    /**
-     * File extension.
-     *
-     * @ORM\Column(type="string", name="file_extension", nullable=true)
-     */
-    protected ?string $fileExtension;
-
-    /**
-     * File extension.
-     *
-     * @ORM\Column(type="string", name="file_name", nullable=true)
-     */
-    protected ?string $fileName;
-
-    /**
      * @ORM\Column(type="json", name="thumbs_info", nullable=false)
      */
     protected ?array $thumbsInfo = [];
 
+    /**
+     * @ORM\Column(type="object", name="file_info", nullable=false)
+     */
+    protected ?FileInfo $fileInfo = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): void
-    {
-        $this->id = $id;
     }
 }

@@ -175,7 +175,7 @@ class FormTest extends WebTestCase
         self::assertNotNull($author->getMedia());
         // the same id but different provider reference because files are different
         self::assertNotEquals($previousMedia->getProviderReference(), $author->getMedia()->getProviderReference());
-        self::assertNotEquals($previousMedia->getFilename(), $author->getMedia()->getFilename());
+        self::assertNotEquals($previousMedia->getFileInfo()->getName(), $author->getMedia()->getFileInfo()->getName());
         self::assertEquals($previousMedia->getId(), $author->getMedia()->getId());
     }
 

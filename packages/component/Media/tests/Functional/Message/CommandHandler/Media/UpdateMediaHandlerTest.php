@@ -65,7 +65,7 @@ class UpdateMediaHandlerTest extends TestCase
         $this->updateMediaHandler->__invoke($command);
 
         self::assertNotEquals($previousMedia->getName(), $media->getName());
-        self::assertNotEquals($previousMedia->getSize(), $media->getSize());
+        self::assertNotEquals($previousMedia->getFileInfo()->getSize(), $media->getFileInfo()->getSize());
         self::assertNotEquals($previousMedia->getProviderReference(), $media->getProviderReference());
         self::assertEquals(self::FILE_CONTENT2, $provider->getMediaContent($media));
         self::assertFalse($provider->getFilesystem()->fileExists($provider->getFilesystemReference($previousMedia)));
