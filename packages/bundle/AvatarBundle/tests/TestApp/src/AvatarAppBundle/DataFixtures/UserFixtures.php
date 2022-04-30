@@ -9,14 +9,13 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 use Faker\Generator;
 use Talav\Component\User\Manager\UserManagerInterface;
+use Talav\Component\User\Model\UserInterface;
 
 class UserFixtures extends Fixture
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /** @var Generator */
-    private $faker;
+    private Generator $faker;
 
     public function __construct(UserManagerInterface $userManager)
     {
@@ -27,10 +26,13 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = $this->userManager->create();
+        /* @var UserInterface $user */
         $user->setUsername('tester');
         $user->setEmail('tester@test.com');
         $user->setPlainPassword('tester');
         $user->setEnabled(true);
+        $user->setFirstName($this->faker->firstName);
+        $user->setLastName($this->faker->lastName);
 
         $this->userManager->update($user);
 

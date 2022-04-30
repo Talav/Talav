@@ -11,4 +11,8 @@ interface UserAvatarInterface
     public function getAvatar(): ?MediaInterface;
 
     public function setAvatar(?MediaInterface $avatar): void;
+
+    public function getAvatarName(): ?string;
+
+    public function getAvatarDescription(): ?string;
 }

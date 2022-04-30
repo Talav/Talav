@@ -6,8 +6,7 @@ use AvatarAppBundle\DataFixtures\UserFixtures;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\DomCrawler\Field\FileFormField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Talav\Component\User\Repository\UserRepositoryInterface;
 
 class AvatarControllerTest extends WebTestCase
@@ -20,27 +19,36 @@ class AvatarControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->client->disableReboot();
+        $this->client->followRedirects();
         $this->client->getContainer()->get(DatabaseToolCollection::class)->get()->loadFixtures([UserFixtures::class]);
         $this->userRepository = $this->client->getContainer()->get('app.repository.user');
         $this->client->loginUser($this->userRepository->findOneByEmail('tester@test.com'));
     }
 
     /**
-     * Submit form.
+     * @test
      */
-    private function submitMediaTypeForm(string $uri, ?string $file = null): Crawler
+    public function it_shows_update_avatar_page()
     {
-        $crawler = $this->client->request('GET', $uri);
-        $form = $crawler->selectButton('Submit')->form();
-        if (!is_null($file)) {
-            /** @var FileFormField $uploadField */
-            $uploadField = $form->get('talav_avatar_type[avatar][file]');
-            $uploadField->upload($file);
-        }
-        $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->client->request('GET', '/user/profile/avatar');
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
 
-        return $crawler;
+    /**
+     * @test
+     */
+    public function it_allows_to_add_avatar()
+    {
+        $crawler = $this->client->request('GET', '/user/profile/avatar');
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $form = $crawler->selectButton('Submit')->form();
+        $uploadField = $form->get('media[file]');
+        $uploadField->upload(new UploadedFile(__DIR__.'/../../../var/fixtures/avatar.jpeg', 'avatar.jpeg', null, null, true));
+        $this->client->submit($form);
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $user = $this->userRepository->findOneByEmail('tester@test.com');
+        self::assertNotNull($user->getAvatar());
+        self::assertNotNull($user->getAvatar()->getName());
+        self::assertNotNull($user->getAvatar()->getDescription());
     }
 }

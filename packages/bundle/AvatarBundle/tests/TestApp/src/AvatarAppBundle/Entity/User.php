@@ -37,4 +37,14 @@ class User extends BaseUser implements UserAvatarInterface
     {
         $this->avatar = $avatar;
     }
+
+    public function getAvatarName(): ?string
+    {
+        return $this->getFirstName().' '.$this->getLastName();
+    }
+
+    public function getAvatarDescription(): ?string
+    {
+        return $this->getAvatarName();
+    }
 }
