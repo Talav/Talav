@@ -47,7 +47,7 @@ jobs:
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
           package-directory: 'packages/${{ matrix.package.path }}'
           split-repository-organization: 'talav'
@@ -63,7 +63,7 @@ jobs:
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
 
