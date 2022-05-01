@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: output_data
         run: |
           content=`cat ./monorepo-builder.json`
@@ -38,7 +38,9 @@ jobs:
         package: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
     steps:
-      -   uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        run: |
+          echo secrets.TALAV_WORKFLOW_SECRET
 
       # no tag
       -
@@ -47,7 +49,7 @@ jobs:
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
         with:
           package-directory: 'packages/${{ matrix.package.path }}'
           split-repository-organization: 'talav'
@@ -63,7 +65,7 @@ jobs:
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
 
