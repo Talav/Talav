@@ -17,7 +17,7 @@ jobs:
     steps:
       - id: set_var
         run: |
-          content=`cat ./packages.json`
+          content=`cat ${GITHUB_WORKSPACE}/packages.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
