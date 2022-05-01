@@ -23,8 +23,10 @@ jobs:
           with:
             php-version: 8.0
             coverage: none
+          # see https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+          # see https://github.com/shivammathur/setup-php#composer-github-oauth
           env:
-            COMPOSER_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
+            COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       -   uses: "ramsey/composer-install@v1"
 
