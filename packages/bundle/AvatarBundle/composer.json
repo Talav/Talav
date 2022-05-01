@@ -38,10 +38,7 @@
     "autoload": {
         "psr-4": {
             "Talav\\AvatarBundle\\": "src/"
-        },
-        "exclude-from-classmap": [
-            "/tests/"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -49,7 +46,7 @@
             "AvatarAppBundle\\": "tests/TestApp/src/AvatarAppBundle/"
         },
         "files": [
-            "Tests/TestApp/app/AvatarAppKernel.php"
+            "tests/TestApp/app/AvatarAppKernel.php"
         ]
     },
     "extra": {

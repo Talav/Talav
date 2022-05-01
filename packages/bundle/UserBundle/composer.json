@@ -58,7 +58,7 @@
             "UserAppBundle\\": "tests/TestApp/src/UserAppBundle/"
         },
         "files": [
-            "Tests/TestApp/app/UserAppKernel.php"
+            "tests/TestApp/app/UserAppKernel.php"
         ]
     },
     "extra": {
