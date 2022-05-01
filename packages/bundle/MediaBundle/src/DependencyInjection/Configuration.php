@@ -63,7 +63,7 @@ final class Configuration implements ConfigurationInterface
                         ->arrayNode('server')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('path')->defaultValue('/uploads/media')->end()
+                                ->scalarNode('path')->defaultValue('/media')->end()
                             ->end()
                         ->end()
                     ->end()

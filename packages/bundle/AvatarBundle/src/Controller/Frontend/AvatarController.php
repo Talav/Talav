@@ -51,6 +51,7 @@ class AvatarController extends AbstractController
         $form = $this->createForm(MediaType::class, $model, [
             'provider' => 'image',
             'context' => 'avatar',
+            'required' => false,
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

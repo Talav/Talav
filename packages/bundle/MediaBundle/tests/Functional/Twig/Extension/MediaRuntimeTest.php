@@ -23,7 +23,7 @@ class MediaRuntimeTest extends WebTestCase
      */
     public function it_correctly_renders_media_path_for_txt_document(): void
     {
-        self::assertMatchesRegularExpression("/\/uploads\/media\/doc\/0001\/00\/[0-9a-z]*\.txt/", $this->client->request('GET', '/view/test1')->html());
+        self::assertMatchesRegularExpression("/\/media\/doc\/0001\/00\/[0-9a-z]*\.txt/", $this->client->request('GET', '/view/test1')->html());
     }
 
     /**
@@ -31,7 +31,7 @@ class MediaRuntimeTest extends WebTestCase
      */
     public function it_correctly_renders_media_path_for_media_document(): void
     {
-        self::assertMatchesRegularExpression("/\/uploads\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $this->client->request('GET', '/view/test2')->html());
+        self::assertMatchesRegularExpression("/\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $this->client->request('GET', '/view/test2')->html());
     }
 
     /**
@@ -43,9 +43,9 @@ class MediaRuntimeTest extends WebTestCase
         // 3 divs
         self::assertCount(3, $crawler);
         // all divs point to the correct path
-        self::assertMatchesRegularExpression("/\/uploads\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(0)->nodeValue);
-        self::assertMatchesRegularExpression("/\/uploads\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(1)->nodeValue);
-        self::assertMatchesRegularExpression("/\/uploads\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(2)->nodeValue);
+        self::assertMatchesRegularExpression("/\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(0)->nodeValue);
+        self::assertMatchesRegularExpression("/\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(1)->nodeValue);
+        self::assertMatchesRegularExpression("/\/media\/avatar\/0002\/00\/[0-9a-z]*\.jpeg/", $crawler->getNode(2)->nodeValue);
         // but they are all different
         self::assertNotEquals($crawler->getNode(0)->nodeValue, $crawler->getNode(1)->nodeValue);
         self::assertNotEquals($crawler->getNode(1)->nodeValue, $crawler->getNode(2)->nodeValue);
@@ -79,7 +79,5 @@ class MediaRuntimeTest extends WebTestCase
 
         // different path fo different thumbnail formats
         self::assertNotEquals($img0->attributes->getNamedItem('src')->nodeValue, $img2->attributes->getNamedItem('src')->nodeValue);
-
-        // need to make sure dimensions are accurate
     }
 }

@@ -65,6 +65,8 @@ final class GlideServer implements ThumbnailInterface
 
     public function getThumbPath(MediaProviderInterface $provider, MediaInterface $media, array $options): ?string
     {
+        $options = $this->enforceExtension($options, $media);
+
         return $this->configServer($provider, $media)->getCachePath($provider->getFilesystemReference($media), $options);
     }
 

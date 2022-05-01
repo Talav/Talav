@@ -15,7 +15,7 @@ trait FileToMediaMapperTrait
         $destination->setFileInfo(new FileInfo(
             $source->getSize(),
             $source->getMimeType(),
-            $source->getExtension(),
+            $source->getClientOriginalExtension(),
             $source->getClientOriginalName()
         ));
 
