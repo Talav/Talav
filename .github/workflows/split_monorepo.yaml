@@ -6,6 +6,10 @@ on:
       - master
     tags:
       - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
+
 jobs:
   provide_packages_json:
     # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
@@ -45,8 +49,6 @@ jobs:
         # Uses an action in the root directory
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
         with:
           package-directory: 'packages/${{ matrix.package.path }}'
           split-repository-organization: 'talav'
@@ -61,8 +63,6 @@ jobs:
         # Uses an action in the root directory
         name: Monorepo Split of ${{ matrix.package.name }} (${{ matrix.package.path }})
         uses: symplify/github-action-monorepo-split@2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
 
