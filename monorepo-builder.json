@@ -2,5 +2,33 @@
   {
     "name": "media",
     "path": "component/Media"
+  },
+  {
+    "name": "registry",
+    "path": "component/Registry"
+  },
+  {
+    "name": "resource",
+    "path": "component/Resource"
+  },
+  {
+    "name": "user",
+    "path": "component/User"
+  },
+  {
+    "name": "avatar-bundle",
+    "path": "bundle/AvatarBundle"
+  },
+  {
+    "name": "media-bundle",
+    "path": "bundle/MediaBundle"
+  },
+  {
+    "name": "resource-bundle",
+    "path": "bundle/ResourceBundle"
+  },
+  {
+    "name": "user-bundle",
+    "path": "bundle/UserBundle"
   }
 ]
