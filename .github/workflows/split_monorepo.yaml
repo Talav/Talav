@@ -1,0 +1,35 @@
+name: Split Monorepo
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+jobs:
+  provide_packages_json:
+    # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+    # see https://stackoverflow.com/a/62953566/1348344
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        uses: actions/checkout@v2
+
+      # required for matrix of packages set
+      -   uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.0
+            coverage: none
+
+      -   uses: "ramsey/composer-install@v1"
+
+      # get package json list
+      -
+        id: output_data
+        run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package monorepo-builder --exclude-package config-transformer --exclude-package easy-ci)"
+
+    # this step is needed, so the output gets to the next defined job
+    outputs:
+      matrix: ${{ steps.output_data.outputs.matrix }}

@@ -53,8 +53,8 @@
         "symfony/phpunit-bridge": "^6.0",
         "symfony/thanks": "^1.2",
         "symfony/var-dumper": "^6.0",
-        "symplify/easy-coding-standard": "^9.0",
-        "symplify/monorepo-builder": "^9.3",
+        "symplify/easy-coding-standard": "^10.2",
+        "symplify/monorepo-builder": "^10.2",
         "webfactory/doctrine-orm-test-infrastructure": "^1.10"
     },
     "autoload": {
