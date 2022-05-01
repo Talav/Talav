@@ -3,14 +3,10 @@ name: Split Monorepo
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - '*'
   workflow_dispatch:
-    inputs:
-      puppy:
-        description: 'A kind of puppy.'
-        required: true
 
 jobs:
   provide_packages_json:
