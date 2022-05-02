@@ -22,36 +22,15 @@ use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class RegistrationController extends AbstractController
 {
-    private UserManagerInterface $userManager;
-
-    private LoginFormAuthenticator $formLoginAuthenticator;
-
-    private UserAuthenticatorInterface $userAuthenticator;
-
-    private EventDispatcherInterface $eventDispatcher;
-
-    private AutoMapperInterface $mapper;
-
-    private MessageBusInterface $bus;
-
-    private iterable $parameters = [];
-
     public function __construct(
-        UserManagerInterface $userManager,
-        LoginFormAuthenticator $formLoginAuthenticator,
-        UserAuthenticatorInterface $userAuthenticator,
-        EventDispatcherInterface $eventDispatcher,
-        AutoMapperInterface $mapper,
-        MessageBusInterface $bus,
-        array $parameters
+        private UserManagerInterface $userManager,
+        private LoginFormAuthenticator $formLoginAuthenticator,
+        private UserAuthenticatorInterface $userAuthenticator,
+        private EventDispatcherInterface $eventDispatcher,
+        private AutoMapperInterface $mapper,
+        private MessageBusInterface $bus,
+        private iterable $parameters
     ) {
-        $this->userManager = $userManager;
-        $this->formLoginAuthenticator = $formLoginAuthenticator;
-        $this->userAuthenticator = $userAuthenticator;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->mapper = $mapper;
-        $this->bus = $bus;
-        $this->parameters = $parameters;
     }
 
     /**

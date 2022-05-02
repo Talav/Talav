@@ -13,11 +13,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    private AuthenticationUtils $auth;
-
-    public function __construct(AuthenticationUtils $auth)
+    public function __construct(
+        private AuthenticationUtils $auth
+    )
     {
-        $this->auth = $auth;
     }
 
     /**
