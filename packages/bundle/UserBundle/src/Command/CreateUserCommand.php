@@ -10,24 +10,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Talav\UserBundle\Manipulator\UserManipulator;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Talav\Component\User\Message\Command\User\CreateUserCommand as MessageCommand;
+use Talav\Component\User\Message\Dto\CreateUserDto;
 
 class CreateUserCommand extends Command
 {
     protected static $defaultName = 'talav:user:create';
 
-    /** @var UserManipulator */
-    private $userManipulator;
-
-    public function __construct(UserManipulator $userManipulator)
+    public function __construct(private MessageBusInterface $bus)
     {
         parent::__construct();
-        $this->userManipulator = $userManipulator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -52,22 +47,17 @@ EOT
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $username = $input->getArgument('username');
-        $email = $input->getArgument('email');
-        $password = $input->getArgument('password');
-        $inactive = $input->getOption('inactive');
-        $this->userManipulator->create($username, $password, $email, !$inactive);
+        $this->bus->dispatch(new MessageCommand(new CreateUserDto(
+            $username = $input->getArgument('username'),
+            $email = $input->getArgument('email'),
+            $password = $input->getArgument('password'),
+            $inactive = !$input->getArgument('inactive'),
+        )));
         $output->writeln(sprintf('Created user <comment>%s</comment>', $username));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];

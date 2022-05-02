@@ -20,7 +20,7 @@ final class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, ['label' => 'talav.form.email', 'translation_domain' => 'TalavUserBundle'])
             ->add('username', null, ['label' => 'talav.form.username', 'translation_domain' => 'TalavUserBundle'])
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
                     'translation_domain' => 'TalavUserBundle',

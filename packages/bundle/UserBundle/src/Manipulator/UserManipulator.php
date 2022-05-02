@@ -18,21 +18,6 @@ class UserManipulator
     }
 
     /**
-     * Creates a user and returns it.
-     */
-    public function create(string $username, string $password, string $email, bool $active): UserInterface
-    {
-        $user = $this->userManager->create();
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $user->setPlainPassword($password);
-        $user->setEnabled((bool) $active);
-        $this->userManager->update($user, true);
-
-        return $user;
-    }
-
-    /**
      * Activates the given user.
      */
     public function activate(string $username): void

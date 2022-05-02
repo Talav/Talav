@@ -9,9 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Talav\Component\User\Manager\UserManagerInterface;
+use Talav\Component\User\Message\Command\CreateUserCommand;
+use Talav\Component\User\Message\Dto\CreateUserDto;
 use Talav\UserBundle\Event\TalavUserEvents;
 use Talav\UserBundle\Event\UserEvent;
 use Talav\UserBundle\Security\LoginFormAuthenticator;
@@ -20,13 +24,15 @@ class RegistrationController extends AbstractController
 {
     private UserManagerInterface $userManager;
 
-    private LoginFormAuthenticator $authenticator;
+    private LoginFormAuthenticator $formLoginAuthenticator;
 
     private UserAuthenticatorInterface $userAuthenticator;
 
     private EventDispatcherInterface $eventDispatcher;
 
     private AutoMapperInterface $mapper;
+
+    private MessageBusInterface $bus;
 
     private iterable $parameters = [];
 
@@ -36,6 +42,7 @@ class RegistrationController extends AbstractController
         UserAuthenticatorInterface $userAuthenticator,
         EventDispatcherInterface $eventDispatcher,
         AutoMapperInterface $mapper,
+        MessageBusInterface $bus,
         array $parameters
     ) {
         $this->userManager = $userManager;
@@ -43,6 +50,7 @@ class RegistrationController extends AbstractController
         $this->userAuthenticator = $userAuthenticator;
         $this->eventDispatcher = $eventDispatcher;
         $this->mapper = $mapper;
+        $this->bus = $bus;
         $this->parameters = $parameters;
     }
 
@@ -59,9 +67,9 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $user = $this->userManager->create();
-                $this->mapper->mapToObject($form->getData(), $user);
-                $this->userManager->update($user, true);
+                $dto = $this->mapper->map($form->getData(), CreateUserDto::class);
+                $user = $this->bus->dispatch(new CreateUserCommand($dto))->last(HandledStamp::class)->getResult();
+
                 $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::REGISTRATION_COMPLETED);
 
                 return $this->userAuthenticator->authenticateUser(

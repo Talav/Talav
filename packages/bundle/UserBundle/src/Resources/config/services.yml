@@ -33,3 +33,7 @@ services:
       - '@app.manager.user'
       - '@app.manager.user_oauth'
     public: true
+  Talav\Component\User\Message\CommandHandler\:
+    resource: '../../../vendor/talav/user/src/Message/CommandHandler/*'
+  Talav\Component\User\Mapper\Configurator\:
+    resource: '../../../vendor/talav/user/src/Mapper/Configurator/*'

@@ -77,8 +77,8 @@ class RegistrationControllerTest extends WebTestCase
     public function it_shows_error_messages_for_password_mismatch()
     {
         $crawler = $this->submitForm([
-            'talav_user_registration[plainPassword][first]' => 'first',
-            'talav_user_registration[plainPassword][second]' => 'second',
+            'talav_user_registration[password][first]' => 'first',
+            'talav_user_registration[password][second]' => 'second',
         ]);
         $this->assertStringContainsStringIgnoringCase("The entered passwords don't match.", $crawler->html());
     }
@@ -92,8 +92,8 @@ class RegistrationControllerTest extends WebTestCase
         $this->submitForm([
             'talav_user_registration[username]' => 'tester1',
             'talav_user_registration[email]' => 'tester1@test.com',
-            'talav_user_registration[plainPassword][first]' => 'tester1',
-            'talav_user_registration[plainPassword][second]' => 'tester1',
+            'talav_user_registration[password][first]' => 'tester1',
+            'talav_user_registration[password][second]' => 'tester1',
         ]);
         $this->assertEmailCount(1);
         $email = $this->getMailerMessage(0);
@@ -113,8 +113,8 @@ class RegistrationControllerTest extends WebTestCase
         $this->submitForm([
             'talav_user_registration[username]' => 'tester1',
             'talav_user_registration[email]' => 'tester1@test.com',
-            'talav_user_registration[plainPassword][first]' => 'tester1',
-            'talav_user_registration[plainPassword][second]' => 'tester1',
+            'talav_user_registration[password][first]' => 'tester1',
+            'talav_user_registration[password][second]' => 'tester1',
         ]);
         $this->assertEmailCount(1);
         $email = $this->getMailerMessage(0);
