@@ -11,13 +11,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Talav\Component\User\Manager\UserManagerInterface;
+use Talav\Component\User\Message\Command\UpdatePasswordCommand;
 use Talav\Component\User\Model\UserInterface;
-use Talav\UserBundle\Event\TalavUserEvents;
-use Talav\UserBundle\Event\UserEvent;
 use Talav\UserBundle\Form\Model\PasswordResetModel;
 use Talav\UserBundle\Form\Model\RequestPasswordResetModel;
 use Talav\UserBundle\Form\Type\PasswordResetType;
@@ -29,36 +29,16 @@ use Talav\UserBundle\Mailer\UserMailerInterface;
  */
 class ResettingController extends AbstractController
 {
-    private EventDispatcherInterface $eventDispatcher;
-
-    private UserManagerInterface $userManager;
-
-    private TokenGeneratorInterface $tokenGenerator;
-
-    private TranslatorInterface $translator;
-
-    private UserMailerInterface $mailer;
-
-    private string $retryTtl;
-
-    private string $tokenTtl;
-
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        UserManagerInterface $userManager,
-        TokenGeneratorInterface $tokenGenerator,
-        TranslatorInterface $translator,
-        UserMailerInterface $mailer,
-        string $retryTtl,
-        string $tokenTtl
+        private EventDispatcherInterface $eventDispatcher,
+        private UserManagerInterface $userManager,
+        private TokenGeneratorInterface $tokenGenerator,
+        private TranslatorInterface $translator,
+        private UserMailerInterface $mailer,
+        private MessageBusInterface $messageBus,
+        private string $retryTtl,
+        private string $tokenTtl
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->userManager = $userManager;
-        $this->tokenGenerator = $tokenGenerator;
-        $this->translator = $translator;
-        $this->mailer = $mailer;
-        $this->retryTtl = $retryTtl;
-        $this->tokenTtl = $tokenTtl;
     }
 
     /**
@@ -68,13 +48,13 @@ class ResettingController extends AbstractController
      *
      * @throws Exception
      */
-    public function request(Request $request): Response
+    public function requestAction(Request $request): Response
     {
         $form = $this->createForm(RequestPasswordResetType::class, new RequestPasswordResetModel());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserInterface $user */
-            $user = $form->getData()->getUser();
+            $user = $form->getData()->user;
             if (null !== $user->getPasswordRequestedAt() && $user->isPasswordRequestNonExpired(
                 DateInterval::createFromDateString($this->retryTtl)
             )) {
@@ -88,9 +68,9 @@ class ResettingController extends AbstractController
             if (null === $user->getPasswordResetToken()) {
                 $user->setPasswordResetToken($this->tokenGenerator->generateToken());
             }
+            // @todo this can be moved to a separate command
             $user->setPasswordRequestedAt(new \DateTime());
             $this->userManager->update($user, true);
-            $this->eventDispatcher->dispatch(new UserEvent($user), TalavUserEvents::RESET_REQUEST_SUCCESS);
             $this->mailer->sendResettingEmailMessage($user);
             $this->addFlash(
                 'success',
@@ -132,11 +112,7 @@ class ResettingController extends AbstractController
         $form = $this->createForm(PasswordResetType::class, new PasswordResetModel());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $model = $form->getData();
-            $user->setPlainPassword($model->getPlainPassword());
-            $user->setPasswordResetToken(null);
-            $user->setPasswordRequestedAt(null);
-            $this->userManager->update($user, true);
+            $this->messageBus->dispatch(new UpdatePasswordCommand($user, $form->getData()->password));
             $this->addFlash('success', $this->translator->trans('talav.reset.flash.success', [], 'TalavUserBundle'));
 
             return new RedirectResponse($this->container->get('router')->generate('talav_user_login'));

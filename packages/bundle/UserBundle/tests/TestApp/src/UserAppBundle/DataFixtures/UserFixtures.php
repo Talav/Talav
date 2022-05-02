@@ -8,38 +8,33 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 use Faker\Generator;
-use Talav\Component\User\Manager\UserManagerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Talav\Component\User\Message\Command\CreateUserCommand;
+use Talav\Component\User\Message\Dto\CreateUserDto;
 
 class UserFixtures extends Fixture
 {
-    /** @var UserManagerInterface */
-    private $userManager;
+    private Generator $faker;
 
-    /** @var Generator */
-    private $faker;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
+    public function __construct(
+        private MessageBusInterface $messageBus
+    ) {
         $this->faker = FakerFactory::create();
     }
 
     public function load(ObjectManager $manager)
     {
-        $user = $this->userManager->create();
-        $user->setUsername('tester');
-        $user->setEmail('tester@test.com');
-        $user->setPlainPassword('tester');
-        $user->setEnabled(true);
-
-        $this->userManager->update($user);
-
-        $user = $this->userManager->create();
-        $user->setUsername($this->faker->userName);
-        $user->setEmail($this->faker->email);
-        $user->setPlainPassword($this->faker->password);
-        $user->setEnabled(true);
-
-        $this->userManager->update($user, true);
+        $this->messageBus->dispatch(new CreateUserCommand(new CreateUserDto(
+            'tester',
+            'tester@test.com',
+            'tester',
+            true
+        )));
+        $this->messageBus->dispatch(new CreateUserCommand(new CreateUserDto(
+            $this->faker->userName,
+            $this->faker->email,
+            $this->faker->password,
+            true
+        )));
     }
 }

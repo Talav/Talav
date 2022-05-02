@@ -36,11 +36,6 @@ abstract class User implements UserInterface
 
     protected ?string $password = null;
 
-    /**
-     * Plain password.
-     */
-    protected ?string $plainPassword = null;
-
     protected ?DateTimeInterface $lastLogin = null;
 
     protected ?string $passwordResetToken = null;
@@ -123,16 +118,6 @@ abstract class User implements UserInterface
     public function setPassword(?string $password): void
     {
         $this->password = $password;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(?string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
     }
 
     public function getLastLogin(): ?DateTimeInterface

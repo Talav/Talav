@@ -14,7 +14,9 @@ final class CreateUserDto implements DomainEventInterface
         public string $username,
         public string $email,
         public string $password,
-        bool $active = true
+        bool $active = true,
+        public ?string $firstName = null,
+        public ?string $lastName = null
     ) {
     }
 }

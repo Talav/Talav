@@ -22,12 +22,11 @@ final class UserManagerTest extends KernelTestCase
     /**
      * @test
      */
-    public function it_updates_user_and_removes_plain_password_and_updates_canonical()
+    public function it_updates_canonical()
     {
         $user = $this->userManager->create();
         $this->addUserData($user);
         $this->userManager->update($user, true);
-        $this->assertEmpty($user->getPlainPassword());
         $this->assertEquals('test', $user->getUsernameCanonical());
         $this->assertEquals('test@test.com', $user->getEmailCanonical());
     }
@@ -39,7 +38,7 @@ final class UserManagerTest extends KernelTestCase
     {
         $user = $this->userManager->create();
         $user->setEmail('Test@test.com');
-        $user->setPlainPassword('test');
+        $user->setPassword('test');
         $this->userManager->update($user, true);
         $this->userManager->reload($user);
         $this->assertEquals('test@test.com', $user->getUsernameCanonical());
@@ -113,7 +112,7 @@ final class UserManagerTest extends KernelTestCase
     {
         $user->setUsername('Test');
         $user->setEmail('Test@test.com');
-        $user->setPlainPassword('test');
+        $user->setPassword('test');
         $user->setEnabled(true);
     }
 }

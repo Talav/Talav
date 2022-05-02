@@ -87,7 +87,7 @@ class TalavUserProvider extends UserProvider implements UserProviderInterface, A
         }
 
         // set random password to prevent issue with not nullable field & potential security hole
-        $user->setPlainPassword(substr(sha1($response->getAccessToken()), 0, 30));
+        $user->setPassword(substr(sha1($response->getAccessToken()), 0, 30));
         $user->setEnabled(true);
 
         return $this->updateUserByOAuthUserResponse($user, $response);

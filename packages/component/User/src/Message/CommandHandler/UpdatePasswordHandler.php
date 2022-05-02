@@ -21,6 +21,8 @@ final class UpdatePasswordHandler implements MessageHandlerInterface
     {
         $user = $message->user;
         $user->setPassword($this->userPasswordHasher->hashPassword($user, $message->password));
+        $user->setPasswordResetToken(null);
+        $user->setPasswordRequestedAt(null);
         $this->userManager->update($user, true);
 
         return $user;

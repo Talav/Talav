@@ -16,7 +16,7 @@ class PasswordResetType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('plainPassword', RepeatedType::class, [
+        $builder->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
             'options' => [
                 'translation_domain' => 'TalavUserBundle',

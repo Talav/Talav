@@ -11,25 +11,17 @@ use Talav\Component\Resource\Model\ResourceInterface;
 use Talav\Component\User\Canonicalizer\CanonicalizerInterface;
 use Talav\Component\User\Model\UserInterface;
 use Talav\Component\User\Repository\UserRepositoryInterface;
-use Talav\Component\User\Security\PasswordUpdaterInterface;
 use Webmozart\Assert\Assert;
 
 class UserManager extends ResourceManager implements UserManagerInterface
 {
-    private CanonicalizerInterface $canonicalizer;
-
-    protected PasswordUpdaterInterface $passwordUpdater;
-
     public function __construct(
-        string $className,
-        EntityManagerInterface $em,
-        FactoryInterface $factory,
-        CanonicalizerInterface $canonicalizer,
-        PasswordUpdaterInterface $passwordUpdater
+        protected string $className,
+        protected EntityManagerInterface $em,
+        protected FactoryInterface $factory,
+        protected CanonicalizerInterface $canonicalizer
     ) {
         parent::__construct($className, $em, $factory);
-        $this->canonicalizer = $canonicalizer;
-        $this->passwordUpdater = $passwordUpdater;
     }
 
     public function getTypedRepository(): UserRepositoryInterface
@@ -40,9 +32,6 @@ class UserManager extends ResourceManager implements UserManagerInterface
         return $repository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findUserByEmail(string $email): ?UserInterface
     {
         return $this->getTypedRepository()->findOneByEmail($this->canonicalizer->canonicalize($email));
@@ -68,9 +57,6 @@ class UserManager extends ResourceManager implements UserManagerInterface
         return $this->findUserByUsername($usernameOrEmail);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateCanonicalFields(UserInterface $user): void
     {
         // enforce non empty username
@@ -81,22 +67,10 @@ class UserManager extends ResourceManager implements UserManagerInterface
         $user->setUsernameCanonical($this->canonicalizer->canonicalize($user->getUsername()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updatePassword(UserInterface $user): void
-    {
-        $this->passwordUpdater->updatePassword($user);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function update(ResourceInterface $user, $flush = true): void
     {
         Assert::isInstanceOf($user, UserInterface::class);
         $this->updateCanonicalFields($user);
-        $this->updatePassword($user);
         $this->add($user);
 
         if ($flush) {

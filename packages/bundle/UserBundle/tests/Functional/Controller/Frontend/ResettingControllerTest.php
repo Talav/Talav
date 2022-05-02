@@ -121,8 +121,8 @@ class ResettingControllerTest extends WebTestCase
     public function it_shows_error_for_mismatched_passwords()
     {
         $crawler = $this->submitResetPasswordForm([
-            'talav_user_reset_password[plainPassword][first]' => 'first',
-            'talav_user_reset_password[plainPassword][second]' => 'second',
+            'talav_user_reset_password[password][first]' => 'first',
+            'talav_user_reset_password[password][second]' => 'second',
         ]);
         $this->assertStringContainsStringIgnoringCase("The entered passwords don't match.", $crawler->html());
     }
@@ -133,8 +133,8 @@ class ResettingControllerTest extends WebTestCase
     public function it_allows_to_change_password_and_login_with_new_password()
     {
         $crawler = $this->submitResetPasswordForm([
-            'talav_user_reset_password[plainPassword][first]' => 'pass',
-            'talav_user_reset_password[plainPassword][second]' => 'pass',
+            'talav_user_reset_password[password][first]' => 'pass',
+            'talav_user_reset_password[password][second]' => 'pass',
         ]);
         $this->assertStringContainsStringIgnoringCase('The password has been reset successfully.', $crawler->html());
         $form = $crawler->selectButton('submit')->form();
