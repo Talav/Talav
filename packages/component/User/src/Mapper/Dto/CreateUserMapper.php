@@ -20,7 +20,6 @@ final class CreateUserMapper extends CustomMapper
 
         $destination->setUsername($source->username);
         $destination->setEmail($source->email);
-        $destination->setPlainPassword($source->password);
         $destination->setEnabled($source->active);
 
         return $destination;

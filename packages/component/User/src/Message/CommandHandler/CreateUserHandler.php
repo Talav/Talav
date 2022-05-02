@@ -25,6 +25,7 @@ final class CreateUserHandler implements MessageHandlerInterface
     public function __invoke(CreateUserCommand $message)
     {
         $user = $this->mapper->mapToObject($message->dto, $this->userManager->create());
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, $message->dto->password));
         $this->userManager->update($user, true);
 
         $this->messageBus->dispatch(new NewUserEvent($user->getId()));

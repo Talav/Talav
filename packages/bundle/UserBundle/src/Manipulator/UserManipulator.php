@@ -38,16 +38,6 @@ class UserManipulator
     }
 
     /**
-     * Changes the password for the given user.
-     */
-    public function changePassword(string $username, string $password): void
-    {
-        $user = $this->findUserByUsernameOrThrowException($username);
-        $user->setPlainPassword($password);
-        $this->userManager->update($user, true);
-    }
-
-    /**
      * Promotes the given user.
      */
     public function promote(string $username): void
