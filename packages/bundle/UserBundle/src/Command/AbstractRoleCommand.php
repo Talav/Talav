@@ -10,21 +10,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Talav\UserBundle\Manipulator\UserManipulator;
+use Talav\Component\User\Manager\UserManagerInterface;
 
 abstract class AbstractRoleCommand extends Command
 {
-    private UserManipulator $userManipulator;
-
-    public function __construct(UserManipulator $userManipulator)
-    {
+    public function __construct(
+        protected UserManagerInterface $userManager
+    ) {
         parent::__construct();
-        $this->userManipulator = $userManipulator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -40,9 +35,6 @@ abstract class AbstractRoleCommand extends Command
             ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
@@ -54,8 +46,7 @@ abstract class AbstractRoleCommand extends Command
         if (null === $role && !$super) {
             throw new \RuntimeException('Not enough arguments.');
         }
-        $manipulator = $this->userManipulator;
-        $this->executeRoleCommand($manipulator, $output, $username, $super, $role);
+        $this->executeRoleCommand($this->userManager, $output, $username, $super, $role);
     }
 
     /**
@@ -66,16 +57,13 @@ abstract class AbstractRoleCommand extends Command
      * @param string $role
      */
     abstract protected function executeRoleCommand(
-        UserManipulator $manipulator,
+        UserManagerInterface $userManager,
         OutputInterface $output,
         $username,
         $super,
         $role
     );
 
-    /**
-     * {@inheritdoc}
-     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $questions = [];

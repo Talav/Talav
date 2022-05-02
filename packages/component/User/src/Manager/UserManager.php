@@ -37,17 +37,11 @@ class UserManager extends ResourceManager implements UserManagerInterface
         return $this->getTypedRepository()->findOneByEmail($this->canonicalizer->canonicalize($email));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findUserByUsername(string $username): ?UserInterface
     {
         return $this->getTypedRepository()->findOneByUsername($this->canonicalizer->canonicalize($username));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findUserByUsernameOrEmail(string $usernameOrEmail): ?UserInterface
     {
         if (filter_var($usernameOrEmail, \FILTER_VALIDATE_EMAIL)) {
@@ -76,5 +70,91 @@ class UserManager extends ResourceManager implements UserManagerInterface
         if ($flush) {
             $this->em->flush();
         }
+    }
+
+    public function activate(string $username): void
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        $user->setEnabled(true);
+        $this->userManager->update($user, true);
+    }
+
+    /**
+     * Deactivates the given user.
+     */
+    public function deactivate(string $username): void
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        $user->setEnabled(false);
+        $this->userManager->update($user, true);
+    }
+
+    /**
+     * Promotes the given user.
+     */
+    public function promote(string $username): void
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        $user->setSuperAdmin(true);
+        $this->userManager->update($user, true);
+    }
+
+    /**
+     * Demotes the given user.
+     */
+    public function demote(string $username): void
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        $user->setSuperAdmin(false);
+        $this->userManager->update($user, true);
+    }
+
+    /**
+     * Adds role to the given user.
+     *
+     * @return bool true if role was added, false if user already had the role
+     */
+    public function addRole(string $username, string $role): bool
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        if ($user->hasRole($role)) {
+            return false;
+        }
+        $user->addRole($role);
+        $this->userManager->update($user, true);
+
+        return true;
+    }
+
+    /**
+     * Removes role from the given user.
+     *
+     * @return bool true if role was removed, false if user didn't have the role
+     */
+    public function removeRole(string $username, string $role): bool
+    {
+        $user = $this->findUserByUsernameOrThrowException($username);
+        if (!$user->hasRole($role)) {
+            return false;
+        }
+        $user->removeRole($role);
+        $this->userManager->update($user, true);
+
+        return true;
+    }
+
+    /**
+     * Finds a user by his username and throws an exception if we can't find it.
+     *
+     * @throws InvalidArgumentException When user does not exist
+     */
+    private function findUserByUsernameOrThrowException(string $username): UserInterface
+    {
+        $user = $this->findUserByUsername($username);
+        if (!$user) {
+            throw new InvalidArgumentException(sprintf('User identified by "%s" username does not exist.', $username));
+        }
+
+        return $user;
     }
 }

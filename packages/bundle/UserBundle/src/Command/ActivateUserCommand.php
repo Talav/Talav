@@ -9,23 +9,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Talav\UserBundle\Manipulator\UserManipulator;
+use Talav\Component\User\Manager\UserManagerInterface;
 
 class ActivateUserCommand extends Command
 {
     protected static $defaultName = 'talav:user:activate';
 
-    private $userManipulator;
-
-    public function __construct(UserManipulator $userManipulator)
-    {
+    public function __construct(
+        protected UserManagerInterface $userManager
+    ) {
         parent::__construct();
-        $this->userManipulator = $userManipulator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -40,19 +35,13 @@ EOT
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-        $this->userManipulator->activate($username);
+        $this->userManager->activate($username);
         $output->writeln(sprintf('User "%s" has been activated.', $username));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getArgument('username')) {

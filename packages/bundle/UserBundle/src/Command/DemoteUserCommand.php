@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Talav\UserBundle\Command;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Talav\UserBundle\Manipulator\UserManipulator;
+use Talav\Component\User\Manager\UserManagerInterface;
 
 class DemoteUserCommand extends AbstractRoleCommand
 {
     protected static $defaultName = 'talav:user:demote';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -29,18 +26,15 @@ EOT
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function executeRoleCommand(
-        UserManipulator $manipulator,
+        UserManagerInterface $userManager,
         OutputInterface $output,
         $username,
         $super,
         $role
     ) {
         if ($super) {
-            $manipulator->demote($username);
+            $userManager->demote($username);
             $output->writeln(
                 sprintf(
                     'User "%s" has been demoted as a simple user. This change will not apply until the user logs out and back in again.',
@@ -48,7 +42,7 @@ EOT
                 )
             );
         } else {
-            if ($manipulator->removeRole($username, $role)) {
+            if ($userManager->removeRole($username, $role)) {
                 $output->writeln(
                     sprintf(
                         'Role "%s" has been removed from user "%s". This change will not apply until the user logs out and back in again.',

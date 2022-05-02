@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Talav\UserBundle\Command;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Talav\UserBundle\Manipulator\UserManipulator;
+use Talav\Component\User\Manager\UserManagerInterface;
 
 class PromoteUserCommand extends AbstractRoleCommand
 {
     protected static $defaultName = 'talav:user:promote';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -29,18 +26,15 @@ EOT
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function executeRoleCommand(
-        UserManipulator $manipulator,
+        UserManagerInterface $userManager,
         OutputInterface $output,
         $username,
         $super,
         $role
     ) {
         if ($super) {
-            $manipulator->promote($username);
+            $userManager->promote($username);
             $output->writeln(
                 sprintf(
                     'User "%s" has been promoted as a super administrator. This change will not apply until the user logs out and back in again.',
@@ -48,7 +42,7 @@ EOT
                 )
             );
         } else {
-            if ($manipulator->addRole($username, $role)) {
+            if ($userManager->addRole($username, $role)) {
                 $output->writeln(
                     sprintf(
                         'Role "%s" has been added to user "%s". This change will not apply until the user logs out and back in again.',
