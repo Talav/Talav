@@ -11,16 +11,11 @@
         <field name="email" column="email" type="string" length="180" />
         <field name="emailCanonical" column="email_canonical" type="string" length="180" unique="true" />
         <field name="enabled" column="enabled" type="boolean" />
-        <field name="locked" column="locked" type="boolean" />
         <field name="salt" column="salt" type="string" nullable="false" />
         <field name="password" column="password" type="string" />
         <field name="lastLogin" column="last_login" type="datetime" nullable="true" />
         <field name="passwordResetToken" column="password_reset_token" type="string" length="180" unique="true" nullable="true" />
         <field name="passwordRequestedAt" column="password_requested_at" type="datetime" nullable="true" />
-        <field name="emailVerificationToken" column="email_verification_token" type="string" length="180" unique="true" nullable="true" />
-        <field name="verifiedAt" column="verified_at" type="datetime" nullable="true" />
-        <field name="expiresAt" column="expires_at" type="datetime" nullable="true" />
-        <field name="credentialsExpireAt" column="credentials_expire_at" type="datetime" nullable="true" />
         <field name="roles" column="roles" type="array" />
         <field name="firstName" column="first_name" nullable="true" />
         <field name="lastName" column="last_name" nullable="true" />

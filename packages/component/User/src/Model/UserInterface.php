@@ -49,12 +49,9 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
      */
     public function setEmailCanonical(?string $usernameCanonical): void;
 
-    public function setLocked(bool $locked): void;
-
-    public function getEmailVerificationToken(): ?string;
-
-    public function setEmailVerificationToken(?string $verificationToken): void;
-
+    /**
+     * Gets last password reset token.
+     */
     public function getPasswordResetToken(): ?string;
 
     public function setPasswordResetToken(?string $passwordResetToken): void;
@@ -72,20 +69,6 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
      * @param DateInterval $ttl Requests older than this many seconds will be considered expired
      */
     public function isPasswordRequestNonExpired(DateInterval $ttl): bool;
-
-    public function isVerified(): bool;
-
-    public function getVerifiedAt(): ?DateTimeInterface;
-
-    public function setVerifiedAt(?DateTimeInterface $verifiedAt): void;
-
-    public function getExpiresAt(): ?DateTimeInterface;
-
-    public function setExpiresAt(?DateTimeInterface $date): void;
-
-    public function getCredentialsExpireAt(): ?DateTimeInterface;
-
-    public function setCredentialsExpireAt(?DateTimeInterface $date): void;
 
     public function getLastLogin(): ?DateTimeInterface;
 

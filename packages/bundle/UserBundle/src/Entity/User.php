@@ -30,8 +30,6 @@ abstract class User implements UserInterface
 
     protected bool $enabled;
 
-    protected bool $locked;
-
     protected string $salt;
 
     protected ?string $password = null;
@@ -41,14 +39,6 @@ abstract class User implements UserInterface
     protected ?string $passwordResetToken = null;
 
     protected ?DateTimeInterface $passwordRequestedAt = null;
-
-    protected ?string $emailVerificationToken = null;
-
-    protected ?DateTimeInterface $verifiedAt = null;
-
-    protected ?DateTimeInterface $expiresAt = null;
-
-    protected ?DateTimeInterface $credentialsExpireAt = null;
 
     protected iterable $roles = [];
 
@@ -67,7 +57,6 @@ abstract class User implements UserInterface
         $this->oauthAccounts = new ArrayCollection();
         $this->salt = base_convert(bin2hex(random_bytes(20)), 16, 36);
         $this->enabled = false;
-        $this->locked = false;
     }
 
     public function getUsername(): ?string
@@ -164,71 +153,6 @@ abstract class User implements UserInterface
         return $threshold <= $this->passwordRequestedAt;
     }
 
-    public function getEmailVerificationToken(): ?string
-    {
-        return $this->emailVerificationToken;
-    }
-
-    public function setEmailVerificationToken(?string $emailVerificationToken): void
-    {
-        $this->emailVerificationToken = $emailVerificationToken;
-    }
-
-    public function getVerifiedAt(): ?DateTimeInterface
-    {
-        return $this->verifiedAt;
-    }
-
-    public function setVerifiedAt(?DateTimeInterface $verifiedAt): void
-    {
-        $this->verifiedAt = $verifiedAt;
-    }
-
-    public function isLocked(): bool
-    {
-        return $this->locked;
-    }
-
-    public function setLocked(bool $locked): void
-    {
-        $this->locked = $locked;
-    }
-
-    public function isAccountNonLocked(): bool
-    {
-        return !$this->locked;
-    }
-
-    public function getExpiresAt(): ?DateTimeInterface
-    {
-        return $this->expiresAt;
-    }
-
-    public function setExpiresAt(?DateTimeInterface $expiresAt): void
-    {
-        $this->expiresAt = $expiresAt;
-    }
-
-    public function isAccountNonExpired(): bool
-    {
-        return !$this->hasExpired($this->expiresAt);
-    }
-
-    public function getCredentialsExpireAt(): ?DateTimeInterface
-    {
-        return $this->credentialsExpireAt;
-    }
-
-    public function setCredentialsExpireAt(?DateTimeInterface $credentialsExpireAt): void
-    {
-        $this->credentialsExpireAt = $credentialsExpireAt;
-    }
-
-    public function isCredentialsNonExpired(): bool
-    {
-        return !$this->hasExpired($this->credentialsExpireAt);
-    }
-
     public function getRoles(): array
     {
         return $this->roles;
@@ -255,17 +179,11 @@ abstract class User implements UserInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSuperAdmin(): bool
     {
         return $this->hasRole(static::ROLE_SUPER_ADMIN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setSuperAdmin($boolean): void
     {
         if (true === $boolean) {
@@ -295,14 +213,6 @@ abstract class User implements UserInterface
         $this->emailCanonical = $emailCanonical;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isVerified(): bool
-    {
-        return true;
-    }
-
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -323,12 +233,9 @@ abstract class User implements UserInterface
         $this->lastName = $lastName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // this method is required by Symfony UserInterface
     public function eraseCredentials()
     {
-        $this->plainPassword = null;
     }
 
     public function getOauthAccounts(): Collection
@@ -374,7 +281,6 @@ abstract class User implements UserInterface
             $this->salt,
             $this->usernameCanonical,
             $this->username,
-            $this->locked,
             $this->enabled,
             $this->id,
         ]);
@@ -394,7 +300,6 @@ abstract class User implements UserInterface
             $this->salt,
             $this->usernameCanonical,
             $this->username,
-            $this->locked,
             $this->enabled,
             $this->id,
         ] = $data;
