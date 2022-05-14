@@ -8,8 +8,6 @@ interface ResourceInterface
 {
     /**
      * Gets resource identifier.
-     *
-     * @return int
      */
-    public function getId();
+    public function getId(): mixed;
 }

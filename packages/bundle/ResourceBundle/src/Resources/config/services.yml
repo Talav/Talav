@@ -24,6 +24,11 @@ services:
       - 'resource repository'
   talav.registry.repository:
     alias: Talav\Component\Registry\Registry\ServiceRegistryInterface
+  talav.registry.manager:
+    class: Talav\Component\Registry\Registry\ServiceRegistry
+    arguments:
+      - 'Talav\Component\Resource\Manager\ManagerInterface'
+      - 'manager repository'
   Talav\ResourceBundle\EventListener\MappedSuperClassSubscriber:
     class: Talav\ResourceBundle\EventListener\MappedSuperClassSubscriber
     arguments:

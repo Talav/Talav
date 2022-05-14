@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Talav\ResourceBundle\DependencyInjection\Compiler\DoctrineTargetEntitiesResolverPass;
 use Talav\ResourceBundle\DependencyInjection\Compiler\Helper\TargetEntitiesResolver;
+use Talav\ResourceBundle\DependencyInjection\Compiler\RegisterResourceManagerPass;
 use Talav\ResourceBundle\DependencyInjection\Compiler\RegisterResourceRepositoryPass;
 use Talav\ResourceBundle\DependencyInjection\Compiler\RegisterResourcesPass;
 
@@ -27,5 +28,6 @@ class TalavResourceBundle extends Bundle
             1
         );
         $container->addCompilerPass(new RegisterResourceRepositoryPass());
+        $container->addCompilerPass(new RegisterResourceManagerPass());
     }
 }
