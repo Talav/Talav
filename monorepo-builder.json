@@ -16,6 +16,10 @@
     "path": "component/User"
   },
   {
+    "name": "subscription",
+    "path": "component/Subscription"
+  },
+  {
     "name": "avatar-bundle",
     "path": "bundle/AvatarBundle"
   },
@@ -30,5 +34,9 @@
   {
     "name": "user-bundle",
     "path": "bundle/UserBundle"
+  },
+  {
+    "name": "stripe-bundle",
+    "path": "bundle/StripeBundle"
   }
 ]
