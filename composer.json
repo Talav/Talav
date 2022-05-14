@@ -18,7 +18,7 @@
         "mark-gerarts/automapper-plus-bundle": "^1.4",
         "oneup/flysystem-bundle": "dev-allow_compatibility_with_flysysytem3#684c77ebe3507462f9129d39e1ff75cf89d37b2e",
         "pagerfanta/pagerfanta": "^3.5",
-        "php": ">=8.0",
+        "php": ">=8.1",
         "php-http/guzzle7-adapter": "^1.0",
         "php-http/httplug-bundle": "^1.25",
         "symfony/config": "^6.0",
