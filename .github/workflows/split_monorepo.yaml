@@ -49,11 +49,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TALAV_WORKFLOW_SECRET }}
         with:
-          package-directory: 'packages/${{ matrix.package.path }}'
-          split-repository-organization: 'talav'
-          split-repository-name: '${{ matrix.package.name }}'
-          user-name: "GitHub Action"
-          user-email: "action@github.com"
+          package_directory: 'packages/${{ matrix.package.path }}'
+          repository_organization: 'talav'
+          repository_name: '${{ matrix.package.name }}'
+          user_name: "GitHub Action"
+          user_email: "action@github.com"
           branch: "master"
 
       # with tag
@@ -67,9 +67,9 @@ jobs:
         with:
           tag: ${GITHUB_REF#refs/tags/}
 
-          package-directory: 'packages/${{ matrix.package.path }}'
-          split-repository-organization: 'talav'
-          split-repository-name: '${{ matrix.package.name }}'
-          user-name: "GitHub Action"
-          user-email: "action@github.com"
+          package_directory: 'packages/${{ matrix.package.path }}'
+          repository_organization: 'talav'
+          repository_name: '${{ matrix.package.name }}'
+          user_name: "GitHub Action"
+          user_email: "action@github.com"
           branch: "master"
