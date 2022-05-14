@@ -1,0 +1,52 @@
+framework:
+  secret: Test
+
+  # Enables session support. Note that the session will ONLY be started if you read or write from it.
+  # Remove or comment this section to explicitly disable session support.
+  session:
+    handler_id: ~
+    storage_factory_id: session.storage.factory.mock_file
+
+  #esi: true
+  #fragments: true
+  php_errors:
+    log: true
+  test: true
+  messenger:
+    buses:
+      event.bus:
+        default_middleware: allow_no_handlers
+
+doctrine:
+  dbal:
+    driver: 'pdo_sqlite'
+    server_version: '3.15'
+    charset: utf8mb4
+    default_table_options:
+      charset: utf8mb4
+      collate: utf8mb4_unicode_ci
+    url: 'sqlite:///:memory:'
+    dbname: 'test'
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
+
+auto_mapper_plus:
+  options:
+    create_unregistered_mappings: true
+    ignore_null_properties: true
+
+talav_stripe:
+  secret_key: "test"
+  webhook_secret:
+  resources:
+    product:
+      classes:
+        model: StripeAppBundle\Entity\Product
+    price:
+      classes:
+        model: StripeAppBundle\Entity\Price
+  mapping:
+    product: StripeAppBundle\Entity\Product
+    price: StripeAppBundle\Entity\Price

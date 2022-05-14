@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+  Talav\StripeBundle\:
+    resource: '../../*/*'
+    exclude: '../../{DependencyInjection,Entity,Event,Form,Model,Message,Manager,Migrations,Controller,EventSubscriber}'
+  Talav\StripeBundle\Event\EventExtractor:
+    arguments:
+      $webHookSecret: '%talav_stripe.webhook_secret%'
+    public: true
+  Talav\StripeBundle\Message\CommandHandler\StripeEventHandler:
+    arguments:
+      $classMap: '%talav_stripe.class_map%'
+      $managerRegistry: '@talav.registry.manager'
+  Talav\StripeBundle\AutoMapper\MapperConfig:
+    tags: ['automapper_plus.configurator']
+    arguments:
+      $classMap: '%talav_stripe.class_map%'
+  Stripe\StripeClient:
+    class: Stripe\StripeClient
+    arguments:
+      $config:
+        api_key: '%talav_stripe.secret_key%'
+    public: true

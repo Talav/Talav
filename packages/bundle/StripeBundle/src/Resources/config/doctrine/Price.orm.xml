@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Talav\StripeBundle\Entity\Price">
+        <field name="active" column="active" type="boolean" />
+        <field name="created" column="created" type="integer" />
+        <field name="livemode" column="livemode" type="boolean" />
+        <field name="metadata" column="metadata" type="array"/>
+        <field name="updated" column="updated" type="integer" nullable="true" />
+
+        <field name="billingScheme" column="billing_scheme" type="string" enum-type="Talav\StripeBundle\Enum\BillingSchema" />
+        <field name="currency" column="currency" type="string" />
+        <field name="lookupKey" column="lookup_key" type="string" nullable="true" />
+        <field name="nickname" column="nickname" type="string" nullable="true" />
+        <field name="recurring" column="recurring" type="object" nullable="true" />
+        <field name="taxBehavior" column="tax_behavior" type="string" enum-type="Talav\StripeBundle\Enum\TaxBehavior" />
+        <field name="tiersMode" column="tiers_mode" type="string" nullable="true" />
+        <field name="type" column="type" type="string" enum-type="Talav\StripeBundle\Enum\PriceType" />
+        <field name="unitAmount" column="unit_amount" type="integer" />
+        <field name="unitAmountDecimal" column="unit_amount_decimal" type="integer" />
+    </mapped-superclass>
+
+</doctrine-mapping>

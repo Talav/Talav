@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true">
+
+    <testsuites>
+        <testsuite name="TalavStripeBundle test suite">
+            <directory suffix="Test.php">./Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <php>
+        <server name="KERNEL_CLASS" value="StripeAppKernel" />
+        <ini name="memory_limit" value="-1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
+    </php>
+</phpunit>

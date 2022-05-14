@@ -1,0 +1,2 @@
+talav_stripe:
+  resource: '@TalavStripeBundle/Resources/config/routing.yml'

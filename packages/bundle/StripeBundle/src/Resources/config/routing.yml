@@ -1,0 +1,5 @@
+talav_stripe_webhook:
+  path: /stripe/webhook
+  methods: POST
+  # the controller value has the format 'controller_class::method_name'
+  controller: \Talav\StripeBundle\Controller\WebhookController::handleAction

@@ -1,0 +1,70 @@
+{
+    "name": "talav/stripe-bundle",
+    "description": "Symfony bundle to integrate Stripe PHP SDK. Ability to save Stripe objects in database using Doctrine.",
+    "keywords": [
+        "symfony",
+        "bundle",
+        "stripe",
+        "payment",
+        "php",
+        "webpayment"
+    ],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Talav",
+            "email": "support@talav.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/framework-bundle": "^6.0",
+        "symfony/form": "^6.0",
+        "symfony/translation": "^6.0",
+        "symfony/twig-bundle": "^6.0",
+        "symfony/messenger": "^6.0",
+        "stripe/stripe-php": "^7.128",
+        "mark-gerarts/automapper-plus-bundle": "^1.4",
+        "talav/resource-bundle": "@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/browser-kit": "^6.0",
+        "symfony/var-dumper": "^6.0",
+        "symfony/css-selector": "^6.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.3",
+        "fakerphp/faker": "^1.19",
+        "liip/test-fixtures-bundle": "^2.2",
+        "fresh/doctrine-enum-bundle": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Talav\\StripeBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Talav\\StripeBundle\\Tests\\": "tests/",
+            "StripeAppBundle\\": "tests/TestApp/src/StripeAppBundle/"
+        },
+        "files": [
+            "tests/TestApp/app/StripeAppKernel.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ]
+}
