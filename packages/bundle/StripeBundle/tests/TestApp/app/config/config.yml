@@ -47,6 +47,10 @@ talav_stripe:
     price:
       classes:
         model: StripeAppBundle\Entity\Price
+    customer:
+      classes:
+        model: StripeAppBundle\Entity\Customer
   mapping:
     product: StripeAppBundle\Entity\Product
     price: StripeAppBundle\Entity\Price
+    customer: StripeAppBundle\Entity\Customer

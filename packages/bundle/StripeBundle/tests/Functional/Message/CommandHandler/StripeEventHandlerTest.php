@@ -8,6 +8,7 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Stripe\Event;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Talav\Component\Resource\Manager\ManagerInterface;
+use Talav\StripeBundle\Entity\Customer;
 use Talav\StripeBundle\Entity\Price;
 use Talav\StripeBundle\Entity\Product;
 use Talav\StripeBundle\Event\EventExtractor;
@@ -57,6 +58,20 @@ final class StripeEventHandlerTest extends KernelTestCase
         $this->assertNotNull($product);
         $this->productManager->reload($product);
         $this->assertCount(1, $product->getPrices());
+    }
+
+    /**
+     * @test
+     */
+    public function it_maps_customer_event_to_new_customer_entity()
+    {
+        $handler = self::getContainer()->get(StripeEventHandler::class);
+        /** @var Customer $entity */
+        $entity = $handler->__invoke(new StripeEventCommand($this->getEvent('customer.created')));
+        $this->assertEquals('cus_Lh5ZpsRh4iD3nr', $entity->getId());
+        $this->assertNotNull($entity->getCreated());
+        $this->assertFalse($entity->isLivemode());
+        $this->assertEquals('Jane Won', $entity->getName());
     }
 
     private function getEvent($event): Event

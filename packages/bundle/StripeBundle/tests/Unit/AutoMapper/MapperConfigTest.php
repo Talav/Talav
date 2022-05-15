@@ -8,6 +8,7 @@ use AutoMapperPlus\MapperInterface;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 use Talav\StripeBundle\AutoMapper\MapperConfig;
+use Talav\StripeBundle\Entity\Customer;
 use Talav\StripeBundle\Entity\Price;
 use Talav\StripeBundle\Entity\PriceRecurring;
 use Talav\StripeBundle\Entity\Product;
@@ -75,6 +76,24 @@ class MapperConfigTest extends TestCase
         $this->mapper->mapToObject($eventData, $price);
         self::assertEquals($eventData->recurring['interval'], $price->getRecurring()->getInterval()->value);
         self::assertEquals($eventData->recurring['interval_count'], $price->getRecurring()->getIntervalCount());
+    }
+
+    /**
+     * @test
+     */
+    public function it_maps_customer_created_event()
+    {
+        $customer = new Customer();
+        $eventData = $this->getEventData('customer.created');
+        $this->mapper->mapToObject($eventData, $customer);
+        self::assertEquals($eventData->id, $customer->getId());
+        self::assertEquals($eventData->balance, $customer->getBalance());
+        self::assertEquals($eventData->created, $customer->getCreated());
+        self::assertEquals($eventData->delinquent, $customer->isDelinquent());
+        self::assertEquals($eventData->email, $customer->getEmail());
+        self::assertEquals($eventData->invoice_prefix, $customer->getInvoicePrefix());
+        self::assertEquals($eventData->livemode, $customer->isLivemode());
+        self::assertEquals($eventData->name, $customer->getName());
     }
 
     private function getEventData($name): \stdClass

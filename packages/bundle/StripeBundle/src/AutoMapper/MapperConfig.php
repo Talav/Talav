@@ -12,6 +12,7 @@ use AutoMapperPlus\NameConverter\NamingConvention\SnakeCaseNamingConvention;
 use Doctrine\ORM\EntityManagerInterface;
 use stdClass;
 use Talav\Component\Resource\Model\ResourceInterface;
+use Talav\StripeBundle\Entity\Customer;
 use Talav\StripeBundle\Entity\Price;
 use Talav\StripeBundle\Entity\PriceRecurring;
 use Talav\StripeBundle\Entity\Product;
@@ -23,6 +24,7 @@ use Talav\StripeBundle\Enum\RecurringAggregateUsage;
 use Talav\StripeBundle\Enum\RecurringInterval;
 use Talav\StripeBundle\Enum\RecurringUsageType;
 use Talav\StripeBundle\Enum\TaxBehavior;
+use Talav\StripeBundle\Enum\TaxExempt;
 use Talav\StripeBundle\Message\Dto\ModelDto;
 
 class MapperConfig implements AutoMapperConfiguratorInterface
@@ -91,6 +93,16 @@ class MapperConfig implements AutoMapperConfiguratorInterface
             })
             ->forMember('usageType', function (array $data) {
                 return is_null($data['usage_type']) ? null : RecurringUsageType::from($data['usage_type']);
+            });
+
+        // Detailed mapping for Customer
+        $config->registerMapping(stdClass::class, Customer::class)
+            ->withNamingConventions(
+                new SnakeCaseNamingConvention(),
+                new CamelCaseNamingConvention()
+            )
+            ->forMember('taxExempt', function (stdClass $data) {
+                return is_null($data->tax_exempt) ? null : TaxExempt::from($data->tax_exempt);
             });
     }
 

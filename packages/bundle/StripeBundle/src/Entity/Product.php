@@ -17,22 +17,13 @@ class Product implements ResourceInterface, StripeObject, ProductInterface
     use ActiveTrait;
     use LivemodeTrait;
     use MetadataTrait;
-
-    /**
-     * The product’s description, meant to be displayable to the customer.
-     * Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
-     */
-    protected ?string $description = null;
+    use NameTrait;
+    use DescriptionTrait;
 
     /**
      * A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
      */
     protected array $images = [];
-
-    /**
-     * The product’s name, meant to be displayable to the customer.
-     */
-    protected ?string $name = null;
 
     /**
      * The dimensions of this product for shipping purposes.
@@ -72,16 +63,6 @@ class Product implements ResourceInterface, StripeObject, ProductInterface
     public function __construct()
     {
         $this->prices = new ArrayCollection();
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
     }
 
     public function getImages(): array
