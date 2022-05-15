@@ -19,6 +19,9 @@
         <field name="taxCode" column="tax_code" type="string" nullable="true" />
         <field name="unitLabel" column="unit_label" type="string" nullable="true" />
         <field name="url" column="url" type="string" nullable="true" />
+
+        <one-to-many field="prices" target-entity="Talav\StripeBundle\Entity\PriceInterface" mapped-by="product">
+        </one-to-many>
     </mapped-superclass>
 
 </doctrine-mapping>

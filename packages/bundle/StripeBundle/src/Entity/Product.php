@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Talav\StripeBundle\Entity;
 
-use Doctrine\ORM\Mapping\Id;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Talav\Component\Resource\Model\ResourceInterface;
 use Talav\Component\Resource\Model\ResourceTrait;
 
-class Product implements ResourceInterface, StripeObject
+class Product implements ResourceInterface, StripeObject, ProductInterface
 {
     use ResourceTrait;
     use CreatedTrait;
@@ -65,6 +66,13 @@ class Product implements ResourceInterface, StripeObject
      * A URL of a publicly-accessible webpage for this product.
      */
     protected ?string $url = null;
+
+    protected Collection $prices;
+
+    public function __construct()
+    {
+        $this->prices = new ArrayCollection();
+    }
 
     public function getDescription(): ?string
     {
@@ -154,6 +162,11 @@ class Product implements ResourceInterface, StripeObject
     public function setUrl(?string $url): void
     {
         $this->url = $url;
+    }
+
+    public function getPrices(): Collection
+    {
+        return $this->prices;
     }
 
     public function __toString(): string

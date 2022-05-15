@@ -11,7 +11,7 @@ use Talav\StripeBundle\Enum\PriceTiersMode;
 use Talav\StripeBundle\Enum\PriceType;
 use Talav\StripeBundle\Enum\TaxBehavior;
 
-class Price implements ResourceInterface, StripeObject
+class Price implements ResourceInterface, StripeObject, PriceInterface
 {
     use ResourceTrait;
     use CreatedTrait;

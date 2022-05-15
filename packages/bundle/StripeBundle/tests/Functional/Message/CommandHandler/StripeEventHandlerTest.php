@@ -7,6 +7,7 @@ namespace Talav\StripeBundle\Tests\Message\CommandHandler;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Stripe\Event;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Talav\Component\Resource\Manager\ManagerInterface;
 use Talav\StripeBundle\Entity\Price;
 use Talav\StripeBundle\Entity\Product;
 use Talav\StripeBundle\Event\EventExtractor;
@@ -18,9 +19,12 @@ final class StripeEventHandlerTest extends KernelTestCase
 {
     use FileContentRequest;
 
+    private ManagerInterface $productManager;
+
     public function setUp(): void
     {
         static::getContainer()->get(DatabaseToolCollection::class)->get()->loadFixtures();
+        $this->productManager = static::getContainer()->get('app.manager.product');
     }
 
     /**
@@ -49,7 +53,10 @@ final class StripeEventHandlerTest extends KernelTestCase
         $handler->__invoke(new StripeEventCommand($this->getEvent('product.created')));
         /** @var Price $entity */
         $entity = $handler->__invoke(new StripeEventCommand($this->getEvent('price.created')));
-        $this->assertNotNull($entity->getProduct());
+        $product = $entity->getProduct();
+        $this->assertNotNull($product);
+        $this->productManager->reload($product);
+        $this->assertCount(1, $product->getPrices());
     }
 
     private function getEvent($event): Event

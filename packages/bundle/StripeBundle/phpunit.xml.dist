@@ -2,22 +2,18 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
   <coverage>
     <include>
-      <directory>./</directory>
+      <directory>./src</directory>
     </include>
-    <exclude>
-      <directory>./Resources</directory>
-      <directory>./Tests</directory>
-      <directory>./vendor</directory>
-    </exclude>
   </coverage>
   <testsuites>
     <testsuite name="TalavStripeBundle test suite">
-      <directory suffix="Test.php">./Tests</directory>
+      <directory suffix="Test.php">./tests</directory>
     </testsuite>
   </testsuites>
   <php>
     <server name="KERNEL_CLASS" value="StripeAppKernel"/>
     <ini name="memory_limit" value="-1"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <env name="SHELL_VERBOSITY" value="3"/>
   </php>
 </phpunit>

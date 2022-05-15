@@ -20,6 +20,10 @@
         <field name="type" column="type" type="string" enum-type="Talav\StripeBundle\Enum\PriceType" />
         <field name="unitAmount" column="unit_amount" type="integer" />
         <field name="unitAmountDecimal" column="unit_amount_decimal" type="integer" />
+
+        <many-to-one field="product" target-entity="Talav\StripeBundle\Entity\ProductInterface" inversed-by="prices">
+            <join-column name="product_id" />
+        </many-to-one>
     </mapped-superclass>
 
 </doctrine-mapping>
