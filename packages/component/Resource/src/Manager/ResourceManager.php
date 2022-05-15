@@ -96,7 +96,9 @@ class ResourceManager implements ManagerInterface
      */
     public function reload(ResourceInterface $resource): ResourceInterface
     {
-        return $this->em->find(get_class($resource), $resource->getId());
+        $this->em->refresh($resource);
+
+        return $resource;
     }
 
     /**
