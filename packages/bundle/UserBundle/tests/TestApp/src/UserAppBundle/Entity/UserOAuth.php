@@ -18,5 +18,5 @@ class UserOAuth extends BaseUserOAuth
     #[Id]
     #[Column(type: 'integer')]
     #[GeneratedValue(strategy: 'AUTO')]
-    protected $id = null;
+    protected mixed $id = null;
 }

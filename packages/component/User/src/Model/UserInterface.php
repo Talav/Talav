@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Talav\Component\Resource\Model\ResourceInterface;
 
-interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, ResourceInterface, Serializable
+interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, ResourceInterface
 {
     /**
      * Sets the username.
