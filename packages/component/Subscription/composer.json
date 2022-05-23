@@ -1,6 +1,6 @@
 {
-    "name": "talav/user",
-    "description": "Basic user interfaces for PHP applications.",
+    "name": "talav/subscription",
+    "description": "Basic subscription interfaces for PHP applications.",
     "keywords": ["symfony", "bundle", "user", "php"],
     "type": "library",
     "license": "MIT",
@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Talav\\Component\\User\\": "src/"
+            "Talav\\Component\\Subscription\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Talav\\Component\\User\\Tests\\": "tests/"
+            "Talav\\Component\\Subscription\\Tests\\": "tests/"
         }
     },
     "extra": {
