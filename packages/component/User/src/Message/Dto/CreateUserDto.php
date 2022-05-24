@@ -8,13 +8,11 @@ use Talav\Component\Resource\Model\DomainEventInterface;
 
 final class CreateUserDto implements DomainEventInterface
 {
-    public bool $active = true;
-
     public function __construct(
         public string $username,
         public string $email,
         public string $password,
-        bool $active = true,
+        public bool $active = true,
         public ?string $firstName = null,
         public ?string $lastName = null
     ) {
