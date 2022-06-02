@@ -101,7 +101,7 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertEmailHeaderSame($email, 'Subject', 'Welcome email');
         $crawler = $this->client->followRedirect();
         $this->assertStringContainsStringIgnoringCase('Logged in as tester1', $crawler->html());
-        $this->assertStringContainsStringIgnoringCase('Page after registration', $crawler->html());
+        $this->assertStringContainsStringIgnoringCase('Default page after successful login or registration', $crawler->html());
     }
 
     /**

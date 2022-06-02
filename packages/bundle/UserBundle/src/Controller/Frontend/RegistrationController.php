@@ -13,19 +13,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Talav\Component\User\Manager\UserManagerInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Talav\Component\User\Message\Command\CreateUserCommand;
 use Talav\Component\User\Message\Dto\CreateUserDto;
 use Talav\UserBundle\Event\TalavUserEvents;
 use Talav\UserBundle\Event\UserEvent;
-use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private UserManagerInterface $userManager,
-        private LoginFormAuthenticator $formLoginAuthenticator,
         private UserAuthenticatorInterface $userAuthenticator,
+        private FormLoginAuthenticator $formLoginAuthenticator,
         private EventDispatcherInterface $eventDispatcher,
         private AutoMapperInterface $mapper,
         private MessageBusInterface $bus,

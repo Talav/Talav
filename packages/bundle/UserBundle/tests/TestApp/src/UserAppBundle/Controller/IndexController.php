@@ -12,26 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/registration-succcess", name="test_talav_user_registration_success")
-     */
-    public function register(Request $request): Response
-    {
-        return $this->render('@UserApp/index/registration-success.html.twig');
-    }
-
-    /**
-     * @Route("/", name="test_talav_user_home")
-     */
-    public function home(Request $request): Response
-    {
-        return $this->render('@UserApp/index/home.html.twig');
-    }
-
-    /**
      * @Route("/user/profile", name="test_talav_user_profile")
      */
     public function profile(Request $request): Response
     {
         return $this->render('@UserApp/index/profile.html.twig');
+    }
+
+    /**
+     * @Route("/login-success", name="test_talav_user_login_success")
+     */
+    public function loginSuccess(Request $request): Response
+    {
+        return $this->render('@UserApp/index/login-success.html.twig');
     }
 }

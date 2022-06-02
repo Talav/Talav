@@ -47,10 +47,11 @@ class SecurityControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function it_redirects_to_home_page_and_shows_logout_link_for_correct_credentials()
+    public function it_redirects_to_defined_login_success_page_for_correct_credentials()
     {
         $crawler = $this->login();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsStringIgnoringCase('Default page after successful login or registration', $crawler->html());
         $this->assertStringContainsStringIgnoringCase('logout', $crawler->html());
     }
 

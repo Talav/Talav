@@ -28,12 +28,6 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('talav_user');
         $treeBuilder->getRootNode()
             ->children()
-                ->arrayNode('success')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('route')->defaultValue('talav_user_login')->end()
-                    ->end()
-                ->end()
                 ->arrayNode('mailer')
                     ->addDefaultsIfNotSet()
                     ->children()

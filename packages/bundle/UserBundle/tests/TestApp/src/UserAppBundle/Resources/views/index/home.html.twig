@@ -1,9 +1,0 @@
-<div>
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    {{ 'talav.layout.logged_in_as'|trans({'%username%': app.user.username}, 'TalavUserBundle') }} |
-    <a href="{{ path('talav_user_logout') }}">
-        {{ 'talav.layout.logout'|trans({}, 'TalavUserBundle') }}
-    </a>
-    {% endif %}
-</div>
-Page after login

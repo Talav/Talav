@@ -13,7 +13,6 @@ use Talav\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension
 use Talav\UserBundle\EventSubscriber\WelcomeEmailSubscriber;
 use Talav\UserBundle\Mailer\UserMailer;
 use Talav\UserBundle\Mailer\UserMailerInterface;
-use Talav\UserBundle\Security\LoginFormAuthenticator;
 
 class TalavUserExtension extends AbstractResourceExtension
 {
@@ -38,10 +37,6 @@ class TalavUserExtension extends AbstractResourceExtension
             ]);
         }
 
-        $definition = $container->getDefinition(LoginFormAuthenticator::class);
-        $definition->setArgument('$parameters', [
-            'success_route' => $config['success']['route'],
-        ]);
         // WelcomeEmailSubscriber is registered by default, remove it if config does not require confirmation email
         if (!$config['registration']['email']) {
             $container->removeDefinition(WelcomeEmailSubscriber::class);

@@ -3,6 +3,8 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+    bind:
+      $formLoginAuthenticator: '@security.authenticator.form_login.main'
   Talav\UserBundle\:
     resource: '../../*'
     exclude: '../../{DependencyInjection,Entity,Event,Migrations,Tests,vendor,Controller,EventSubscriber}'
@@ -22,8 +24,6 @@ services:
   Talav\UserBundle\EventSubscriber\:
     resource: '../../EventSubscriber'
     tags: ['kernel.event_subscriber']
-  Talav\UserBundle\Security\LoginFormAuthenticator:
-    public: true
   Talav\UserBundle\Command\CreateUserCommand:
     tags:
       - { name: 'console.command', command: 'talav:user:create' }
