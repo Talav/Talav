@@ -12,17 +12,7 @@ final class CreateUserDto implements DomainEventInterface
     public bool $active = true;
     public ?string $firstName = null;
     public ?string $lastName = null;
-
-    public function __construct(
-        public string $username,
-        public string $email,
-        public string $password,
-        bool $active = true,
-        ?string $firstName = null,
-        ?string $lastName = null
-    ) {
-        $this->active = $active;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-    }
+    public ?string $username = null;
+    public ?string $email = null;
+    public ?string $password = null;
 }

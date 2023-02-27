@@ -11,14 +11,13 @@ use Symfony\Component\Validator\Constraint;
  */
 final class RegisteredUser extends Constraint
 {
-    public $message = 'User with this property is already registered. Please log in.';
+    public string $message = 'User with this property is already registered. Please log in.';
 
-    public $field = 'email';
+    public string $field = 'email';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validatedBy()
+    public ?string $idToSkip = null;
+
+    public function validatedBy(): string
     {
         return \get_class($this).'Validator';
     }
